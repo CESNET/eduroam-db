@@ -25,10 +25,7 @@ def list_files(input_dir):
   files = []
 
   for f in os.listdir(input_dir):
-    print(f)
-
     if(f.endswith(".xml")):
-      print("adding " + f)
       files.append(f)
 
   return files
