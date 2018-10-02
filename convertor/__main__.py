@@ -10,6 +10,9 @@
 # ==============================================================================
 import sys
 import os
+import lxml.etree
+import lxml.objectify
+import datetime
 # ==============================================================================
 
 # ==============================================================================
@@ -31,9 +34,96 @@ def list_files(input_dir):
   return files
 
 # ==============================================================================
+# read xml file
+# ==============================================================================
+def read_xml(filename):
+  #data = lxml.etree.parse(filename)        # TODO ?
+  data = lxml.objectify.parse(filename)
+  return data
+
+# ==============================================================================
+# convert institution.xml coords to json format
+# ==============================================================================
+def convert_coords(lon, lat):
+  return "TODO"
+
+# ==============================================================================
+# get contents of objectified xml
+# ==============================================================================
+def get_data(root):
+  ret = {}
+
+  ret["instid"] = root.institution.inst_realm             # instid
+  ret["ROid"] = "TODO"                                    # ROid
+
+  # type
+  if root.institution.type == 1:
+    ret["type"] = "IdP"
+
+  elif root.institution.type == 2:
+    ret["type"] = "SP"
+
+  else:
+    ret["type"] = "IdP+SP"
+
+  ret["stage"] = 1                                        # stage, default value set to 1
+  ret["inst_realm"] = []                                  # inst_realm
+
+  for i in root.institution.inst_realm:                   # iterate realm and add to ret
+    ret["inst_realm"].append(i)
+
+  ret["inst_name"] = []                                   # inst_name as dict
+
+  for i in root.institution.org_name:                     # iterate possible language variants of org_name
+    ret["inst_name"].append({ "lang" : i.get("lang"), "data" : i})
+
+  ret["address"] = []                                     # address
+
+  # TODO ?
+  for i in root.institution.address:                      # iterate possible language variants of org_name
+    addr = {}
+    addr["street"] = { "lang" : i.street.get("lang"), "data" : i.street }  # TODO - use default lang if not used
+    addr["city"] = { "lang" : i.city.get("lang"), "data" : i.city }        # TODO - use default lang if not used
+
+    ret["address"].append(addr)
+
+
+  # get coords from first location in inst.xml
+  ret["coordinates"] = convert_coords(root.institution.location.longitude , root.institution.location.latitude)
+
+  # inst_type TODO
+
+  ret["contact"] = []                                     # contact
+  for i in root.institution.contact:
+    ret["contact"].append({"name" : i.name, "email" : i.email, "phone" : i.phone, "type" : 0, "privacy" : 1})   # use default values for type and privacy
+
+  ret["info_URL"] = []                                    # info_URL
+  for i in root.institution.info_URL:
+    ret["info_URL"].append({"lang" : i.get("lang"), "data" : i})
+
+  ret["policy_URL"] = []                                    # policy_URL
+  for i in root.institution.policy_URL:
+    ret["policy_URL"].append({"lang" : i.get("lang"), "data" : i})
+
+  ret["ts"] = datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+
+  return ret
+
+# ==============================================================================
 # convert files 
 # ==============================================================================
-#def convert():
+def convert(filename, output_dir):
+  contents = read_xml(filename)     # read xml with objectify
+
+  #print(contents.docinfo.encoding)      # TODO
+  #print((lxml.etree.tostring(contents, encoding="utf-8").decode("utf-8")))
+
+  root = contents.getroot() # get root element
+  #print(root.institution.org_name)
+
+
+  print(get_data(root))
+  #get_data(root)
 
 
 # ==============================================================================
@@ -48,7 +138,8 @@ def main():
   output_dir = sys.argv[2]
 
   input_list = list_files(input_dir)
-  print(input_list)
+  for i in input_list:
+    convert(input_dir + i, output_dir)
 
 # ==============================================================================
 # program is run directly, not included
