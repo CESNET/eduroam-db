@@ -4,3 +4,7 @@ to new version 2 in JSON format.
 
 ## converting institution.xml to institution.json v2
 TODO
+
+## dependencies
+python3
+python3-lxml
