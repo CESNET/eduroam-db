@@ -13,6 +13,7 @@ import os
 import lxml.etree
 import lxml.objectify
 import datetime
+import config
 # ==============================================================================
 
 # ==============================================================================
@@ -54,7 +55,7 @@ def get_data(root):
   ret = {}
 
   ret["instid"] = root.institution.inst_realm             # instid
-  ret["ROid"] = "TODO"                                    # ROid
+  ret["ROid"] = config.ROid                               # ROid
 
   # type
   if root.institution.type == 1:
@@ -82,8 +83,16 @@ def get_data(root):
   # TODO ?
   for i in root.institution.address:                      # iterate possible language variants of org_name
     addr = {}
-    addr["street"] = { "lang" : i.street.get("lang"), "data" : i.street }  # TODO - use default lang if not used
-    addr["city"] = { "lang" : i.city.get("lang"), "data" : i.city }        # TODO - use default lang if not used
+
+    if i.street.get("lang") == None:
+      addr["street"] = { "lang" : config.default_lang, "data" : i.street }
+    else:
+      addr["street"] = { "lang" : i.street.get("lang"), "data" : i.street }
+
+    if i.city.get("lang") == None:
+      addr["city"] = { "lang" : config.default_lang, "data" : i.city }
+    else:
+      addr["city"] = { "lang" : i.city.get("lang"), "data" : i.city }
 
     ret["address"].append(addr)
 
