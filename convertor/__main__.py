@@ -140,15 +140,15 @@ def get_data(root):
 
   ret["contact"] = []                                     # contact
   for i in root.institution.contact:
-    ret["contact"].append({"name" : i.name, "email" : i.email, "phone" : i.phone, "type" : 0, "privacy" : 1})   # use default values for type and privacy
+    ret["contact"].append({ "name" : i.name, "email" : i.email, "phone" : i.phone, "type" : 0, "privacy" : 1 })   # use default values for type and privacy
 
   ret["info_URL"] = []                                    # info_URL
   for i in root.institution.info_URL:
-    ret["info_URL"].append({"lang" : i.get("lang"), "data" : i})
+    ret["info_URL"].append({ "lang" : i.get("lang"), "data" : i })
 
   ret["policy_URL"] = []                                    # policy_URL
   for i in root.institution.policy_URL:
-    ret["policy_URL"].append({"lang" : i.get("lang"), "data" : i})
+    ret["policy_URL"].append({ "lang" : i.get("lang"), "data" : i })
 
   ret["ts"] = datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
