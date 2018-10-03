@@ -59,10 +59,47 @@ def get_inst_name(root, required_lang):
     if i.get("lang") == required_lang:
       got_req_lang = True
 
-    ret.append({ "lang" : i.get("lang"), "data" : i})
+    ret.append({ "lang" : i.get("lang"), "data" : i })
 
-  if got_req_lang == False  # required_lang language not found in source data
-    ret.append({ "lang" : required_lang, "data" : root.institution.org_name})   # insert institution name with language forced to required_lang
+  if got_req_lang == False:  # required_lang language not found in source data
+    ret.append({ "lang" : required_lang, "data" : root.institution.org_name })   # insert institution name with language forced to required_lang
+
+  return ret
+
+# ==============================================================================
+# get address with required_lang language
+# ==============================================================================
+def get_address(root, required_lang):
+  ret = []
+  street_lang = False
+  city_lang = False
+
+  # TODO ?
+  for i in root.institution.address:
+    addr = {}
+
+    if i.street.get("lang") == required_lang:
+      street_lang = True
+
+    if i.city.get("lang") == required_lang:
+      city_lang = True
+
+    if i.street.get("lang") == None:
+      addr["street"] = { "lang" : config.default_lang, "data" : i.street }
+    else:
+      addr["street"] = { "lang" : i.street.get("lang"), "data" : i.street }
+
+    if i.city.get("lang") == None:
+      addr["city"] = { "lang" : config.default_lang, "data" : i.city }
+    else:
+      addr["city"] = { "lang" : i.city.get("lang"), "data" : i.city }
+
+    ret.append(addr)
+
+  # TODO - handle other states too?
+  if street_lang == False and city_lang == False:
+    ret.append({ "street" : { "lang" : required_lang, "data" : root.institution.address.street },
+                 "city"   : { "lang" : required_lang, "data" : root.institution.address.city   }})
 
   return ret
 
@@ -92,24 +129,8 @@ def get_data(root):
   for i in root.institution.inst_realm:                   # iterate realm and add to ret
     ret["inst_realm"].append(i)
 
-  ret["inst_name"] = get_inst_name                        # inst_name
-  ret["address"] = []                                     # address
-
-  # TODO ?
-  for i in root.institution.address:                      # iterate possible language variants of org_name
-    addr = {}
-
-    if i.street.get("lang") == None:
-      addr["street"] = { "lang" : config.default_lang, "data" : i.street }
-    else:
-      addr["street"] = { "lang" : i.street.get("lang"), "data" : i.street }
-
-    if i.city.get("lang") == None:
-      addr["city"] = { "lang" : config.default_lang, "data" : i.city }
-    else:
-      addr["city"] = { "lang" : i.city.get("lang"), "data" : i.city }
-
-    ret["address"].append(addr)
+  ret["inst_name"] = get_inst_name(root, required_lang)   # inst_name
+  ret["address"] = get_address(root, required_lang)       # address
 
 
   # get coords from first location in inst.xml
