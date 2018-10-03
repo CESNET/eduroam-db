@@ -49,10 +49,29 @@ def convert_coords(lon, lat):
   return "TODO"
 
 # ==============================================================================
+# get inst_name with required_lang language
+# ==============================================================================
+def get_inst_name(root, required_lang):
+  ret = []
+  got_req_lang = False
+
+  for i in root.institution.org_name:                     # iterate possible language variants of org_name
+    if i.get("lang") == required_lang:
+      got_req_lang = True
+
+    ret.append({ "lang" : i.get("lang"), "data" : i})
+
+  if got_req_lang == False  # required_lang language not found in source data
+    ret.append({ "lang" : required_lang, "data" : root.institution.org_name})   # insert institution name with language forced to required_lang
+
+  return ret
+
+# ==============================================================================
 # get contents of objectified xml
 # ==============================================================================
 def get_data(root):
   ret = {}
+  required_lang = "en"                                    # language required for some fields
 
   ret["instid"] = root.institution.inst_realm             # instid
   ret["ROid"] = config.ROid                               # ROid
@@ -73,11 +92,7 @@ def get_data(root):
   for i in root.institution.inst_realm:                   # iterate realm and add to ret
     ret["inst_realm"].append(i)
 
-  ret["inst_name"] = []                                   # inst_name as dict
-
-  for i in root.institution.org_name:                     # iterate possible language variants of org_name
-    ret["inst_name"].append({ "lang" : i.get("lang"), "data" : i})
-
+  ret["inst_name"] = get_inst_name                        # inst_name
   ret["address"] = []                                     # address
 
   # TODO ?
