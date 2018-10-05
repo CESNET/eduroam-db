@@ -6,5 +6,5 @@ to new version 2 in JSON format.
 TODO
 
 ## dependencies
-python3
-python3-lxml
+- python3
+- python3-lxml
