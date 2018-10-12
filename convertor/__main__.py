@@ -14,6 +14,7 @@ import lxml.etree
 import lxml.objectify
 import datetime
 import config
+import json
 # ==============================================================================
 
 # ==============================================================================
@@ -155,10 +156,16 @@ def get_data(root):
   return ret
 
 # ==============================================================================
+# write converted output in JSON to specified file
+# ==============================================================================
+def to_json(data, filename):
+  with open(filename, 'w') as f:
+    json.dump(data, f)
+# ==============================================================================
 # convert files 
 # ==============================================================================
-def convert(filename, output_dir):
-  contents = read_xml(filename)     # read xml with objectify
+def convert(input_dir, filename, output_dir):
+  contents = read_xml(input_dir + filename)     # read xml with objectify
 
   #print(contents.docinfo.encoding)      # TODO
   #print((lxml.etree.tostring(contents, encoding="utf-8").decode("utf-8")))
@@ -168,6 +175,7 @@ def convert(filename, output_dir):
 
 
   print(get_data(root))
+  to_json(get_data(root), output_dir + filename)
   #get_data(root)
 
 
@@ -184,7 +192,7 @@ def main():
 
   input_list = list_files(input_dir)
   for i in input_list:
-    convert(input_dir + i, output_dir)
+    convert(input_dir, i, output_dir)
 
 # ==============================================================================
 # program is run directly, not included
