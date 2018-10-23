@@ -141,7 +141,7 @@ def get_data(root):
 
   ret["contact"] = []                                     # contact
   for i in root.institution.contact:
-    ret["contact"].append({ "name" : i.name, "email" : i.email, "phone" : i.phone, "type" : 0, "privacy" : 1 })   # use default values for type and privacy
+    ret["contact"].append({ "name" : i.name, "email" : i.email, "phone" : i.phone, "type" : config.default_contact_type, "privacy" : config.default_contact_privacy })   # use default values for type and privacy
 
   ret["info_URL"] = []                                    # info_URL
   for i in root.institution.info_URL:
