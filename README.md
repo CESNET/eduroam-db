@@ -8,3 +8,5 @@ TODO
 ## dependencies
 - python3
 - python3-lxml
+- python3-dateutil
+- python3-tz
