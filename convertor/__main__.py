@@ -15,7 +15,33 @@ import lxml.objectify
 import datetime
 import config
 import json
+import dateutil.parser
+import pytz
+import click
 # ==============================================================================
+
+# ==============================================================================
+# command line arguments and options
+# ==============================================================================
+@click.command()
+@click.argument('input_dir', type=click.Path(exists=True))
+@click.argument('output_dir', type=click.Path(exists=True))
+@click.option('-f', is_flag=True, help='fix wrong characters used in coordinates definitions')
+def cli(input_dir, output_dir, f):
+  """This script converts institution.xml files to json v2 format.
+  It requires positional parameters input_dir and output_dir.
+  input_dir specifies the input directory with institution.xml files.
+  output_dir specifies the output directory for json files.
+  """
+
+  main(input_dir, output_dir, f)
+
+# ==============================================================================
+# replace from the right
+# ==============================================================================
+def rreplace(s, old, new, occurrence):
+  li = s.rsplit(old, occurrence)
+  return new.join(li)
 
 # ==============================================================================
 # usage
@@ -186,22 +212,17 @@ def convert(input_dir, filename, output_dir):
   #print(root.institution.org_name)
 
 
+  #print(get_data(root))
+  #print(json.dumps(get_data(root)))
   print(get_data(root))
-  to_json(get_data(root), output_dir + filename)
+  #to_json(get_data(root), output_dir + filename)
   #get_data(root)
 
 
 # ==============================================================================
 # main function
 # ==============================================================================
-def main():
-  if(len(sys.argv) != 3):
-    usage()
-    sys.exit(1)
-
-  input_dir = sys.argv[1]
-  output_dir = sys.argv[2]
-
+def main(input_dir, output_dir, options):
   input_list = list_files(input_dir)
   for i in input_list:
     try:
@@ -215,5 +236,5 @@ def main():
 # program is run directly, not included
 # ==============================================================================
 if __name__ == "__main__":
-  main()
+  cli()
 
