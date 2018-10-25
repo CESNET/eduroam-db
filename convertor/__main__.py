@@ -26,15 +26,17 @@ import click
 @click.command()
 @click.argument('input_dir', type=click.Path(exists=True))
 @click.argument('output_dir', type=click.Path(exists=True))
-@click.option('-f', is_flag=True, help='fix wrong characters used in coordinates definitions')
-def cli(input_dir, output_dir, f):
+@click.option('--fix_coord_chars', is_flag=True, help='fix wrong characters used in coordinates definitions')
+@click.option('--fix_lon_lat', is_flag=True, help='enable swapping of lon and lat if switched. Configure list of accepted values in config.py')
+@click.option('--enable_float_format', is_flag=True, help='enable float format for coords. ie: 13.3702403E (180), E13.3702403 (180) or 17.265195°E (180)')
+def cli(input_dir, output_dir, fix_coord_chars, fix_lon_lat, enable_float_format):
   """This script converts institution.xml files to json v2 format.
   It requires positional parameters input_dir and output_dir.
   input_dir specifies the input directory with institution.xml files.
   output_dir specifies the output directory for json files.
   """
 
-  main(input_dir, output_dir, f)
+  main(input_dir, output_dir, { "fix_coord_chars" : fix_coord_chars, "fix_lon_lat" : fix_lon_lat, "enable_float_format" : enable_float_format })
 
 # ==============================================================================
 # replace from the right
@@ -198,11 +200,11 @@ def get_data(root):
 # ==============================================================================
 def to_json(data, filename):
   with open(filename, 'w') as f:
-    json.dump(data, f)
+    json.dump(json.loads(data), f)
 # ==============================================================================
 # convert files 
 # ==============================================================================
-def convert(input_dir, filename, output_dir):
+def convert(input_dir, filename, output_dir, options):
   contents = read_xml(input_dir + filename)     # read xml with objectify
 
   #print(contents.docinfo.encoding)      # TODO
@@ -214,7 +216,7 @@ def convert(input_dir, filename, output_dir):
 
   #print(get_data(root))
   #print(json.dumps(get_data(root)))
-  print(get_data(root))
+  print(get_data(root, options))
   #to_json(get_data(root), output_dir + filename)
   #get_data(root)
 
@@ -226,7 +228,7 @@ def main(input_dir, output_dir, options):
   input_list = list_files(input_dir)
   for i in input_list:
     try:
-      convert(input_dir, i, output_dir)
+      convert(input_dir, i, output_dir, options)
     except:     # some exception occured
       print("failed processing " + input_dir + i)
       raise
