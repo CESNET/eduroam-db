@@ -146,7 +146,8 @@ def get_data(root):
 
 
   # get coords from first location in inst.xml
-  ret["coordinates"] = convert_coords(root.institution.location.longitude , root.institution.location.latitude)
+  if hasattr(root.institution, 'location'):     # coords are not mandatory, so if not available do not add them to result
+    ret["coordinates"] = convert_coords(root.institution.location.longitude, root.institution.location.latitude)
 
   # inst_type TODO
 
