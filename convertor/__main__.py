@@ -177,14 +177,40 @@ def fix_coord_chars(coord):
 # ==============================================================================
 # extract longitude
 # ==============================================================================
-def extract_lon(lon):
-  return "TODO"
+def extract_lon(lon, lon_changed):
+
+  if re.match(r"^\d{1,3}\.\d+E \(180\)$", str(lon)):     # 13.3702403E (180)
+    lon_changed = True
+    return str(lon).split(" ")
+
+  elif re.match(r"^E\d{1,3}\.\d+ \(180\)$", str(lon)):   # E13.3702403 (180)
+    lon_changed = True
+    return str(lon).split(" ")[1:]
+
+  elif re.match(r"^\d{1,3}\.\d+°E \(180\)$", str(lon)):  # 17.265195°E (180)
+    lon_changed = True
+    return str(lon).split(" ")[:-2]
+
+  return lon    # unknown format, return the original value
 
 # ==============================================================================
 # extract latitude
 # ==============================================================================
-def extract_lat(lat):
-  return "TODO"
+def extract_lat(lat, lat_changed):
+
+  if re.match(r"^\d{1,3}\.\d+N \(90\)$", str(lat)):     # 49.7289725N (90)
+    lat_changed = True
+    return str(lat).split(" ")
+
+  elif re.match(r"^N\d{1,3}\.\d+ \(90\)$", str(lat)):   # N49.7289725 (90)
+    lat_changed = True
+    return str(lat).split(" ")[1:]
+
+  elif re.match(r"^\d{1,3}\.\d+°N \(90\)$", str(lon)):  # 49.594309°N (90)
+    lat_changed = True
+    return str(lon).split(" ")[:-2]
+
+  return lat    # unknown format, return the original value
 
 # ==============================================================================
 # check correct format for coords
