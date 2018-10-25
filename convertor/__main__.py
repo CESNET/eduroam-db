@@ -219,13 +219,14 @@ def check_coord_format(lon, lat, float_format):
 
   # check for correct float format
   if float_format == True:
-    # TODO - both need to be checked, both or none must be in same format
-    # no expcetion if they do not match the format
     if re.match(r"\d{2}\.\d+", str(lon)) and re.match(r"\d{2}\.\d+", str(lat)):       # TODO - generic enough?
-      lon = extract_lon(lon)    # extract the number itself
-      lat = extract_lat(lat)    # extract the number itself
+      lon_changed = False
+      lat_changed = False
+      lon = extract_lon(lon, lon_changed)    # extract the number itself
+      lat = extract_lat(lat, lat_changed)    # extract the number itself
 
-    #return str(lon) + ", " + str(lat)   # no conversion needed
+      if lon_changed == True and lat_changed == True:    # both values extracted
+        return str(lon) + ", " + str(lat)   # no conversion needed
 
   # try regular format too
   if not re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"E$", str(lon)):
@@ -234,7 +235,7 @@ def check_coord_format(lon, lat, float_format):
   if not re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"N$", str(lat)):
     raise ValueError("Incorrect latitude value: " + str(lat))
 
-    return convert_coords(lon, lat)     # convert coords in correct formats
+  return convert_coords(lon, lat)     # convert coords in correct formats
 
 # ==============================================================================
 # get coords from first location in institution.xml
