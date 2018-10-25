@@ -47,7 +47,18 @@ def read_xml(filename):
 # convert institution.xml coords to json format
 # ==============================================================================
 def convert_coords(lon, lat):
-  return "TODO"
+  lon_s = str(lon).split("'")[1].split('"')[0] # seconds
+  lon_m = str(lon).split("'")[0].split('°')[1] # minutes
+  lon_d = str(lon).split("'")[0].split('°')[0] # degrees
+
+  lat_s = str(lat).split("'")[1].split('"')[0] # seconds
+  lat_m = str(lat).split("'")[0].split('°')[1] # minutes
+  lat_d = str(lat).split("'")[0].split('°')[0] # degrees
+
+  lon_ret = float(lon_d) + (float(lon_m) + float(lon_s) / 60) / 60  # convert lon
+  lat_ret = float(lat_d) + (float(lat_m) + float(lat_s) / 60) / 60  # convert lat
+
+  return str(str(lon_ret) + ", " + str(lat_ret))
 
 # ==============================================================================
 # get inst_name with required_lang language
