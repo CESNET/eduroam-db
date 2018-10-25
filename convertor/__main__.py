@@ -192,7 +192,12 @@ def main():
 
   input_list = list_files(input_dir)
   for i in input_list:
-    convert(input_dir, i, output_dir)
+    try:
+      convert(input_dir, i, output_dir)
+    except:     # some exception occured
+      print("failed processing " + input_dir + i)
+      raise
+      sys.exit(1)
 
 # ==============================================================================
 # program is run directly, not included
