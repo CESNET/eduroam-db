@@ -307,27 +307,15 @@ def get_data(root, options):
 # write converted output in JSON to specified file
 # ==============================================================================
 def to_json(data, filename):
-  with open(filename, 'w') as f:
-    json.dump(json.loads(data), f)
+  with open(filename.replace(".xml", ".json"), 'w') as f:
+    f.write(str(data).replace("'", '"'))
 # ==============================================================================
 # convert files 
 # ==============================================================================
 def convert(input_dir, filename, output_dir, options):
   contents = read_xml(input_dir + filename)     # read xml with objectify
-
-  #print(contents.docinfo.encoding)      # TODO
-  #print((lxml.etree.tostring(contents, encoding="utf-8").decode("utf-8")))
-
   root = contents.getroot() # get root element
-  #print(root.institution.org_name)
-
-
-  #print(get_data(root))
-  #print(json.dumps(get_data(root)))
-  print(get_data(root, options))
-  #to_json(get_data(root), output_dir + filename)
-  #get_data(root)
-
+  to_json(get_data(root, options), output_dir + filename)
 
 # ==============================================================================
 # main function
