@@ -18,6 +18,7 @@ import json
 import dateutil.parser
 import pytz
 import click
+import re
 # ==============================================================================
 
 # ==============================================================================
@@ -144,40 +145,118 @@ def get_address(root, required_lang):
   return ret
 
 # ==============================================================================
+# determine inst type
+# ==============================================================================
+def get_inst_type(elem):
+  if elem == 1:
+    return "IdP"
+
+  elif elem == 2:
+    return "SP"
+
+  return "IdP+SP"
+
+# ==============================================================================
+# fix characters in coordinates
+# ==============================================================================
+def fix_coord_chars(coord):
+  # replace:
+  # - "“" with '"'
+  # - "„" with '"'
+  # - " " with ""
+  # - "’" with "'"
+  #
+  #
+  #
+
+
+  # TODO - some more bad chars?
+
+  return str(coord).replace("“", '"').replace("„", '"').replace(" ", "").replace("’", "'")
+
+# ==============================================================================
+# extract longitude
+# ==============================================================================
+def extract_lon(lon):
+  return "TODO"
+
+# ==============================================================================
+# extract latitude
+# ==============================================================================
+def extract_lat(lat):
+  return "TODO"
+
+# ==============================================================================
+# check correct format for coords
+# ==============================================================================
+def check_coord_format(lon, lat, float_format):
+
+  # check for correct float format
+  if float_format == True:
+    # TODO - both need to be checked, both or none must be in same format
+    # no expcetion if they do not match the format
+    if re.match(r"\d{2}\.\d+", str(lon)) and re.match(r"\d{2}\.\d+", str(lat)):       # TODO - generic enough?
+      lon = extract_lon(lon)    # extract the number itself
+      lat = extract_lat(lat)    # extract the number itself
+
+    #return str(lon) + ", " + str(lat)   # no conversion needed
+
+  # try regular format too
+  if not re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"E$", str(lon)):
+    raise ValueError("Incorrect longitude value: " + str(lon))
+
+  if not re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"N$", str(lat)):
+    raise ValueError("Incorrect latitude value: " + str(lat))
+
+    return convert_coords(lon, lat)     # convert coords in correct formats
+
+# ==============================================================================
+# get coords from first location in institution.xml
+# ==============================================================================
+def get_coords(root, options, ret):
+
+  if hasattr(root.institution, 'location'):     # coords are not mandatory, so if not available do not add them to result
+    lon = root.institution.location.longitude
+    lat = root.institution.location.latitude
+
+    if options['fix_coord_chars'] == True:
+      lon = fix_coord_chars(lon)
+      lat = fix_coord_chars(lat)
+
+    if options['fix_lon_lat'] == True:
+      lon, lat = fix_lon_lat(lon, lat)
+
+    if options['enable_float_format'] == True:
+      pass
+
+    ret["coordinates"] = check_coord_format(lon, lat, options['enable_float_format'])
+
+# ==============================================================================
 # get contents of objectified xml
 # ==============================================================================
-def get_data(root):
+def get_data(root, options):
   ret = {}
   required_lang = "en"                                    # language required for some fields
 
   ret["instid"] = root.institution.inst_realm             # instid
   ret["ROid"] = config.ROid                               # ROid
 
-  # type
-  if root.institution.type == 1:
-    ret["type"] = "IdP"
-
-  elif root.institution.type == 2:
-    ret["type"] = "SP"
-
-  else:
-    ret["type"] = "IdP+SP"
+  ret["type"] = get_inst_type(root.institution.type)      # type
 
   ret["stage"] = 1                                        # stage, default value set to 1
-  ret["inst_realm"] = []                                  # inst_realm
 
+  ret["inst_realm"] = []                                  # inst_realm
   for i in root.institution.inst_realm:                   # iterate realm and add to ret
     ret["inst_realm"].append(i)
 
   ret["inst_name"] = get_inst_name(root, required_lang)   # inst_name
   ret["address"] = get_address(root, required_lang)       # address
 
-
-  # get coords from first location in inst.xml
-  if hasattr(root.institution, 'location'):     # coords are not mandatory, so if not available do not add them to result
-    ret["coordinates"] = convert_coords(root.institution.location.longitude, root.institution.location.latitude)
+  # get coords from first location in institution.xml
+  get_coords(root, options, ret)        # TODO
 
   # inst_type TODO
+  # not mandatory
 
   ret["contact"] = []                                     # contact
   for i in root.institution.contact:
