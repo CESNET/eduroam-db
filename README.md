@@ -1,6 +1,6 @@
 # eduroam-db
 This repository contains tools to convert institituon.xml eduroam database files
-to new version 2 in JSON format.
+to [new version 2](https://monitor.eduroam.org/fact_eduroam_db.php) in JSON format. 
 
 
 It also containts web interface to edit converted json files.
