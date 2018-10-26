@@ -309,6 +309,7 @@ def get_data(root, options):
 def to_json(data, filename):
   with open(filename.replace(".xml", ".json"), 'w') as f:
     f.write(str(data).replace("'", '"'))
+
 # ==============================================================================
 # convert files 
 # ==============================================================================
