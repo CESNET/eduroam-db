@@ -19,6 +19,7 @@ import dateutil.parser
 import pytz
 import click
 import re
+import os
 # ==============================================================================
 
 # ==============================================================================
@@ -325,9 +326,17 @@ def main(input_dir, output_dir, options):
   input_list = list_files(input_dir)
   for i in input_list:
     try:
+
       if options['verbose'] == True:
         print("processing " + input_dir + i)
-      convert(input_dir, i, output_dir, options)
+
+      if os.access(input_dir + i, os.R_OK):
+        convert(input_dir, i, output_dir, options)
+
+      else:
+        print("file: " + input_dir + i + " not readable")
+        sys.exit(1)
+
     except:     # some exception occured
       print("failed processing " + input_dir + i)
       raise
