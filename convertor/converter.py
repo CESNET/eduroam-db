@@ -43,13 +43,6 @@ def cli(input_dir, output_dir, fix_coord_chars, fix_lon_lat, enable_float_format
                                 "enable_float_format" : enable_float_format, "verbose" : verbose })
 
 # ==============================================================================
-# replace from the right
-# ==============================================================================
-def rreplace(s, old, new, occurrence):
-  li = s.rsplit(old, occurrence)
-  return new.join(li)
-
-# ==============================================================================
 # usage
 # ==============================================================================
 def usage():
