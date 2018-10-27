@@ -319,7 +319,7 @@ def main(input_dir, output_dir, options):
 
   if not os.path.isdir(input_dir):
     print(input_dir + " is not a directory")
-    raise
+    sys.exit(1)
 
   if not input_dir.endswith("/"):   # add directory delimiter if not provided
     input_dir = input_dir + "/"
