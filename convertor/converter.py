@@ -272,7 +272,7 @@ def get_data(root, filename, options):
 
   ret["type"] = get_inst_type(root.institution.type)      # type
 
-  ret["stage"] = 1                                        # stage, default value set to 1
+  ret["stage"] = config.default_stage                     # stage, default value set to 1
 
   ret["inst_realm"] = []                                  # inst_realm
   for i in root.institution.inst_realm:                   # iterate realm and add to ret
