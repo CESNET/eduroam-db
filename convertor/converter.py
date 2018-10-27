@@ -71,7 +71,6 @@ def list_files(input_dir):
 # read xml file
 # ==============================================================================
 def read_xml(filename):
-  #data = lxml.etree.parse(filename)        # TODO ?
   data = lxml.objectify.parse(filename)
   return data
 
@@ -283,7 +282,7 @@ def get_data(root, options):
   ret["address"] = get_address(root, required_lang)       # address
 
   # get coords from first location in institution.xml
-  get_coords(root, options, ret)        # TODO
+  get_coords(root, options, ret)
 
   # inst_type TODO
   # not mandatory
