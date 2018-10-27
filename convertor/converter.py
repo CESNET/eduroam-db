@@ -263,11 +263,11 @@ def get_coords(root, options, ret):
 # ==============================================================================
 # get contents of objectified xml
 # ==============================================================================
-def get_data(root, options):
+def get_data(root, filename, options):
   ret = {}
   required_lang = "en"                                    # language required for some fields
 
-  ret["instid"] = root.institution.inst_realm             # instid
+  ret["instid"] = filename.split(".")[0]                  # instid
   ret["ROid"] = config.ROid                               # ROid
 
   ret["type"] = get_inst_type(root.institution.type)      # type
@@ -317,7 +317,7 @@ def to_json(data, filename):
 def convert(input_dir, filename, output_dir, options):
   contents = read_xml(input_dir + filename)     # read xml with objectify
   root = contents.getroot() # get root element
-  to_json(get_data(root, options), output_dir + filename)
+  to_json(get_data(root, filename, options), output_dir + filename)
 
 # ==============================================================================
 # main function
