@@ -11,5 +11,5 @@ default_stage = 1                  # 0 - preproduction/test, 1 - active
 # ==============================================================================
 # option specific configuration
 # ==============================================================================
-lon_values = list(range(48, 52, 1))     # values between [48,51] are accepted as longtitude
-lat_values = list(range(11, 19, 1))     # values between [11,18] are accepted as latitude
+lon_values = list(range(11, 19, 1))     # values between [11,18] are accepted as latitude
+lat_values = list(range(48, 52, 1))     # values between [48,51] are accepted as longtitude
