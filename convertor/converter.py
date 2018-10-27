@@ -89,7 +89,7 @@ def convert_coords(lon, lat):
   lon_ret = float(lon_d) + (float(lon_m) + float(lon_s) / 60) / 60  # convert lon
   lat_ret = float(lat_d) + (float(lat_m) + float(lat_s) / 60) / 60  # convert lat
 
-  return str(str(lon_ret) + ", " + str(lat_ret))
+  return str(str(lon_ret) + "," + str(lat_ret))
 
 # ==============================================================================
 # get inst_name with required_lang language
@@ -228,7 +228,7 @@ def check_coord_format(lon, lat, float_format):
       lat = extract_lat(lat, lat_changed)    # extract the number itself
 
       if lon_changed == True and lat_changed == True:    # both values extracted
-        return str(lon) + ", " + str(lat)   # no conversion needed
+        return str(lon) + "," + str(lat)   # no conversion needed
 
   # try regular format too
   if not re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"E$", str(lon)):
