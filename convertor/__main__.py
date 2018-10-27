@@ -300,7 +300,8 @@ def get_data(root, options):
   for i in root.institution.policy_URL:
     ret["policy_URL"].append({ "lang" : i.get("lang"), "data" : i })
 
-  ret["ts"] = datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
+  iso_ts = pytz.timezone(config.local_timezone).localize(dateutil.parser.parse(str(root.institution.ts))).timestamp()
+  ret["ts"] = str(datetime.datetime.utcfromtimestamp(iso_ts)).replace(" ", "T") + "Z"   # create utc from iso timestamp and save in iso 8601
 
   return ret
 
