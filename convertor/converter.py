@@ -28,11 +28,11 @@ import os
 @click.command()
 @click.argument('input_dir', type=click.Path(exists=True))
 @click.argument('output_dir', type=click.Path(exists=True))
-@click.option('--fix_coord_chars', is_flag=True, help='fix wrong characters used in coordinates definitions')
-@click.option('--fix_lon_lat', is_flag=True, help='enable swapping of lon and lat if switched. Configure list of accepted values in config.py')
-@click.option('--enable_float_format', is_flag=True, help='enable float format for coords. ie: 13.3702403E (180), E13.3702403 (180) or 17.265195°E (180)')
+@click.option('-fc', 'fix_coord_chars', is_flag=True, help='fix wrong characters used in coordinates definitions')
+@click.option('-fl', 'fix_lon_lat', is_flag=True, help='enable swapping of lon and lat if switched. Configure list of accepted values in config.py')
+@click.option('-c', 'check_lon_lat', is_flag=True, help='check that longitude and latitude are in defined ranges. Configure list of accepted values in config.py')
 @click.option('-v', 'verbose', is_flag=True, help='enable verbose output')
-def cli(input_dir, output_dir, fix_coord_chars, fix_lon_lat, enable_float_format, verbose):
+def cli(input_dir, output_dir, fix_coord_chars, fix_lon_lat, check_lon_lat, verbose):
   """This script converts institution.xml files to json v2 format.
   It requires positional parameters input_dir and output_dir.
   input_dir specifies the input directory with institution.xml files.
@@ -40,7 +40,7 @@ def cli(input_dir, output_dir, fix_coord_chars, fix_lon_lat, enable_float_format
   """
 
   main(input_dir, output_dir, { "fix_coord_chars" : fix_coord_chars, "fix_lon_lat" : fix_lon_lat,
-                                "enable_float_format" : enable_float_format, "verbose" : verbose })
+                                "check_lon_lat" : check_lon_lat, "verbose" : verbose })
 
 # ==============================================================================
 # usage
@@ -210,27 +210,77 @@ def extract_lat(lat, lat_changed):
 # ==============================================================================
 # check correct format for coords
 # ==============================================================================
-def check_coord_format(lon, lat, float_format):
+def check_coord_format(lon, lat, options):
+  coord_formats = [
+    0,        # regular
+    1,        # float
+    2,        # regular swapped
+  ]
 
-  # check for correct float format
-  if float_format == True:
-    if re.match(r"\d{2}\.\d+", str(lon)) and re.match(r"\d{2}\.\d+", str(lat)):       # TODO - generic enough?
+  # determine format first
+  if re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"E$", str(lon)) and re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"N$", str(lat)):
+    c_format = 0  # regular
+
+  elif re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"E$", str(lat)) and re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"N$", str(lon)):
+    c_format = 2  # regular swapped
+
+  elif re.match(r"\d{1,3}\.\d+", str(lon)) and re.match(r"\d{1,3}\.\d+", str(lat)):
+    c_format = 1  # float
+
+  else:
+    raise ValueError("coords in unknown format: " + str(lon) + "," + str(lat))
+
+
+  # check options
+  if options['fix_lon_lat'] == True:
+
+    if c_format == 2:
+      lon, lat = lat, lon   # swap
+
+      if options['verbose'] == True:
+        print("swapped longitude and latitude")
+
+    if c_format == 1:
       lon_changed = False
       lat_changed = False
       lon = extract_lon(lon, lon_changed)    # extract the number itself
       lat = extract_lat(lat, lat_changed)    # extract the number itself
 
-      if lon_changed == True and lat_changed == True:    # both values extracted
-        return str(lon) + "," + str(lat)   # no conversion needed
+      if lon_changed == True and lat_changed == True:   # both numbers extracted
+        lon, lat = fix_lon_lat(lon, lat)       # swap based on range check
 
-  # try regular format too
-  if not re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"E$", str(lon)):
-    raise ValueError("Incorrect longitude value: " + str(lon))
+  if c_format == 0 or c_format == 2:
+    ret = convert_coords(lon, lat)
+  else:
+    ret = str(lon) + "," + str(lat);
 
-  if not re.match(r"^\d{1,3}°\d{1,2}'\d{1,2}(\.\d{1,8})?\"N$", str(lat)):
-    raise ValueError("Incorrect latitude value: " + str(lat))
+  # check coords by ranges
+  if options['check_lon_lat'] == True:
+    check_coord_ranges(ret.split(",")[0], ret.split(",")[1])
 
-  return convert_coords(lon, lat)     # convert coords in correct formats
+  return ret
+
+# ==============================================================================
+# check that coords are in correct ranges defined in config
+# ==============================================================================
+def check_coord_ranges(lon, lat):
+  if not (int(float(lon)) >= config.lon_values[0] and int(float(lon)) <= config.lon_values[-1]):
+    raise ValueError("longitude not in defined ranges: " + str(lon))
+
+  if not (int(float(lat)) >= config.lat_values[0] and int(float(lon)) <= config.lat_values[-1]):
+    raise ValueError("latitude not in defined ranges: " + str(lat))
+
+# ==============================================================================
+# swap lon and lat coords if they are entered incorrectly in the xml
+# works only on float format
+# ==============================================================================
+def fix_lon_lat(lon, lat):
+
+  if int(float(lon)) >= config.lat_values[0] and int(float(lon)) <= config.lat_values[-1] and int(float(lat)) >= config.lon_values[0] and int(float(lat)) <= config.lon_values[-1]:
+    return lat, lon     # switch values
+
+  else:
+    return lon, lat     # return original values
 
 # ==============================================================================
 # get coords from first location in institution.xml
@@ -245,13 +295,7 @@ def get_coords(root, options, ret):
       lon = fix_coord_chars(lon)
       lat = fix_coord_chars(lat)
 
-    if options['fix_lon_lat'] == True:
-      lon, lat = fix_lon_lat(lon, lat)
-
-    if options['enable_float_format'] == True:
-      pass
-
-    ret["coordinates"] = check_coord_format(lon, lat, options['enable_float_format'])
+    ret["coordinates"] = check_coord_format(lon, lat, options)
 
 # ==============================================================================
 # get contents of objectified xml
