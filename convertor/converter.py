@@ -316,6 +316,14 @@ def convert(input_dir, filename, output_dir, options):
 # main function
 # ==============================================================================
 def main(input_dir, output_dir, options):
+
+  if not os.path.isdir(input_dir):
+    print(input_dir + " is not a directory")
+    raise
+
+  if not input_dir.endswith("/"):   # add directory delimiter if not provided
+    input_dir = input_dir + "/"
+
   input_list = list_files(input_dir)
   for i in input_list:
     try:
