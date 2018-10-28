@@ -285,22 +285,20 @@ def fix_lon_lat(lon, lat):
 # ==============================================================================
 # get coords from first location in institution.xml
 # ==============================================================================
-def get_coords(root, options, ret):
+def get_coords(elem, options, ret):
+  lon = elem.longitude
+  lat = elem.latitude
 
-  if hasattr(root.institution, 'location'):     # coords are not mandatory, so if not available do not add them to result
-    lon = root.institution.location.longitude
-    lat = root.institution.location.latitude
+  if options['fix_coord_chars'] == True:
+    lon = fix_coord_chars(lon)
+    lat = fix_coord_chars(lat)
 
-    if options['fix_coord_chars'] == True:
-      lon = fix_coord_chars(lon)
-      lat = fix_coord_chars(lat)
-
-    ret["coordinates"] = check_coord_format(lon, lat, options)
+  ret["coordinates"] = check_coord_format(lon, lat, options)
 
 # ==============================================================================
 # get locations defined in xml
 # ==============================================================================
-def get_locations(root, inst_name):
+def get_locations(root, options, inst_name):
   ret = []
   idx = 1
 
@@ -308,6 +306,9 @@ def get_locations(root, inst_name):
     loc_id = inst_name + str(idx).zfill(3)
     loc = { "locationid" : loc_id }
     idx += 1
+
+    # coords
+    get_coords(i, options, loc)
 
     # TODO - stage, type?
 
@@ -360,9 +361,10 @@ def get_data(root, filename, options):
   ret["address"] = get_address(root.institution.address, required_lang)       # address
 
   # get coords from first location in institution.xml
-  get_coords(root, options, ret)
+  if hasattr(root.institution, 'location'):     # coords are not mandatory, so if not available do not add them to result
+    get_coords(root.institution.location, options, ret)
 
-  ret["location"] = get_locations(root, ret["instid"])                   # location, not defined in specification
+  ret["location"] = get_locations(root, options, ret["instid"])                   # location, not defined in specification
 
   # inst_type TODO? not mandatory
 
