@@ -105,13 +105,13 @@ def get_inst_name(root, required_lang):
 # ==============================================================================
 # get address with required_lang language
 # ==============================================================================
-def get_address(root, required_lang):
+def get_address(elem, required_lang):
   ret = []
   street_lang = False
   city_lang = False
 
   # TODO ?
-  for i in root.institution.address:
+  for i in elem:
     addr = {}
 
     if i.street.get("lang") == required_lang:
@@ -134,8 +134,8 @@ def get_address(root, required_lang):
 
   # TODO - handle other states too?
   if street_lang == False and city_lang == False:
-    ret.append({ "street" : { "lang" : required_lang, "data" : root.institution.address.street },
-                 "city"   : { "lang" : required_lang, "data" : root.institution.address.city   }})
+    ret.append({ "street" : { "lang" : required_lang, "data" : elem.street },
+                 "city"   : { "lang" : required_lang, "data" : elem.city   }})
 
   return ret
 
@@ -298,6 +298,47 @@ def get_coords(root, options, ret):
     ret["coordinates"] = check_coord_format(lon, lat, options)
 
 # ==============================================================================
+# get locations defined in xml
+# ==============================================================================
+def get_locations(root, inst_name):
+  ret = []
+  idx = 1
+
+  for i in root.institution.location:
+    loc_id = inst_name + str(idx).zfill(3)
+    loc = { "locationid" : loc_id }
+    idx += 1
+
+    # TODO - stage, type?
+
+    # loc_name
+    if hasattr(i, 'loc_name'):
+      loc['loc_name'] = []
+
+      if i.loc_name.get("lang") == None:
+        loc['loc_name'].append({"lang" : config.default_lang, "data" : i.loc_name })   # no lang provided
+      else:
+        for j in i.loc_name:
+          loc['loc_name'].append({"lang" : j.get("lang") , "data" : j })        # iterate all languages available
+
+    # address
+    loc['address'] = get_address(i.address, "en")
+
+    # TODO ?
+    loc['SSID'] = i.SSID
+    loc['enc_level'] = i.enc_level
+    loc['AP_no'] = i.AP_no
+    loc['AP_no'] = i.AP_no
+
+    loc['info_URL'] = []
+    for j in i.info_URL:
+      loc["info_URL"].append({ "lang" : j.get("lang"), "data" : j })
+
+    ret.append(loc)
+
+  return ret
+
+# ==============================================================================
 # get contents of objectified xml
 # ==============================================================================
 def get_data(root, filename, options):
@@ -316,13 +357,14 @@ def get_data(root, filename, options):
     ret["inst_realm"].append(i)
 
   ret["inst_name"] = get_inst_name(root, required_lang)   # inst_name
-  ret["address"] = get_address(root, required_lang)       # address
+  ret["address"] = get_address(root.institution.address, required_lang)       # address
 
   # get coords from first location in institution.xml
   get_coords(root, options, ret)
 
-  # inst_type TODO
-  # not mandatory
+  ret["location"] = get_locations(root, ret["instid"])                   # location, not defined in specification
+
+  # inst_type TODO? not mandatory
 
   ret["contact"] = []                                     # contact
   for i in root.institution.contact:
