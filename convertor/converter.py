@@ -43,13 +43,7 @@ def cli(input_dir, output_dir, fix_coord_chars, fix_lon_lat, check_lon_lat, verb
                                 "check_lon_lat" : check_lon_lat, "verbose" : verbose })
 
 # ==============================================================================
-# usage
-# ==============================================================================
-def usage():
-  print("usage:")
-  print(sys.argv[0] + " input_dir output_dir")
-
-# ==============================================================================
+# list xml files in input_dir
 # ==============================================================================
 def list_files(input_dir):
   files = []
