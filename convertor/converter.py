@@ -104,27 +104,25 @@ def get_address(elem, required_lang):
   street_lang = False
   city_lang = False
 
-  # TODO ?
-  for i in elem:
-    addr = {}
+  addr = {}
 
-    if i.street.get("lang") == required_lang:
-      street_lang = True
+  if elem.street.get("lang") == required_lang:
+    street_lang = True
 
-    if i.city.get("lang") == required_lang:
-      city_lang = True
+  if elem.city.get("lang") == required_lang:
+    city_lang = True
 
-    if i.street.get("lang") == None:
-      addr["street"] = { "lang" : config.default_lang, "data" : i.street }
-    else:
-      addr["street"] = { "lang" : i.street.get("lang"), "data" : i.street }
+  if elem.street.get("lang") == None:
+    addr["street"] = { "lang" : config.default_lang, "data" : elem.street }
+  else:
+    addr["street"] = { "lang" : elem.street.get("lang"), "data" : elem.street }
 
-    if i.city.get("lang") == None:
-      addr["city"] = { "lang" : config.default_lang, "data" : i.city }
-    else:
-      addr["city"] = { "lang" : i.city.get("lang"), "data" : i.city }
+  if elem.city.get("lang") == None:
+    addr["city"] = { "lang" : config.default_lang, "data" : elem.city }
+  else:
+    addr["city"] = { "lang" : elem.city.get("lang"), "data" : elem.city }
 
-    ret.append(addr)
+  ret.append(addr)
 
   # TODO - handle other states too?
   if street_lang == False and city_lang == False:
