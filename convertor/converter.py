@@ -153,10 +153,6 @@ def fix_coord_chars(coord):
   # - " " with ""
   # - "’" with "'"
   #
-  #
-  #
-
-
   # TODO - some more bad chars?
 
   return str(coord).replace("“", '"').replace("„", '"').replace(" ", "").replace("’", "'")
