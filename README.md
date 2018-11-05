@@ -27,10 +27,26 @@ Edit all the necessary values to suit your needs. You should edit at least `ROid
 Also all xml documents from connected institutions must be gathered.
 
 ### converting institution.xml to institution.json v2
-TODO
+
+Input filename is used as field `instid`, ie if input filename is `inst1.xml` instid is set to `inst1`.
+In case there is some NRO's external evidence and you would like to match
+the instid somehow with your evidence, this is what you can use to do it.
+
+To convert xml files run script:
+```
+./converter.py input_directory output_directory
+```
+
+This takes all the `.xml` files from `input_directory` and
+tries to convert them. If conversion is successfull,
+all the json files are created in `output_directory`.
 
 
-
+There are various options that can affect the conversion.
+To see all the options run:
+```
+./converter.py --help
+```
 
 
 ## web interface
