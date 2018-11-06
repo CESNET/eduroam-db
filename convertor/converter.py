@@ -344,8 +344,8 @@ def get_locations(root, options, inst_name):
       loc['info_URL'] = []
       for j in i.info_URL:
         tmp = j
-        tmp = re.sub(r'^\s+', '', tmp)
-        tmp = re.sub(r'\s+$', '', tmp)
+        tmp = re.sub(r'^\s+', '', str(tmp))
+        tmp = re.sub(r'\s+$', '', str(tmp))
         loc["info_URL"].append({ "lang" : j.get("lang"), "data" : tmp })
 
     ret.append(loc)
