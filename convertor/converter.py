@@ -372,6 +372,9 @@ def get_data(root, filename, options):
     ret["inst_realm"].append(i)
 
   ret["inst_name"] = get_inst_name(root, required_lang)   # inst_name
+  ret["inst_name"] = re.sub(r'^\s+', '', ret["inst_name"])
+  ret["inst_name"] = re.sub(r'\s+$', '', ret["inst_name"])
+
   ret["address"] = get_address(root.institution.address, required_lang)       # address
 
   # get coords from first location in institution.xml
@@ -389,11 +392,17 @@ def get_data(root, filename, options):
 
   ret["info_URL"] = []                                    # info_URL
   for i in root.institution.info_URL:
-    ret["info_URL"].append({ "lang" : i.get("lang"), "data" : i })
+    tmp = i
+    tmp = re.sub(r'^\s+', '', tmp)
+    tmp = re.sub(r'\s+$', '', tmp)
+    ret["info_URL"].append({ "lang" : i.get("lang"), "data" : tmp })
 
   ret["policy_URL"] = []                                    # policy_URL
   for i in root.institution.policy_URL:
-    ret["policy_URL"].append({ "lang" : i.get("lang"), "data" : i })
+    tmp = i
+    tmp = re.sub(r'^\s+', '', tmp)
+    tmp = re.sub(r'\s+$', '', tmp)
+    ret["policy_URL"].append({ "lang" : i.get("lang"), "data" : tmp })
 
   ts = dateutil.parser.parse(str(root.institution.ts))
 
