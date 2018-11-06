@@ -20,6 +20,7 @@ import pytz
 import click
 import re
 import os
+from functools import singledispatch
 # ==============================================================================
 
 # ==============================================================================
@@ -41,6 +42,24 @@ def cli(input_dir, output_dir, fix_coord_chars, fix_lon_lat, check_lon_lat, verb
 
   main(input_dir, output_dir, { "fix_coord_chars" : fix_coord_chars, "fix_lon_lat" : fix_lon_lat,
                                 "check_lon_lat" : check_lon_lat, "verbose" : verbose })
+
+# ==============================================================================
+# better serialization into json
+# taken from https://hynek.me/articles/serialization/
+# ==============================================================================
+@singledispatch
+def to_serializable(val):
+    """Used by default."""
+    return str(val)
+
+# ==============================================================================
+# better serialization into json
+# taken from https://hynek.me/articles/serialization/
+# ==============================================================================
+@to_serializable.register(datetime.datetime)
+def ts_datetime(val):
+    """Used if *val* is an instance of datetime."""
+    return val.isoformat() + "Z"
 
 # ==============================================================================
 # list xml files in input_dir
@@ -420,7 +439,7 @@ def get_data(root, filename, options):
 # ==============================================================================
 def to_json(data, filename):
   with open(filename.replace(".xml", ".json"), 'w') as f:
-    f.write(str(data).replace("'", '"'))
+    f.write(json.dumps(data, default=to_serializable))
 
 # ==============================================================================
 # convert files 
