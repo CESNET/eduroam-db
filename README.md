@@ -18,6 +18,8 @@ Before you begin with the conversion, make sure all the needed dependencies are 
 - python3-dateutil
 - python3-tz
 - python3-click
+- python3-pydispatch
+- jq
 
 ### preparations for conversion
 
