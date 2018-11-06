@@ -324,20 +324,20 @@ def get_locations(root, options, inst_name):
     # tags
     loc['tag'] = ""
 
-    if i.port_restrict == "true":
+    if hasattr(i, "port_restrict") and i.port_restrict == "true":
       loc['tag'] = loc['tag'] + "port_restrict,"
 
-    if i.transp_proxy == "true":
+    if hasattr(i, "transp_proxy") and i.transp_proxy == "true":
       loc['tag'] = loc['tag'] +  "transp_proxy,"
 
-    if i.IPv6 == "true":
+    if hasattr(i, "IPv6") and i.IPv6 == "true":
       loc['tag'] = loc['tag'] +  "IPv6,"
 
-    if i.NAT == "true":
+    if hasattr(i, "NAT") and i.NAT == "true":
       loc['tag'] = loc['tag'] +  "NAT,"
 
     # wired eduroam
-    if i.wired == "true":
+    if hasattr(i, "wired") and i.wired == "true":
       loc['wired'] = "<blank>"
 
     if hasattr(i, 'info_URL'):
