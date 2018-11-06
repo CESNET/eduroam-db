@@ -152,10 +152,11 @@ def fix_coord_chars(coord):
   # - "„" with '"'
   # - " " with ""
   # - "’" with "'"
+  # - "´" with "'"
   #
   # TODO - some more bad chars?
 
-  return str(coord).replace("“", '"').replace("„", '"').replace(" ", "").replace("’", "'")
+  return str(coord).replace("“", '"').replace("„", '"').replace(" ", "").replace("’", "'").replace("´", "'")
 
 # ==============================================================================
 # extract longitude
