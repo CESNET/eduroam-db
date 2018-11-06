@@ -299,7 +299,8 @@ def get_locations(root, options, inst_name):
     # coords
     get_coords(i, options, loc)
 
-    # TODO - stage, type?
+    loc['stage'] = config.default_stage
+    loc['type'] = config.default_location_type
 
     # loc_name
     if hasattr(i, 'loc_name'):
@@ -314,17 +315,41 @@ def get_locations(root, options, inst_name):
     # address
     loc['address'] = get_address(i.address, "en")
 
-    # TODO ?
     loc['SSID'] = i.SSID
     loc['enc_level'] = i.enc_level
-    loc['AP_no'] = i.AP_no
-    loc['AP_no'] = i.AP_no
 
-    loc['info_URL'] = []
-    for j in i.info_URL:
-      loc["info_URL"].append({ "lang" : j.get("lang"), "data" : j })
+    if hasattr(i, 'AP_no'):
+      loc['AP_no'] = i.AP_no
+
+    # tags
+    loc['tag'] = ""
+
+    if i.port_restrict == "true":
+      loc['tag'] = loc['tag'] + "port_restrict,"
+
+    if i.transp_proxy == "true":
+      loc['tag'] = loc['tag'] +  "transp_proxy,"
+
+    if i.IPv6 == "true":
+      loc['tag'] = loc['tag'] +  "IPv6,"
+
+    if i.NAT == "true":
+      loc['tag'] = loc['tag'] +  "NAT,"
+
+    # wired eduroam
+    if i.wired == "true":
+      loc['wired'] = "<blank>"
+
+    if hasattr(i, 'info_URL'):
+      loc['info_URL'] = []
+      for j in i.info_URL:
+        tmp = j
+        tmp = re.sub(r'^\s+', '', tmp)
+        tmp = re.sub(r'\s+$', '', tmp)
+        loc["info_URL"].append({ "lang" : j.get("lang"), "data" : tmp })
 
     ret.append(loc)
+
 
   return ret
 
