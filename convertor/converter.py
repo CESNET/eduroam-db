@@ -352,7 +352,8 @@ def get_data(root, filename, options):
   if hasattr(root.institution, 'location'):     # coords are not mandatory, so if not available do not add them to result
     get_coords(root.institution.location, options, ret)
 
-  ret["location"] = get_locations(root, options, ret["instid"])                   # location, not defined in specification
+  if hasattr(root.institution, 'location'):
+    ret["location"] = get_locations(root, options, ret["instid"])
 
   # inst_type TODO? not mandatory
 
