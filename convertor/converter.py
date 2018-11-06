@@ -108,7 +108,11 @@ def get_inst_name(root, required_lang):
     if i.get("lang") == required_lang:
       got_req_lang = True
 
-    ret.append({ "lang" : i.get("lang"), "data" : i })
+    tmp = i
+    tmp = re.sub(r'^\s+', '', str(tmp))
+    tmp = re.sub(r'\s+$', '', str(tmp))
+
+    ret.append({ "lang" : i.get("lang"), "data" : tmp })
 
   if got_req_lang == False:  # required_lang language not found in source data
     ret.append({ "lang" : required_lang, "data" : root.institution.org_name })   # insert institution name with language forced to required_lang
@@ -391,8 +395,6 @@ def get_data(root, filename, options):
     ret["inst_realm"].append(i)
 
   ret["inst_name"] = get_inst_name(root, required_lang)   # inst_name
-  ret["inst_name"] = re.sub(r'^\s+', '', str(ret["inst_name"]))
-  ret["inst_name"] = re.sub(r'\s+$', '', str(ret["inst_name"]))
 
   ret["address"] = get_address(root.institution.address, required_lang)       # address
 
