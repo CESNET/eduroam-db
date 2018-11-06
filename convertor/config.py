@@ -8,6 +8,7 @@ default_contact_privacy = 0        # 0 - private (default), 1 - public
 default_contact_type = 0           # 0 - person (default), 1 - service/department
 local_timezone = "Europe/Prague"   # time zone of the NRO country
 default_stage = 1                  # 0 - preproduction/test, 1 - active
+default_location_type = 0          # 0 - single spot, 1 - area, 2 - mobile
 # ==============================================================================
 # option specific configuration
 # ==============================================================================
