@@ -439,8 +439,15 @@ def main(input_dir, output_dir, options):
     print(input_dir + " is not a directory")
     sys.exit(1)
 
+  if not os.path.isdir(output_dir):
+    print(output_dir + " is not a directory")
+    sys.exit(1)
+
   if not input_dir.endswith("/"):   # add directory delimiter if not provided
     input_dir = input_dir + "/"
+
+  if not output_dir.endswith("/"):   # add directory delimiter if not provided
+    output_dir = output_dir + "/"
 
   input_list = list_files(input_dir)
   for i in input_list:
