@@ -23,6 +23,7 @@ Before you begin with the conversion, make sure all the needed dependencies are 
 
 Before running the conversion take a look at [config](https://github.com/CESNET/eduroam-db/blob/master/convertor/config.py).
 Edit all the necessary values to suit your needs. You should edit at least `ROid`, `default_lang` and `local_timezone`.
+Also there is hardcoded default value for number of wired socket for eduroam set to 1!
 
 Also all xml documents from connected institutions must be gathered.
 
