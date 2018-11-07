@@ -1,5 +1,5 @@
 # eduroam-db
-This repository contains tools to convert institituon.xml eduroam database files
+This repository contains tools to convert institution.xml eduroam database files
 to [new version 2](https://monitor.eduroam.org/fact_eduroam_db.php) in JSON format. 
 
 
