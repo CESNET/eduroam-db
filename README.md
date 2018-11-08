@@ -63,5 +63,8 @@ Use the script as:
 ```
 
 
+This information changes based on new institutions connecting so a cronjob building
+the institution.json should be setup if this is used.
+
 ## web interface
 TODO
