@@ -344,19 +344,22 @@ def get_locations(root, options, inst_name):
       loc['AP_no'] = i.AP_no
 
     # tags
-    loc['tag'] = ""
+    tag = ""
 
-    if hasattr(i, "port_restrict") and i.port_restrict == "true":
-      loc['tag'] = loc['tag'] + "port_restrict,"
+    if hasattr(i, "port_restrict") and i.port_restrict == True:
+      tag = tag + "port_restrict,"
 
-    if hasattr(i, "transp_proxy") and i.transp_proxy == "true":
-      loc['tag'] = loc['tag'] +  "transp_proxy,"
+    if hasattr(i, "transp_proxy") and i.transp_proxy == True:
+      tag = tag +  "transp_proxy,"
 
-    if hasattr(i, "IPv6") and i.IPv6 == "true":
-      loc['tag'] = loc['tag'] +  "IPv6,"
+    if hasattr(i, "IPv6") and i.IPv6 == True:
+      tag = tag +  "IPv6,"
 
-    if hasattr(i, "NAT") and i.NAT == "true":
-      loc['tag'] = loc['tag'] +  "NAT,"
+    if hasattr(i, "NAT") and i.NAT == True:
+      tag = tag +  "NAT,"
+
+    if tag != "":
+      loc['tag'] = tag
 
     # wired eduroam
     if hasattr(i, "wired") and i.wired == "true":
