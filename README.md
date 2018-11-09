@@ -66,5 +66,13 @@ Use the script as:
 This information changes based on new institutions connecting so a cronjob building
 the institution.json should be setup if this is used.
 
+
+### debugging
+
+Validator is available [here](https://monitor.eduroam.org/eduroam-database/v2/scripts/json_validation_test.php).
+When the validator reports any errors it could be useful to print out the documents containing errors.
+This can be simply done with `jq`. For example if the error is `[property] => institutions.institution[2].info_URL[0].data`,
+the problematic document can be printed with `jq '.institutions.institution[2].info_URL[0].data' insitution.json`.
+
 ## web interface
 TODO
