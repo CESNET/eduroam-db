@@ -23,6 +23,9 @@ import os
 from functools import singledispatch
 # ==============================================================================
 
+# global variable representing current document encoding
+enc = 'utf-8'
+
 # ==============================================================================
 # command line arguments and options
 # ==============================================================================
@@ -77,7 +80,15 @@ def list_files(input_dir):
 # read xml file
 # ==============================================================================
 def read_xml(filename):
-  data = lxml.objectify.parse(filename)
+  # TODO - a better way to do this?
+  tmp = lxml.objectify.parse(filename) # parse file to get encoding
+  global enc
+  enc = tmp.docinfo.encoding
+  p = lxml.objectify.makeparser(encoding = enc) # parser with input file encoding
+
+  # parse again with correct encoding
+  data = lxml.objectify.parse(filename, parser = p)
+
   return data
 
 # ==============================================================================
