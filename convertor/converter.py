@@ -495,5 +495,8 @@ def main(input_dir, output_dir, options):
 # program is run directly, not included
 # ==============================================================================
 if __name__ == "__main__":
-  cli()
+  if len(sys.argv) != 3:
+    cli.main(['--help'])
+  else:
+    cli()
 
