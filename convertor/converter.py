@@ -341,7 +341,10 @@ def get_locations(root, options, inst_name):
     loc['enc_level'] = i.enc_level
 
     if hasattr(i, 'AP_no'):
-      loc['AP_no'] = int(i.AP_no)
+      if i.AP_no != 0:
+        loc['AP_no'] = int(i.AP_no)
+      else
+        loc['AP_no'] = 1
 
     # tags
     tag = ""
