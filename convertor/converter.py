@@ -370,6 +370,8 @@ def get_locations(root, options, inst_name):
 
     get_info_url(i, loc)
 
+    ret.append(loc)
+
   return ret
 
 # ==============================================================================
