@@ -3,7 +3,7 @@ This repository contains tools to convert institution.xml eduroam database files
 to [new version 2](https://monitor.eduroam.org/fact_eduroam_db.php) in JSON format. 
 
 
-It also containts web interface to edit converted json files.
+It also containts web interface to edit converted JSON files.
 
 
 TODO
@@ -42,7 +42,7 @@ To convert xml files run script:
 
 This takes all the `.xml` files from `input_directory` and
 tries to convert them. If conversion is successfull,
-all the json files are created in `output_directory`.
+all the JSON files are created in `output_directory`.
 
 
 There are various options that can affect the conversion.
