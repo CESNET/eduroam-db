@@ -393,6 +393,9 @@ def get_info_url(elem, ret):
     if len(empty_url) != 0 and len(ret['info_URL']) > 0:
       for j in empty_url:
         ret["info_URL"].append({ "lang" : j, "data" : ret["info_URL"][len(ret["info_URL"]) - 1]["data"] })    # add last non empty info_URL in lang that has empty URL
+    else:
+      for j in empty_url:
+        ret["info_URL"].append({ "lang" : j, "data" : "" })    # no URLs available
 
 # ==============================================================================
 # get contents of objectified xml
