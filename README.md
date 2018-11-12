@@ -67,7 +67,7 @@ This information changes based on new institutions connecting so a cronjob build
 the institution.json should be setup if this is used.
 
 
-### debugging
+### validation & debugging
 
 Validator is available [here](https://monitor.eduroam.org/eduroam-database/v2/scripts/json_validation_test.php).
 When the validator reports any errors it could be useful to print out the documents containing errors.
