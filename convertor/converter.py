@@ -368,18 +368,31 @@ def get_locations(root, options, inst_name):
     if hasattr(i, "wired") and i.wired == "true":
       loc['wired'] = 1
 
-    if hasattr(i, 'info_URL'):
-      loc['info_URL'] = []
-      for j in i.info_URL:
-        tmp = j
-        tmp = re.sub(r'^\s+', '', str(tmp))
-        tmp = re.sub(r'\s+$', '', str(tmp))
-        loc["info_URL"].append({ "lang" : j.get("lang"), "data" : tmp })
-
-    ret.append(loc)
-
+    get_info_url(i, loc)
 
   return ret
+
+# ==============================================================================
+# get info_URL
+# ==============================================================================
+def get_info_url(elem, ret):
+  if hasattr(elem, 'info_URL'):
+    ret['info_URL'] = []
+    empty_url = []        # list of languages, that have empty URL
+
+    for j in elem.info_URL:
+      if j == "":        # empty URL
+        empty_url.append(j.get("lang"))       # append language of empty URL
+        continue
+
+      tmp = j
+      tmp = re.sub(r'^\s+', '', str(tmp))
+      tmp = re.sub(r'\s+$', '', str(tmp))
+      ret["info_URL"].append({ "lang" : j.get("lang"), "data" : tmp })
+
+    if len(empty_url) != 0 and len(ret['info_URL']) > 0:
+      for j in empty_url:
+        ret["info_URL"].append({ "lang" : j, "data" : ret["info_URL"][len(ret["info_URL"]) - 1]["data"] })    # add last non empty info_URL in lang that has empty URL
 
 # ==============================================================================
 # get contents of objectified xml
@@ -416,12 +429,7 @@ def get_data(root, filename, options):
   for i in root.institution.contact:
     ret["contact"].append({ "name" : i.name, "email" : i.email, "phone" : i.phone, "type" : config.default_contact_type, "privacy" : config.default_contact_privacy })   # use default values for type and privacy
 
-  ret["info_URL"] = []                                    # info_URL
-  for i in root.institution.info_URL:
-    tmp = i
-    tmp = re.sub(r'^\s+', '', str(tmp))
-    tmp = re.sub(r'\s+$', '', str(tmp))
-    ret["info_URL"].append({ "lang" : i.get("lang"), "data" : tmp })
+  get_info_url(root.institution, ret)                     # info_URL
 
   ret["policy_URL"] = []                                    # policy_URL
   for i in root.institution.policy_URL:
