@@ -75,4 +75,16 @@ This can be simply done with `jq`. For example if the error is `[property] => in
 the problematic document can be printed with `jq '.institutions.institution[2].info_URL[0].data' insitution.json`.
 
 ## web interface
+
+
+### configuration
+
+TODO
+
+#### mapping of realms to admins
+
+TODO
+
+### dependencies
+
 TODO
