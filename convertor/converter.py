@@ -404,7 +404,7 @@ def get_data(root, filename, options):
   ret = {}
   required_lang = "en"                                    # language required for some fields
 
-  ret["instid"] = filename.split(".")[0]                  # instid
+  ret["instid"] = ".".join(filename.split(".")[:-1])      # instid
   ret["ROid"] = config.ROid                               # ROid
 
   ret["type"] = get_inst_type(root.institution.type)      # type
