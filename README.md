@@ -41,8 +41,8 @@ To convert xml files run script:
 ```
 
 This takes all the `.xml` files from `input_directory` and
-tries to convert them. If conversion is successfull,
-all the JSON files are created in `output_directory`.
+tries to convert them. If the conversion is successfull,
+all the JSON files are created in the `output_directory`.
 
 
 There are various options that can affect the conversion.
