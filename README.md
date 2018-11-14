@@ -79,6 +79,11 @@ the problematic document can be printed with `jq '.institutions.institution[2].i
 
 ### configuration
 
+### admin to realm mapping
+
+It is necessary for the web application to know which administrator has permissions to edit specific realms.
+This is done via configration.
+
 TODO
 
 #### mapping of realms to admins
