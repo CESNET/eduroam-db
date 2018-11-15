@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # ==============================================================================
-# convert eduroam database old format to new format
+# convert eduroam database xml v1 format to new json v2
 # parameters:
 # 1) directory with institution.xml files
 # 2) directory where to output corresponding converted json files
