@@ -117,7 +117,7 @@ def get_inst_name(root, required_lang):
   if got_req_lang == False:  # required_lang language not found in source data
     ret.append({ "lang" : required_lang, "data" : root.institution.org_name })   # insert institution name with language forced to required_lang
 
-  return ret
+  return ret.sort(key=lambda x:x["lang"])               # order array by lang value
 
 # ==============================================================================
 # get address with required_lang language
@@ -152,7 +152,7 @@ def get_address(elem, required_lang):
     ret.append({ "street" : { "lang" : required_lang, "data" : elem.street },
                  "city"   : { "lang" : required_lang, "data" : elem.city   }})
 
-  return ret
+  return ret.sort(key=lambda x:x['city']["lang"])               # order array by lang value
 
 # ==============================================================================
 # determine inst type
@@ -399,6 +399,8 @@ def get_info_url(elem, ret):
       for j in empty_url:
         ret["info_URL"].append({ "lang" : j, "data" : "" })    # no URLs available
 
+    ret['info_URL'].sort(key=lambda x:x["lang"])               # order array by lang value
+
 # ==============================================================================
 # get contents of objectified xml
 # ==============================================================================
@@ -441,7 +443,7 @@ def get_data(root, filename, options):
     tmp = i
     tmp = re.sub(r'^\s+', '', str(tmp))
     tmp = re.sub(r'\s+$', '', str(tmp))
-    ret["policy_URL"].append({ "lang" : i.get("lang"), "data" : tmp })
+    ret["policy_URL"].append({ "lang" : i.get("lang"), "data" : tmp })      # TODO - this should be the same for all languages?
 
   ts = dateutil.parser.parse(str(root.institution.ts))
 
