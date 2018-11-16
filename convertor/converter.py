@@ -117,7 +117,9 @@ def get_inst_name(root, required_lang):
   if got_req_lang == False:  # required_lang language not found in source data
     ret.append({ "lang" : required_lang, "data" : root.institution.org_name })   # insert institution name with language forced to required_lang
 
-  return ret.sort(key=lambda x:x["lang"])               # order array by lang value
+
+  ret.sort(key=lambda x:x["lang"])               # order array by lang value
+  return ret
 
 # ==============================================================================
 # get address with required_lang language
@@ -152,7 +154,8 @@ def get_address(elem, required_lang):
     ret.append({ "street" : { "lang" : required_lang, "data" : elem.street },
                  "city"   : { "lang" : required_lang, "data" : elem.city   }})
 
-  return ret.sort(key=lambda x:x['city']["lang"])               # order array by lang value
+  ret.sort(key=lambda x:x['city']["lang"])               # order array by lang value
+  return ret
 
 # ==============================================================================
 # determine inst type
