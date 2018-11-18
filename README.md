@@ -79,10 +79,15 @@ the problematic document can be printed with `jq '.institutions.institution[2].i
 
 ### configuration
 
+The main idea to use configuration for this was to separate create additional layer
+that is not dependent on any specific data source.
+
 ### admin to realm mapping
 
 It is necessary for the web application to know which administrator has permissions to edit specific realms.
 This is done via configration.
+
+Configuration is done via JSON format. TODO example
 
 TODO
 
