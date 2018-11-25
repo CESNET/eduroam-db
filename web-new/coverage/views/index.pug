@@ -76,28 +76,29 @@ block content
             h4 Seznam správců
             // ========================================================================================================
             div(ng-repeat='contact in json_data.contact track by $index')
+              // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Správce:
                 .col-xs-3
                   input.form-control(type='text', placeholder='Jan Novák', ng-model='contact.name')
-              // Odstranit
-              .form-group(ng-show='contacts.length > 1')
+              // ========================================================================================================
+              .form-group
+                label.col-sm-2.control-label Email:
+                .col-xs-3
+                  input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email')
+              // ========================================================================================================
+              .form-group
+                label.col-sm-2.control-label Telefon:
+                .col-xs-3
+                  input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone')
+              // ========================================================================================================
+              .form-group(ng-show='json_data.contact.length > 1')
                 label.col-sm-2.control-label Odebrat Správce
                 .col-xs-2
                   div(layout-gt-xs='row')
                     button.btn.btn-default.addButton(type='button', ng-click='remove_contact($index)')
                       i.glyphicon.glyphicon-minus
-              // mail
-              .form-group
-                label.col-sm-2.control-label Email:
-                .col-xs-3
-                  input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email')
-              // telefon
-              .form-group
-                label.col-sm-2.control-label Telefon:
-                .col-xs-3
-                  input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone')
-            // pridat dalsi
+              // ========================================================================================================
             .form-group
               label.col-sm-2.control-label Přidat Správce
               .col-xs-2
