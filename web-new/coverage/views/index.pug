@@ -1,32 +1,38 @@
 extends layout
 
 block content
-  body
+  body(ng-controller='coverage_controller', name='main_form')
+    script.
+      var realms = !{JSON.stringify(realms)};
     .container-fluid
       div
-        // ========================================================================================================
-        form.form-horizontal(ng-controller='generator_controller', name='main_form')
-          .form-group.has-feedback(ng-class="{ 'has-error' : !realm_validated && realm.$pristine, 'has-success' : realm_validated && !realm.$pristine }")
-            label.col-sm-2.control-label(for='realm') Realm:
+        form.form-horizontal
+          // ========================================================================================================
+          h4 Výběr realmu
+          // ========================================================================================================
+          .form-group
+            label.col-sm-2.control-label Realm
             .col-xs-2
-              input.form-control(type='text', placeholder='škola.cz', ng-model='realm', ng-model-options='{ debounce: 300 }', ng-change='verify_realm()')
-              // <span class="glyphicon glyphicon-refresh-animate form-control-feedback" ng-show=""></span>
-              span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='realm_validated')
-              // <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="(!realm_validated && realm.$pristine) || (!realm_validated && realm.$pristine)"></span> TODO
-              span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!realm_validated')
-          div(ng-show='realm_validated')
-            h4  Povinnné položky
+              select.form-control(ng-model='selected_realm', ng-change='get_json()')
+                option(ng-repeat='option in admin_realms', value='{{option}}') {{option}}
+
+
+
+
+          //- TODO rozsirit podminku + animace?
+          div(ng-show='selected_realm && realm_validated')
+            h4  Základní údaje
             // ========================================================================================================
             // read only seznam realmu?
             .form-group
               label.col-sm-2.control-label Český název:
               .col-xs-2
-                input.form-control(type='text', placeholder='Ukázková škola Praha 1', ng-model='org_name_cz')
+                input.form-control(type='text', placeholder='Ukázková škola Praha 1', ng-model='json_data.inst_name[0].data')
             // ========================================================================================================
             .form-group
               label.col-sm-2.control-label Anglický název:
               .col-xs-2
-                input.form-control(type='text', placeholder='Example school Prague 1', ng-model='org_name_en')
+                input.form-control(type='text', placeholder='Example school Prague 1', ng-model='json_data.inst_name[1].data')
             // ========================================================================================================
             .form-group
               label.col-sm-2.control-label Adresa
@@ -34,61 +40,66 @@ block content
             .form-group
               label.col-sm-2.control-label Ulice a číslo popisné:
               .col-xs-2
-                input.form-control(type='text', placeholder='Vodičkova 1', ng-model='address_street', ng-blur='copy_street(address_street)')
+                input.form-control(type='text', placeholder='Vodičkova 1', ng-model='json_data.address[0].street.data', ng-blur='copy_street(address_street)')
             // ========================================================================================================
             .form-group
               label.col-sm-2.control-label Město:
               .col-xs-2
-                input.form-control(type='text', placeholder='Praha 1', ng-model='address_city', ng-blur='copy_city(address_city)')
+                input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[0].city.data', ng-blur='copy_city(address_city)')
             // ========================================================================================================
             .form-group
-              label.col-sm-2.control-label Seznam správců
+              label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
+              .col-xs-3
+                input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='json_data.info_URL[1].data', ng-blur='copy_info_url(info_url_cz, "cz")')
             // ========================================================================================================
-            div(ng-repeat='manager in managers track by $index')
+            .form-group
+              label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
+              .col-xs-3
+                input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[0].data', ng-blur='copy_info_url(info_url_en, "en")')
+
+
+
+
+            h4 Seznam správců
+            // ========================================================================================================
+            div(ng-repeat='contact in json_data.contact track by $index')
               .form-group
                 label.col-sm-2.control-label Správce:
                 .col-xs-3
-                  input.form-control(type='text', placeholder='Jan Novák', ng-model='manager.name')
+                  input.form-control(type='text', placeholder='Jan Novák', ng-model='contact.name')
               // Odstranit
-              .form-group(ng-show='managers.length > 1')
+              .form-group(ng-show='contacts.length > 1')
                 label.col-sm-2.control-label Odebrat Správce
                 .col-xs-2
                   div(layout-gt-xs='row')
-                    button.btn.btn-default.addButton(type='button', ng-click='remove_managers($index)')
+                    button.btn.btn-default.addButton(type='button', ng-click='remove_contact($index)')
                       i.glyphicon.glyphicon-minus
               // mail
               .form-group
                 label.col-sm-2.control-label Email:
                 .col-xs-3
-                  input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='manager.mail')
+                  input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email')
               // telefon
               .form-group
                 label.col-sm-2.control-label Telefon:
                 .col-xs-3
-                  input.form-control(type='text', placeholder='+420 123 456 789', ng-model='manager.phone')
+                  input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone')
             // pridat dalsi
             .form-group
               label.col-sm-2.control-label Přidat Správce
               .col-xs-2
                 div(layout-gt-xs='row')
-                  button.btn.btn-default.addButton(type='button', ng-click='add_managers()')
+                  button.btn.btn-default.addButton(type='button', ng-click='add_contact()')
                     i.glyphicon.glyphicon-plus
+
+
+
+
+            h4 Informace o pokrytých lokalitách
             // ========================================================================================================
-            .form-group
-              label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
-              .col-xs-3
-                input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='info_url_cz', ng-blur='copy_info_url(info_url_cz, "cz")')
-            // ========================================================================================================
-            .form-group
-              label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
-              .col-xs-3
-                input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='info_url_en', ng-blur='copy_info_url(info_url_en, "en")')
-            // ========================================================================================================
-            div(ng-repeat='location in locations track by $index')
-              .form-group
-                label.col-sm-2.control-label Informace o konkrétní lokalitě
-                button.btn.btn-default.addButton(type='button', ng-click='remove_location($index)', ng-show='locations.length > 1')
-                  i.glyphicon.glyphicon-minus
+            div(ng-repeat='location in json_data.location track by $index')
+              button.btn.btn-default.addButton(type='button', ng-click='remove_location($index)', ng-show='locations.length > 1')
+                i.glyphicon.glyphicon-minus
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Adresa
@@ -96,99 +107,338 @@ block content
               .form-group
                 label.col-sm-2.control-label Ulice a číslo popisné:
                 .col-xs-2
-                  input.form-control(type='text', placeholder='Vodičkova 1', ng-model='location.adress_street')
+                  input.form-control(type='text', placeholder='Vodičkova 1', ng-model='location.address[0].street.data')
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Město:
                 .col-xs-2
-                  input.form-control(type='text', placeholder='Praha 1', ng-model='location.address_city')
+                  input.form-control(type='text', placeholder='Praha 1', ng-model='location.address[0].street.data')
               // ========================================================================================================
+              // TODO - anglicke verze?
               .form-group
                 label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
                 .col-xs-3
-                  input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='location.info_url_cz')
+                  input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='location.info_URL[1].data')
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
                 .col-xs-3
-                  input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='location.info_url_en')
+                  input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='location.info_URL[0].data')
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Geograficé umísťění:
                 .col-xs-3
-                  input.form-control(type='text', placeholder='TODO', ng-model='location.geo')
+                  input.form-control(type='text', placeholder='TODO', ng-model='location.coordinates')
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Použité šifrování:
                 .col-xs-2
-                  input.form-control(type='text', ng-model='location.encryption', list='enc_types')
-                  datalist#enc_types
-                    option(value='WPA2 + AES') WPA2 + AES
-                    option(value='WPA + AES, TKIP') WPA + AES, TKIP
+                  input.form-control(type='text', ng-model='location.enc_level', list='enc_types')
+                  //TODO?
+                  //-datalist#enc_types
+                  //-  option(value='WPA2 + AES') WPA2 + AES
+                  //-  option(value='WPA + AES, TKIP') WPA + AES, TKIP
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Existuje blokování portů?
                 .col-xs-2
-                  select.form-control(ng-model='location.port_restrict', ng-init='location.port_restrict = "false"')
+                  select.form-control(ng-model='location.TODO', ng-init='location.port_restrict = "false"')
                     option(value='false') ne
                     option(value='true') ano
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Je použita transparentní proxy?
                 .col-xs-2
-                  select.form-control(ng-model='location.proxy', ng-init='location.proxy = "false"')
+                  select.form-control(ng-model='location.TODO', ng-init='location.proxy = "false"')
                     option(value='false') ne
                     option(value='true') ano
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Je podporován protokol IPv6?
                 .col-xs-2
-                  select.form-control(ng-model='location.ipv6', ng-init='location.ipv6 = "false"')
+                  select.form-control(ng-model='location.TODO', ng-init='location.ipv6 = "false"')
                     option(value='false') ne
                     option(value='true') ano
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Poskytujete veřejné IP adresy?
                 .col-xs-2
-                  select.form-control(ng-model='location.nat', ng-init='location.nat = "false"')
+                  select.form-control(ng-model='location.TODO', ng-init='location.nat = "false"')
                     option(value='false') ne
                     option(value='true') ano
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Poskytujete eduroam na metalických zásuvkách?
                 .col-xs-2
-                  select.form-control(ng-model='location.wired', ng-init='location.wired = "false"')
+                  select.form-control(ng-model='location.TODO', ng-init='location.wired = "false"')
                     option(value='false') ne
                     option(value='true') ano
-              // ========================================================================================================
-              h4  Nepovinnné položky
-              // ========================================================================================================
-              .form-group
-                label.col-sm-2.control-label Popis geografického umísťění
-                .col-xs-3
-                  input.form-control(type='text', placeholder='Areál školy na Praze 1', ng-model='location.geo_description')
-              // TODO pridat i anglicky popis?
-              // ========================================================================================================
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Počet použitých AP:
                 .col-xs-1
-                  input.form-control(type='text', placeholder='5', ng-model='location.ap_count')
-                  // TODO - type
-                  // ========================================================================================================
-                  // ========================================================================================================
-                  .form-group
-                    label.col-sm-2.control-label Přidat Lokalitu
-                    .col-xs-2
-                      div(layout-gt-xs='row')
-                        button.btn.btn-default.addButton(type='button', ng-click='add_location()')
-                          i.glyphicon.glyphicon-plus
-                  // ========================================================================================================
-                  .form-group
-                    .col-xs-2
-                      button.btn.btn-default(type='button', ng-click='download_data()') Uložit data
-          // ========================================================================================================
-          // jen debug
-          pre.
-            \n    {{out}}
-          // ========================================================================================================
+                  input.form-control(type='text', placeholder='5', ng-model='location.AP_no')
+              // ========================================================================================================
+              hr
+
+            // ========================================================================================================
+            .form-group
+              label.col-sm-2.control-label Přidat Lokalitu
+              .col-xs-2
+                div(layout-gt-xs='row')
+                  button.btn.btn-default.addButton(type='button', ng-click='add_location()')
+                    i.glyphicon.glyphicon-plus
+
+            // ========================================================================================================
+            .form-group
+              .col-xs-2
+                button.btn.btn-default(type='button', ng-click='save_data()') Uložit data
+
+        // ========================================================================================================
+
+        pre.
+          {{json_data}}
+
+
+
+
+        //-uib-accordion(close-others='oneAtATime')
+        //-  .panel-default(uib-accordion-group='', heading='Static Header, initially expanded', is-open='status.isFirstOpen', is-disabled='status.isFirstDisabled')
+        //-    | This content is straight in the template.
+        //-  .panel-default(uib-accordion-group='', heading='{{group.title}}', ng-repeat='group in groups')
+        //-    | {{group.content}}
+        //-  .panel-default(uib-accordion-group='', heading='Dynamic Body Content')
+        //-    p The body of the uib-accordion group grows to fit the contents
+        //-    button.btn.btn-default.btn-sm(type='button', ng-click='addItem()') Add Item
+        //-    div(ng-repeat='item in items') {{item}}
+        //-  .panel-default(uib-accordion-group='', heading='Custom template', template-url='group-template.html')
+        //-    | Hello
+        //-  .panel-default(uib-accordion-group='', is-open='status.isCustomHeaderOpen', template-url='group-template.html')
+        //-    uib-accordion-heading
+        //-      | Custom template with custom header template 
+        //-      i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.isCustomHeaderOpen, 'glyphicon-chevron-right': !status.isCustomHeaderOpen}")
+        //-    |       World
+        //-  .panel-danger(uib-accordion-group='', heading='Delete account')
+        //-    p Please, to delete your account, click the button below
+        //-    button.btn.btn-danger Delete
+        //-  .panel-default(uib-accordion-group='', is-open='status.open')
+        //-    uib-accordion-heading
+        //-      | I can have markup, too! 
+        //-      i.pull-right.glyphicon(ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}")
+        //-    |       This is just some content to illustrate fancy headings.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //-form.form-horizontal(ng-controller='coverage_controller', name='main_form')
+        //-  .form-group.has-feedback(ng-class="{ 'has-error' : !realm_validated && realm.$pristine, 'has-success' : realm_validated && !realm.$pristine }")
+        //-    label.col-sm-2.control-label(for='realm') Realm:
+        //-    .col-xs-2
+        //-      input.form-control(type='text', placeholder='škola.cz', ng-model='realm', ng-model-options='{ debounce: 300 }', ng-change='verify_realm()')
+        //-      // <span class="glyphicon glyphicon-refresh-animate form-control-feedback" ng-show=""></span>
+        //-      span.glyphicon.glyphicon-ok.form-control-feedback(ng-show='realm_validated')
+        //-      // <span class="glyphicon glyphicon-remove form-control-feedback" ng-show="(!realm_validated && realm.$pristine) || (!realm_validated && realm.$pristine)"></span> TODO
+        //-      span.glyphicon.glyphicon-remove.form-control-feedback(ng-show='!realm_validated')
+        //-  div(ng-show='realm_validated')
+        //-    h4  Povinnné položky
+        //-    // ========================================================================================================
+        //-    // read only seznam realmu?
+        //-    .form-group
+        //-      label.col-sm-2.control-label Český název:
+        //-      .col-xs-2
+        //-        input.form-control(type='text', placeholder='Ukázková škola Praha 1', ng-model='org_name_cz')
+        //-    // ========================================================================================================
+        //-    .form-group
+        //-      label.col-sm-2.control-label Anglický název:
+        //-      .col-xs-2
+        //-        input.form-control(type='text', placeholder='Example school Prague 1', ng-model='org_name_en')
+        //-    // ========================================================================================================
+        //-    .form-group
+        //-      label.col-sm-2.control-label Adresa
+        //-    // ========================================================================================================
+        //-    .form-group
+        //-      label.col-sm-2.control-label Ulice a číslo popisné:
+        //-      .col-xs-2
+        //-        input.form-control(type='text', placeholder='Vodičkova 1', ng-model='address_street', ng-blur='copy_street(address_street)')
+        //-    // ========================================================================================================
+        //-    .form-group
+        //-      label.col-sm-2.control-label Město:
+        //-      .col-xs-2
+        //-        input.form-control(type='text', placeholder='Praha 1', ng-model='address_city', ng-blur='copy_city(address_city)')
+        //-    // ========================================================================================================
+        //-    .form-group
+        //-      label.col-sm-2.control-label Seznam správců
+        //-    // ========================================================================================================
+        //-    div(ng-repeat='manager in managers track by $index')
+        //-      .form-group
+        //-        label.col-sm-2.control-label Správce:
+        //-        .col-xs-3
+        //-          input.form-control(type='text', placeholder='Jan Novák', ng-model='manager.name')
+        //-      // Odstranit
+        //-      .form-group(ng-show='managers.length > 1')
+        //-        label.col-sm-2.control-label Odebrat Správce
+        //-        .col-xs-2
+        //-          div(layout-gt-xs='row')
+        //-            button.btn.btn-default.addButton(type='button', ng-click='remove_managers($index)')
+        //-              i.glyphicon.glyphicon-minus
+        //-      // mail
+        //-      .form-group
+        //-        label.col-sm-2.control-label Email:
+        //-        .col-xs-3
+        //-          input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='manager.mail')
+        //-      // telefon
+        //-      .form-group
+        //-        label.col-sm-2.control-label Telefon:
+        //-        .col-xs-3
+        //-          input.form-control(type='text', placeholder='+420 123 456 789', ng-model='manager.phone')
+        //-    // pridat dalsi
+        //-    .form-group
+        //-      label.col-sm-2.control-label Přidat Správce
+        //-      .col-xs-2
+        //-        div(layout-gt-xs='row')
+        //-          button.btn.btn-default.addButton(type='button', ng-click='add_managers()')
+        //-            i.glyphicon.glyphicon-plus
+        //-    // ========================================================================================================
+        //-    .form-group
+        //-      label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
+        //-      .col-xs-3
+        //-        input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='info_url_cz', ng-blur='copy_info_url(info_url_cz, "cz")')
+        //-    // ========================================================================================================
+        //-    .form-group
+        //-      label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
+        //-      .col-xs-3
+        //-        input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='info_url_en', ng-blur='copy_info_url(info_url_en, "en")')
+        //-    // ========================================================================================================
+        //-    div(ng-repeat='location in locations track by $index')
+        //-      .form-group
+        //-        label.col-sm-2.control-label Informace o konkrétní lokalitě
+        //-        button.btn.btn-default.addButton(type='button', ng-click='remove_location($index)', ng-show='locations.length > 1')
+        //-          i.glyphicon.glyphicon-minus
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Adresa
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Ulice a číslo popisné:
+        //-        .col-xs-2
+        //-          input.form-control(type='text', placeholder='Vodičkova 1', ng-model='location.adress_street')
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Město:
+        //-        .col-xs-2
+        //-          input.form-control(type='text', placeholder='Praha 1', ng-model='location.address_city')
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
+        //-        .col-xs-3
+        //-          input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='location.info_url_cz')
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
+        //-        .col-xs-3
+        //-          input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='location.info_url_en')
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Geograficé umísťění:
+        //-        .col-xs-3
+        //-          input.form-control(type='text', placeholder='TODO', ng-model='location.geo')
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Použité šifrování:
+        //-        .col-xs-2
+        //-          input.form-control(type='text', ng-model='location.encryption', list='enc_types')
+        //-          datalist#enc_types
+        //-            option(value='WPA2 + AES') WPA2 + AES
+        //-            option(value='WPA + AES, TKIP') WPA + AES, TKIP
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Existuje blokování portů?
+        //-        .col-xs-2
+        //-          select.form-control(ng-model='location.port_restrict', ng-init='location.port_restrict = "false"')
+        //-            option(value='false') ne
+        //-            option(value='true') ano
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Je použita transparentní proxy?
+        //-        .col-xs-2
+        //-          select.form-control(ng-model='location.proxy', ng-init='location.proxy = "false"')
+        //-            option(value='false') ne
+        //-            option(value='true') ano
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Je podporován protokol IPv6?
+        //-        .col-xs-2
+        //-          select.form-control(ng-model='location.ipv6', ng-init='location.ipv6 = "false"')
+        //-            option(value='false') ne
+        //-            option(value='true') ano
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Poskytujete veřejné IP adresy?
+        //-        .col-xs-2
+        //-          select.form-control(ng-model='location.nat', ng-init='location.nat = "false"')
+        //-            option(value='false') ne
+        //-            option(value='true') ano
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Poskytujete eduroam na metalických zásuvkách?
+        //-        .col-xs-2
+        //-          select.form-control(ng-model='location.wired', ng-init='location.wired = "false"')
+        //-            option(value='false') ne
+        //-            option(value='true') ano
+        //-      // ========================================================================================================
+        //-      h4  Nepovinnné položky
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Popis geografického umísťění
+        //-        .col-xs-3
+        //-          input.form-control(type='text', placeholder='Areál školy na Praze 1', ng-model='location.geo_description')
+        //-      // TODO pridat i anglicky popis?
+        //-      // ========================================================================================================
+        //-      // ========================================================================================================
+        //-      .form-group
+        //-        label.col-sm-2.control-label Počet použitých AP:
+        //-        .col-xs-1
+        //-          input.form-control(type='text', placeholder='5', ng-model='location.ap_count')
+        //-          // TODO - type
+        //-          // ========================================================================================================
+        //-          // ========================================================================================================
+        //-          .form-group
+        //-            label.col-sm-2.control-label Přidat Lokalitu
+        //-            .col-xs-2
+        //-              div(layout-gt-xs='row')
+        //-                button.btn.btn-default.addButton(type='button', ng-click='add_location()')
+        //-                  i.glyphicon.glyphicon-plus
+        //-          // ========================================================================================================
+        //-          .form-group
+        //-            .col-xs-2
+        //-              button.btn.btn-default(type='button', ng-click='download_data()') Uložit data
+        //-  // ========================================================================================================
+        //-  // jen debug
+        //-  pre.
+        //-    \n    {{out}}
+        //-  // ========================================================================================================
+
+
+
+
+
+
