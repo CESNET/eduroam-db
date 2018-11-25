@@ -112,8 +112,6 @@ block content
             h4 Informace o pokrytých lokalitách
             // ========================================================================================================
             div(ng-repeat='location in json_data.location track by $index')
-              button.btn.btn-default.addButton(type='button', ng-click='remove_location($index)', ng-show='locations.length > 1')
-                i.glyphicon.glyphicon-minus
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Adresa
@@ -193,7 +191,16 @@ block content
                 .col-xs-1
                   input.form-control(type='text', placeholder='5', ng-model='location.AP_no')
               // ========================================================================================================
+              .form-group(ng-show='json_data.contact.length > 1')
+                label.col-sm-2.control-label Odebrat lokalitu
+                .col-xs-2
+                  div(layout-gt-xs='row')
+                    button.btn.btn-default.addButton(type='button', ng-click='remove_location($index)', ng-show='json_data.location.length > 1')
+                      i.glyphicon.glyphicon-minus
+              // ========================================================================================================
               hr
+
+
 
             // ========================================================================================================
             .form-group
@@ -202,6 +209,8 @@ block content
                 div(layout-gt-xs='row')
                   button.btn.btn-default.addButton(type='button', ng-click='add_location()')
                     i.glyphicon.glyphicon-plus
+
+
 
             // ========================================================================================================
             .form-group
