@@ -5,6 +5,16 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
   $scope.locations = [{}];      // TODO ?
   $scope.admin_realms = realms;
 
+  $scope.contact_type = [
+    "osoba",
+    "oddělení"
+  ];
+
+  $scope.contact_privacy = [
+    "privátní",
+    "veřejný"
+  ]
+
   //$scope.verify_realm = function() {
   //  if($scope.realm != "")
   //    verify_realm($scope, $http);

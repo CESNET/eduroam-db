@@ -92,6 +92,18 @@ block content
                 .col-xs-3
                   input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone')
               // ========================================================================================================
+              //- TODO - default value for newly added admins
+              .form-group
+                label.col-sm-2.control-label Typ kontaktu:
+                .col-xs-3
+                  select.form-control(ng-model='contact.type', ng-options='contact_type.indexOf(type) as type for type in contact_type')
+              // ========================================================================================================
+              //- TODO - default value for newly added admins
+              .form-group
+                label.col-sm-2.control-label Soukromí kontaktu:
+                .col-xs-3
+                  select.form-control(ng-model='contact.type', ng-options='contact_privacy.indexOf(type) as type for type in contact_privacy')
+              // ========================================================================================================
               .form-group(ng-show='json_data.contact.length > 1')
                 label.col-sm-2.control-label Odebrat správce
                 .col-xs-2
