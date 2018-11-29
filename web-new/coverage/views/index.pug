@@ -165,37 +165,28 @@ block content
               .form-group
                 label.col-sm-2.control-label Existuje blokování portů?
                 .col-xs-2
-                  select.form-control(ng-model='location.TODO', ng-init='location.port_restrict = "false"')
-                    option(value='false') ne
-                    option(value='true') ano
+                  select.form-control(ng-model='locations[$index].port_restrict', ng-options='opt.value as opt.key for opt in bool_options')
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Je použita transparentní proxy?
                 .col-xs-2
-                  select.form-control(ng-model='location.TODO', ng-init='location.proxy = "false"')
-                    option(value='false') ne
-                    option(value='true') ano
+                  select.form-control(ng-model='locations[$index].transp_proxy', ng-options='opt.value as opt.key for opt in bool_options')
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Je podporován protokol IPv6?
                 .col-xs-2
-                  select.form-control(ng-model='location.TODO', ng-init='location.ipv6 = "false"')
-                    option(value='false') ne
-                    option(value='true') ano
+                  select.form-control(ng-model='locations[$index].ipv6', ng-options='opt.value as opt.key for opt in bool_options')
               // ========================================================================================================
               .form-group
-                label.col-sm-2.control-label Poskytujete veřejné IP adresy?
+                label.col-sm-2.control-label Je používán překlad adres (NAT)?
                 .col-xs-2
-                  select.form-control(ng-model='location.TODO', ng-init='location.nat = "false"')
-                    option(value='false') ne
-                    option(value='true') ano
+                  select.form-control(ng-model='locations[$index].nat', ng-options='opt.value as opt.key for opt in bool_options')
               // ========================================================================================================
+              // TODO - pocet zasuvek?
               .form-group
                 label.col-sm-2.control-label Poskytujete eduroam na metalických zásuvkách?
                 .col-xs-2
-                  select.form-control(ng-model='location.TODO', ng-init='location.wired = "false"')
-                    option(value='false') ne
-                    option(value='true') ano
+                  select.form-control(ng-model='locations[$index].wired', ng-options='opt.value as opt.key for opt in bool_options')
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Počet použitých AP:
