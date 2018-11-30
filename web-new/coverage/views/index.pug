@@ -158,9 +158,8 @@ block content
                 .col-xs-2
                   input.form-control(type='text', ng-model='location.enc_level', list='enc_types')
                   //TODO?
-                  //-datalist#enc_types
-                  //-  option(value='WPA2 + AES') WPA2 + AES
-                  //-  option(value='WPA + AES, TKIP') WPA + AES, TKIP
+                  datalist#enc_types
+                    option(value='WPA2 + AES') WPA2 + AES
               // ========================================================================================================
               .form-group
                 label.col-sm-2.control-label Existuje blokování portů?
