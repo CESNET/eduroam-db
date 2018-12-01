@@ -48,6 +48,7 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
   $scope.remove_location = function(index) {
     // TODO - kontrola, ze existuje $scope.json_data
     $scope.json_data.location.splice(index, 1);
+    $scope.locations.splice(index, 1);
   }
  
   $scope.save_data = function() {
