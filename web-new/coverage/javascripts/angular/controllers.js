@@ -2,7 +2,7 @@
 /* --------------------------------------------------------------------------------- */
 angular.module('coverage').controller('coverage_controller', ['$scope', '$http', function ($scope, $http) {
   $scope.realm_validated = false;
-  $scope.locations = [{}];      // TODO ?
+  $scope.locations = [];
   $scope.admin_realms = realms;
 
   $scope.contact_type = [
@@ -13,7 +13,12 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
   $scope.contact_privacy = [
     "privátní",
     "veřejný"
-  ]
+  ];
+
+  $scope.bool_options = [
+    { key : "ano", value : true },
+    { key : "ne", value : false }
+  ];
 
   //$scope.verify_realm = function() {
   //  if($scope.realm != "")
@@ -35,8 +40,9 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
  
   $scope.add_location = function() {
     // TODO - kontrola, ze existuje $scope.json_data
-    $scope.json_data.location.push({});
     // TODO - bude potreba dodat nejake klice, ktere jsou needitovatelne
+    $scope.json_data.location.push({});
+    add_empty_loc($scope);
   }
 
   $scope.remove_location = function(index) {
@@ -52,10 +58,23 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
     get_json_from_api($scope, $http);
   }
 
+  // automatically close all open locations when opening other section
+  $scope.onParentCollapse = function(){
+    console.log("closing all");
+
+    angular.forEach($scope.locations, function(element) {
+       element.is_open = false;
+    });
+  }
+
 }]);
 /* --------------------------------------------------------------------------------- */
 function save_json_to_api($scope, $http)
 {
+  // TODO - dodatecna logika, ktera zohledni vyplnena pole location do klice tag
+  // TODO - update ts na aktualni cas
+
+
   $http({
     method  : 'POST',
     url     : 'https://pokryti.eduroam.cz/api/' + $scope.selected_realm,
@@ -64,6 +83,7 @@ function save_json_to_api($scope, $http)
   .then(function(response) {
     if(response.status == 200)
         ;       // TODO - saved popup
+    console.log($scope.locations);
   }, function(err) {
     // TODO
     //if (err.status == 404)
@@ -73,7 +93,53 @@ function save_json_to_api($scope, $http)
 }
 /* --------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------- */
+function add_empty_loc($scope)
+{
+  $scope.locations.push({ port_restrict : false, ipv6 : false, transp_proxy : false,
+                          nat : false, wired : false, heading : "Nová lokalita" });
+}
+/* --------------------------------------------------------------------------------- */
+// TODO
+/* --------------------------------------------------------------------------------- */
+function parse_location_data($scope, locations)
+{
+  for(var i in locations) {
+    var loc = {};
 
+    if(locations[i].tag && locations[i].tag.indexOf("port_restrict") != -1)
+      loc.port_restrict = true;
+    else
+      loc.port_restrict = false;
+
+    if(locations[i].tag && locations[i].tag.indexOf("IPv6") != -1)
+      loc.ipv6 = true;
+    else
+      loc.ipv6 = false;
+
+    if(locations[i].tag && locations[i].tag.indexOf("transp_proxy") != -1)
+      loc.transp_proxy = true;
+    else
+      loc.transp_proxy = false;
+
+    if(locations[i].tag && locations[i].tag.indexOf("NAT") != -1)
+      loc.nat = true;
+    else
+      loc.nat = false;
+
+    if("wired" in locations[i])     // wired eduroam is available
+      loc.wired = true;
+    else
+      loc.wired = true;
+
+    // accordion
+    loc.is_open = false;
+    loc.heading = locations[i].address[0].street.data + " " + locations[i].address[0].city.data;
+
+    $scope.locations.push(loc);
+  }
+}
+/* --------------------------------------------------------------------------------- */
+// TODO
 /* --------------------------------------------------------------------------------- */
 function get_json_from_api($scope, $http)
 {
@@ -82,9 +148,12 @@ function get_json_from_api($scope, $http)
     url     : 'https://pokryti.eduroam.cz/api/' + $scope.selected_realm
   })
   .then(function(response) {
-    if(response.status == 200)
+    if(response.status == 200) {
+      parse_location_data($scope, response.data.location);
       $scope.realm_validated = true;
       $scope.json_data = response.data;
+    }
+
       //fill_form($scope);
   }, function(err) {
     if (err.status == 404)
