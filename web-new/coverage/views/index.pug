@@ -123,9 +123,9 @@ block content
 
 
 
-              .panel-default(uib-accordion-group='', heading='Informace o pokrytých lokalitách', ng-click='onParentCollapse()')
+              .panel-default(uib-accordion-group='', heading='Informace o pokrytých lokalitách')
                 uib-accordion(close-others='true')
-                  .panel-default(uib-accordion-group='', heading='{{locations[$index].heading}}', ng-repeat='location in json_data.location track by $index', is-open='locations[$index].is_open')
+                  .panel-default(uib-accordion-group='', heading='{{locations[$index].heading}}', ng-repeat='location in json_data.location track by $index')
                     // ========================================================================================================
                     .form-group
                       label.col-sm-2.control-label Adresa

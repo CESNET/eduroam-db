@@ -57,16 +57,6 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
   $scope.get_json = function() {
     get_json_from_api($scope, $http);
   }
-
-  // automatically close all open locations when opening other section
-  $scope.onParentCollapse = function(){
-    console.log("closing all");
-
-    angular.forEach($scope.locations, function(element) {
-       element.is_open = false;
-    });
-  }
-
 }]);
 /* --------------------------------------------------------------------------------- */
 function save_json_to_api($scope, $http)
@@ -132,7 +122,6 @@ function parse_location_data($scope, locations)
       loc.wired = true;
 
     // accordion
-    loc.is_open = false;
     loc.heading = locations[i].address[0].street.data + " " + locations[i].address[0].city.data;
 
     $scope.locations.push(loc);
