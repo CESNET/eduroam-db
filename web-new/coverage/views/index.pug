@@ -201,13 +201,10 @@ block content
                           button.btn.btn-default.addButton(type='button', ng-click='remove_location($index)', ng-show='json_data.location.length > 1')
                             i.glyphicon.glyphicon-minus
 
-                  // ========================================================================================================
-                  .form-group
-                    label.col-sm-2.control-label Přidat Lokalitu
-                    .col-xs-2
-                      div(layout-gt-xs='row')
-                        button.btn.btn-default.addButton(type='button', ng-click='add_location()')
-                          i.glyphicon.glyphicon-plus
+                // ========================================================================================================
+                .form-group
+                  .col-xs-2
+                    button.btn.btn-default.addButton(type='button', ng-click='add_location()') Přidat lokalitu
 
 
 
