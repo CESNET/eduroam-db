@@ -6,7 +6,7 @@ block content
       var realms = !{JSON.stringify(realms)};
     .container-fluid
       div
-        form.form-horizontal
+        form.form-horizontal(name="main_form")
           // ========================================================================================================
           h4 Výběr realmu
           // ========================================================================================================
@@ -26,51 +26,51 @@ block content
             uib-accordion(close-others='true')
               .panel-default(uib-accordion-group='', heading='Základní údaje', is-open='true')
                 // ========================================================================================================
-                .form-group
+                .form-group(ng-class="{ 'has-error' : main_form.name_cz.$error.required && !main_form.name_cz.$pristine}")
                   label.col-sm-2.control-label Český název:
                   .col-xs-2
-                    input.form-control(type='text', placeholder='Ukázková škola Praha 1', ng-model='json_data.inst_name[0].data')
+                    input.form-control(type='text', placeholder='Ukázková škola Praha 1', ng-model='json_data.inst_name[0].data', name="name_cz", required)
                 // ========================================================================================================
                 .form-group
                   label.col-sm-2.control-label Adresa
                 // ========================================================================================================
-                .form-group
+                .form-group(ng-class="{ 'has-error' : main_form.street_cz.$error.required && !main_form.street_cz.$pristine}")
                   label.col-sm-2.control-label Ulice a číslo popisné:
                   .col-xs-2
-                    input.form-control(type='text', placeholder='Vodičkova 1', ng-model='json_data.address[0].street.data', ng-blur='copy_street(json_data.address[0].street.data, "cs")')
+                    input.form-control(type='text', placeholder='Vodičkova 1', ng-model='json_data.address[0].street.data', ng-blur='copy_street(json_data.address[0].street.data, "cs")', name="street_cz", required)
                 // ========================================================================================================
-                .form-group
+                .form-group(ng-class="{ 'has-error' : main_form.city_cz.$error.required && !main_form.city_cz.$pristine}")
                   label.col-sm-2.control-label Město:
                   .col-xs-2
-                    input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[0].city.data', ng-blur='copy_city(json_data.address[0].city.data, "cs")')
+                    input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[0].city.data', ng-blur='copy_city(json_data.address[0].city.data, "cs")', name="city_cz", required)
                 // ========================================================================================================
-                .form-group
+                .form-group(ng-class="{ 'has-error' : main_form.info_url_cz.$error.required && !main_form.info_url_cz.$pristine}")
                   label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
                   .col-xs-5
-                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='json_data.info_URL[0].data', ng-blur='copy_info_url(info_url_cz, "cz")')
+                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='json_data.info_URL[0].data', ng-blur='copy_info_url(info_url_cz, "cz")', name="info_url_cz", required)
                 // ========================================================================================================
-                .form-group
+                .form-group(ng-class="{ 'has-error' : main_form.name_en.$error.required && !main_form.name_en.$pristine}")
                   label.col-sm-2.control-label Anglický název:
                   .col-xs-2
-                    input.form-control(type='text', placeholder='Example school Prague 1', ng-model='json_data.inst_name[1].data')
+                    input.form-control(type='text', placeholder='Example school Prague 1', ng-model='json_data.inst_name[1].data', name="name_en", required)
                 // ========================================================================================================
                 .form-group
                   label.col-sm-2.control-label Adresa
                 // ========================================================================================================
-                .form-group
+                .form-group(ng-class="{ 'has-error' : main_form.street_en.$error.required && !main_form.street_en.$pristine}")
                   label.col-sm-2.control-label Ulice a číslo popisné:
                   .col-xs-2
-                    input.form-control(type='text', placeholder='Vodičkova 1', ng-model='json_data.address[1].street.data', ng-blur='copy_street(json_data.address[1].street.data, "en")')
+                    input.form-control(type='text', placeholder='Vodičkova 1', ng-model='json_data.address[1].street.data', ng-blur='copy_street(json_data.address[1].street.data, "en")', name="street_en", required)
                 // ========================================================================================================
-                .form-group
+                .form-group(ng-class="{ 'has-error' : main_form.city_en.$error.required && !main_form.city_en.$pristine}")
                   label.col-sm-2.control-label Město:
                   .col-xs-2
-                    input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[1].city.data', ng-blur='copy_city(json_data.address[1].city.data, "en")')
+                    input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[1].city.data', ng-blur='copy_city(json_data.address[1].city.data, "en")', name="city_en", required)
                 // ========================================================================================================
-                .form-group
+                .form-group(ng-class="{ 'has-error' : main_form.info_url_en.$error.required && !main_form.info_url_en.$pristine}")
                   label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
                   .col-xs-5
-                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', ng-blur='copy_info_url(info_url_en, "en")')
+                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', ng-blur='copy_info_url(info_url_en, "en")', name="info_url_en", required)
 
 
 
@@ -213,7 +213,7 @@ block content
             // ========================================================================================================
             .form-group
               .col-xs-2
-                button.btn.btn-default(type='button', ng-click='save_data()') Uložit data
+                button.btn.btn-default(type='button', ng-click='save_data()', ng-disabled="main_form.$invalid") Uložit data
 
         // ========================================================================================================
 
