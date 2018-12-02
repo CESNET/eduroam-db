@@ -216,8 +216,10 @@ block content
 
         // ========================================================================================================
 
-        pre.
-          {{json_data}}
+        uib-accordion(close-others='true')
+          .panel-default(uib-accordion-group='', heading='Debug informace')
+            pre.
+              {{debug}}
 
 
 

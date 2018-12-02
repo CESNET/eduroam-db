@@ -141,6 +141,7 @@ function get_json_from_api($scope, $http)
       parse_location_data($scope, response.data.location);
       $scope.realm_validated = true;
       $scope.json_data = response.data;
+      $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
     }
 
       //fill_form($scope);
