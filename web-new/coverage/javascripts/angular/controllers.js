@@ -29,8 +29,7 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
 
   $scope.add_contact = function() {
     // TODO - kontrola, ze existuje $scope.json_data
-
-    $scope.json_data.contact.push({});       // TODO
+    $scope.json_data.contact.push({ type : 0, privacy : 0});
   }
 
   $scope.remove_contact = function(index) {
