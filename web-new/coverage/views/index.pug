@@ -80,32 +80,32 @@ block content
                 // ========================================================================================================
                 div(ng-repeat='contact in json_data.contact track by $index')
                   // ========================================================================================================
-                  .form-group
+                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_name.$error.required && !main_form.admin_{{$index}}_name.$pristine}")
                     label.col-sm-2.control-label Správce:
                     .col-xs-3
-                      input.form-control(type='text', placeholder='Jan Novák', ng-model='contact.name')
+                      input.form-control(type='text', placeholder='Jan Novák', ng-model='contact.name', name="admin_{{$index}}_name", required)
                   // ========================================================================================================
-                  .form-group
+                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_mail.$error.required && !main_form.admin_{{$index}}_mail.$pristine}")
                     label.col-sm-2.control-label Email:
                     .col-xs-3
-                      input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email')
+                      input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email', name="admin_{{$index}}_mail", required)
                   // ========================================================================================================
-                  .form-group
+                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_phone.$error.required && !main_form.admin_{{$index}}_phone.$pristine}")
                     label.col-sm-2.control-label Telefon:
                     .col-xs-3
-                      input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone')
+                      input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone', name="admin_{{$index}}_phone", required)
                   // ========================================================================================================
                   //- TODO - default value for newly added admins
-                  .form-group
+                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_type.$error.required && !main_form.admin_{{$index}}_type.$pristine}")
                     label.col-sm-2.control-label Typ kontaktu:
                     .col-xs-3
-                      select.form-control(ng-model='contact.type', ng-options='contact_type.indexOf(type) as type for type in contact_type')
+                      select.form-control(ng-model='contact.type', ng-options='contact_type.indexOf(type) as type for type in contact_type', name="admin_{{$index}}_type", required)
                   // ========================================================================================================
                   //- TODO - default value for newly added admins
-                  .form-group
+                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_privacy.$error.required && !main_form.admin_{{$index}}_privacy.$pristine}")
                     label.col-sm-2.control-label Soukromí kontaktu:
                     .col-xs-3
-                      select.form-control(ng-model='contact.type', ng-options='contact_privacy.indexOf(type) as type for type in contact_privacy')
+                      select.form-control(ng-model='contact.privacy', ng-options='contact_privacy.indexOf(type) as type for type in contact_privacy', name="admin_{{$index}}_privacy", required)
                   // ========================================================================================================
                   .form-group(ng-show='json_data.contact.length > 1')
                     label.col-sm-2.control-label Odebrat správce
