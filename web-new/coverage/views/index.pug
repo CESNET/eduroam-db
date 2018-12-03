@@ -72,6 +72,7 @@ block content
                     input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', ng-blur='copy_info_url(info_url_en, "en")', name="info_url_en", required)
                 // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.type.$error.required && !main_form.type.$pristine}")
+                  // TODO - default hodnota?
                   label.col-sm-2.control-label Typ zapojení:
                   .col-xs-2
                     select.form-control(ng-model='json_data.type', name="type", required)
