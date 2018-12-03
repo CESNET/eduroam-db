@@ -224,7 +224,7 @@ block content
             // ========================================================================================================
             .form-group
               .col-xs-2
-                button.btn.btn-default(type='button', ng-click='save_data()', ng-disabled="main_form.$invalid") Uložit data
+                button.btn.btn-default(type='button', ng-click='save_data()', ng-disabled="main_form.$invalid || json_data.location.length == 0 || json_data.contact.length == 0") Uložit data
 
         // ========================================================================================================
 
