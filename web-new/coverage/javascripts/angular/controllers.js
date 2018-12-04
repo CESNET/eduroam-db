@@ -93,6 +93,8 @@ function add_empty_loc($scope)
 /* --------------------------------------------------------------------------------- */
 function parse_location_data($scope, locations)
 {
+  $scope.locations.splice(0);   // delete array before adding new elements
+
   for(var i in locations) {
     var loc = {};
 
