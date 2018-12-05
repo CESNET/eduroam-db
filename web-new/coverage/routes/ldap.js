@@ -56,10 +56,10 @@ function get_user_realms(client, user, response, callback)
 // --------------------------------------------------------------------------------------
 // get institution's data by ldap dn
 // --------------------------------------------------------------------------------------
-function get_inst_data(client, inst, response, callback)
+function get_inst_data(client, inst, response)
 {
   var items = [ 'street', 'l', 'o', 'o;lang-cs' ];      // TODO ?
-  var ret = [];
+  var ret;
 
   var opts = {
     scope: 'sub',
@@ -70,8 +70,7 @@ function get_inst_data(client, inst, response, callback)
     assert.ifError(err);
 
     res.on('searchEntry', function(entry) {
-      console.log(entry.object);
-      ret.push(entry.object);
+      ret = entry.object;
     });
 
     res.on('error', function(err) {
@@ -83,12 +82,7 @@ function get_inst_data(client, inst, response, callback)
         assert.ifError(err);
       });
 
-      console.log(ret);
-      //response.send(JSON.parse([ret]));   // TODO
-      response.send([]);   // TODO
-
-      if(callback)
-        callback();
+      response.send(ret);
     });
   });
 }
