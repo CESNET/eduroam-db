@@ -141,15 +141,14 @@ function get_json_from_api($scope, $http)
   .then(function(response) {
     if(response.status == 200) {
       parse_location_data($scope, response.data.location);
-      $scope.realm_validated = true;
       $scope.json_data = response.data;
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
+      $scope.realm_validated = true;
     }
 
       //fill_form($scope);
   }, function(err) {
     if (err.status == 404)
-      $scope.realm_validated = false;
   });
 
 }
