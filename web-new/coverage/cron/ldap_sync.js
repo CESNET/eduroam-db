@@ -123,7 +123,6 @@ function prepare_data(data)
 
     if(data[i].org_ptr)
       ret.realm_to_inst[data[i].realm] = data[i].org_ptr.replace("dc=", "").replace(",ou=Organizations,dc=cesnet,dc=cz", "").replace(" ", "_");   // TODO - mezera za _ je spravne?
-    // TODO - co delat v pripade, ze neni k dispozici org_ptr? nic?
   }
 
   generate_config(ret);
@@ -135,8 +134,10 @@ function generate_config(data)
 {
   fs.writeFileSync("./config/realm_to_admin.js", "module.exports = \n");
   fs.appendFileSync("./config/realm_to_admin.js", JSON.stringify(data.admin_to_realm, null, 4));
-  fs.writeFileSync("./config/realm_to_inst.js", "module.exports = \n");
-  fs.appendFileSync("./config/realm_to_inst.js", JSON.stringify(data.realm_to_inst, null, 4));
+  if(data.realm_to_inst.length > 0) {       // do not create file if no data are available
+    fs.writeFileSync("./config/realm_to_inst.js", "module.exports = \n");
+    fs.appendFileSync("./config/realm_to_inst.js", JSON.stringify(data.realm_to_inst, null, 4));
+  }
 }
 // --------------------------------------------------------------------------------------
 module.exports = exp;
