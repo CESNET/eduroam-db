@@ -122,7 +122,7 @@ function prepare_data(data)
     }
 
     if(data[i].org_ptr)
-      ret.realm_to_inst[data[i].realm] = data[i].org_ptr.replace("dc=", "").replace(",ou=Organizations,dc=cesnet,dc=cz", "").replace(" ", "_");   // TODO - mezera za _ je spravne?
+      ret.realm_to_inst[data[i].realm] = data[i].org_ptr.replace("dc=", "").replace(",ou=Organizations,dc=cesnet,dc=cz", "").replace(" ", "_");
   }
 
   generate_config(ret);
