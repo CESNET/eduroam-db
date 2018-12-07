@@ -83,7 +83,7 @@ block content
                   // TODO - default hodnota?
                   label.col-sm-2.control-label Typ zapojení:
                   .col-xs-2
-                    select.form-control(ng-model='json_data.type', name="type", required)
+                    select.form-control(ng-model='json_data.type', name="type", required, disabled)
                       option(value='IdP+SP') IdP + SP (aktivní)
                       option(value='SP') SP (pasivní)
                       option(value='IdP') IdP
