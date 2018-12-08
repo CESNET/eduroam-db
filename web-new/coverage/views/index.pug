@@ -72,7 +72,6 @@ block content
 
 
               .panel-default(uib-accordion-group='', heading='Seznam správců')
-                // TODO - stejny zpusob zpracovani jako pro lokace?
                 // ========================================================================================================
                 div(ng-repeat='contact in json_data.contact track by $index')
                   // ========================================================================================================
@@ -123,7 +122,6 @@ block content
                 uib-accordion(close-others='true')
                   .panel-default(uib-accordion-group='', heading='{{locations[$index].heading}}', ng-repeat='location in json_data.location track by $index')
                     // ========================================================================================================
-                    //- TODO - adresa i v EN verzi?
                     .form-group
                       label.col-sm-2.control-label Adresa
                     // ========================================================================================================
