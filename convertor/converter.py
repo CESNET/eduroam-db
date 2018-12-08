@@ -95,6 +95,10 @@ def convert_coords(lon, lat):
   lon_ret = float(lon_d) + (float(lon_m) + float(lon_s) / 60) / 60  # convert lon
   lat_ret = float(lat_d) + (float(lat_m) + float(lat_s) / 60) / 60  # convert lat
 
+  # limit to 6 decimal places
+  lon_ret = round(lon_ret, 6)
+  lat_ret = round(lat_ret, 6)
+
   return str(str(lon_ret) + "," + str(lat_ret))
 
 # ==============================================================================
