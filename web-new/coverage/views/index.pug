@@ -27,11 +27,13 @@ block content
                 .form-group(ng-class="{ 'has-error' : main_form.name_cz.$error.required && !main_form.name_cz.$pristine}")
                   label.col-sm-2.control-label Český název:
                   .col-xs-6
+                    //- TODO - needitovatelne?
                     input.form-control(type='text', placeholder='Ukázková škola Praha 1', ng-model='json_data.inst_name[0].data', name="name_cz", required)
                 // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.name_en.$error.required && !main_form.name_en.$pristine}")
                   label.col-sm-2.control-label Anglický název:
                   .col-xs-6
+                    //- TODO - needitovatelne?
                     input.form-control(type='text', placeholder='Example school Prague 1', ng-model='json_data.inst_name[1].data', name="name_en", required)
                 .form-group
                   label.col-sm-2.control-label Adresa
