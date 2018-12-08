@@ -39,22 +39,22 @@ block content
                 .form-group(ng-class="{ 'has-error' : main_form.street_cz.$error.required && !main_form.street_cz.$pristine}")
                   label.col-sm-2.control-label Ulice a číslo popisné:
                   .col-xs-3
-                    input.form-control(type='text', placeholder='Vodičkova 1', ng-model='json_data.address[0].street.data', ng-blur='copy_street(json_data.address[0].street.data, "cs")', name="street_cz", required)
+                    input.form-control(type='text', placeholder='Vodičkova 1', ng-model='json_data.address[0].street.data', name="street_cz", required)
                 // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.city_cz.$error.required && !main_form.city_cz.$pristine}")
                   label.col-sm-2.control-label Město:
                   .col-xs-3
-                    input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[0].city.data', ng-blur='copy_city(json_data.address[0].city.data, "cs")', name="city_cz", required)
+                    input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[0].city.data', name="city_cz", required)
                 // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.info_url_cz.$error.required && !main_form.info_url_cz.$pristine}")
                   label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
                   .col-xs-6
-                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='json_data.info_URL[0].data', ng-blur='copy_info_url(info_url_cz, "cz")', name="info_url_cz", required)
+                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='json_data.info_URL[0].data', name="info_url_cz", required)
                 // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.info_url_en.$error.required && !main_form.info_url_en.$pristine}")
                   label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
                   .col-xs-6
-                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', ng-blur='copy_info_url(info_url_en, "en")', name="info_url_en", required)
+                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', name="info_url_en", required)
                 // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.type.$error.required && !main_form.type.$pristine}")
                   // TODO - default hodnota?
