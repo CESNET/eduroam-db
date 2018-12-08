@@ -120,7 +120,13 @@ block content
 
               .panel-default(uib-accordion-group='', heading='Informace o pokrytých lokalitách')
                 uib-accordion(close-others='true')
-                  .panel-default(uib-accordion-group='', heading='{{locations[$index].heading}}', ng-repeat='location in json_data.location track by $index')
+                  uib-accordion-group.panel-default(uib-accordion-group='', ng-repeat='location in json_data.location track by $index')
+                    uib-accordion-heading
+                      | {{locations[$index].heading}}
+                      .pull-right
+                        button.btn.btn-default(ng-click='$event.stopPropagation(); remove_location($index);') Odebrat lokalitu
+                      br
+                      br
                     // ========================================================================================================
                     .form-group
                       label.col-sm-2.control-label Adresa
