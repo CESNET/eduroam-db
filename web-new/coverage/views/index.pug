@@ -139,7 +139,7 @@ block content
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_city.$error.required && !main_form.location_{{$index}}_city.$pristine}")
                       label.col-sm-2.control-label Město:
                       .col-xs-2
-                        input.form-control(type='text', placeholder='Praha 1', ng-model='location.address[0].street.data', name="location_{{$index}}_city", required)
+                        input.form-control(type='text', placeholder='Praha 1', ng-model='location.address[0].city.data', name="location_{{$index}}_city", required)
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_cz.$error.required && !main_form.location_{{$index}}_info_url_cz.$pristine}")
                       label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
