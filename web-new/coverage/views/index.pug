@@ -90,13 +90,11 @@ block content
                     .col-xs-3
                       input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone', name="admin_{{$index}}_phone", required)
                   // ========================================================================================================
-                  //- TODO - default value for newly added admins
                   .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_type.$error.required && !main_form.admin_{{$index}}_type.$pristine}")
                     label.col-sm-2.control-label Typ kontaktu:
                     .col-xs-3
                       select.form-control(ng-model='contact.type', ng-options='contact_type.indexOf(type) as type for type in contact_type', name="admin_{{$index}}_type", required)
                   // ========================================================================================================
-                  //- TODO - default value for newly added admins
                   .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_privacy.$error.required && !main_form.admin_{{$index}}_privacy.$pristine}")
                     label.col-sm-2.control-label Soukromí kontaktu:
                     .col-xs-3
