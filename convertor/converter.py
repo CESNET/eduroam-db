@@ -373,7 +373,7 @@ def get_locations(root, options, inst_name):
 
     # wired eduroam
     if hasattr(i, "wired") and i.wired == "true":
-      loc['wired'] = 1
+      loc['wired_no'] = 1
 
     get_info_url(i, loc)
 
