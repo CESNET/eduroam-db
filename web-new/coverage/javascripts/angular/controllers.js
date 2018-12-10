@@ -56,11 +56,63 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
   }
 }]);
 /* --------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------- */
+// add english addresses based on czech ones
+// also set lang info
+/* --------------------------------------------------------------------------------- */
+function add_addresses($scope)
+{
+  if($scope.json_data.address.length == 1) {        // english address not available, create it
+    $scope.json_data.address.push({ city : {}, street : {} });
+    $scope.json_data.address[1].city.data = $scope.json_data.address[0].city.data;
+    $scope.json_data.address[1].city.lang = "en";
+    $scope.json_data.address[1].street.data = $scope.json_data.address[0].street.data;
+    $scope.json_data.address[1].street.lang = "en";
+  }
+  else {        // data may have changed, rewrite them
+    $scope.json_data.address[1].city.data = $scope.json_data.address[0].city.data;
+    $scope.json_data.address[1].city.lang = "en";
+    $scope.json_data.address[1].street.data = $scope.json_data.address[0].street.data;
+    $scope.json_data.address[1].street.lang = "en";
+  }
+
+  for(var i in $scope.json_data.location) {
+    console.log($scope.json_data.location[i]);
+    console.log($scope.json_data.location[i].address.length);
+    console.log($scope.json_data.location[i].address);
+
+    if($scope.json_data.location[i].address.length == 1) {        // english address not available, create it
+      $scope.json_data.location[i].address.push({ city : {}, street : {} });
+      $scope.json_data.location[i].address[1].city.data = $scope.json_data.location[i].address[0].city.data;
+      $scope.json_data.location[i].address[1].city.lang = "en";
+      $scope.json_data.location[i].address[1].street.data = $scope.json_data.location[i].address[0].street.data;
+      $scope.json_data.location[i].address[1].street.lang = "en";
+    }
+    else {        // data may have changed, rewrite them
+      $scope.json_data.location[i].address[1].city.data = $scope.json_data.location[i].address[0].city.data;
+      $scope.json_data.location[i].address[1].city.lang = "en";
+      $scope.json_data.location[i].address[1].street.data = $scope.json_data.location[i].address[0].street.data;
+      $scope.json_data.location[i].address[1].street.lang = "en";
+    }
+
+    // rewrite language info, just in case there is none
+    $scope.json_data.location[i].address[0].city.lang = "cs";
+    $scope.json_data.location[i].address[0].street.lang = "cs";
+  }
+
+  // rewrite language info, just in case there is none
+  $scope.json_data.address[0].city.lang = "cs";
+  $scope.json_data.address[0].street.lang = "cs";
+}
+/* --------------------------------------------------------------------------------- */
+// save filled form as json to api
+/* --------------------------------------------------------------------------------- */
 function save_json_to_api($scope, $http)
 {
   // TODO - dodatecna logika, ktera zohledni vyplnena pole location do klice tag
   // TODO - update ts na aktualni cas
 
+  add_addresses($scope);
 
   $http({
     method  : 'POST',
