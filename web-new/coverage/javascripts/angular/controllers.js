@@ -56,6 +56,60 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
   }
 }]);
 /* --------------------------------------------------------------------------------- */
+// add lang for info url
+/* --------------------------------------------------------------------------------- */
+function add_info_url_lang($scope)
+{
+  $scope.json_data.info_URL[0].lang = "cs";
+  $scope.json_data.info_URL[1].lang = "en";
+
+  for(var i in $scope.json_data.location) {
+    $scope.json_data.location[i].info_URL[0].lang = "cs";
+    $scope.json_data.location[i].info_URL[1].lang = "en";
+  }
+}
+/* --------------------------------------------------------------------------------- */
+// set tag for all locations based on seperate variables from form
+/* --------------------------------------------------------------------------------- */
+function set_location_tags($scope)
+{
+  var tag;
+
+  for(var i in $scope.locations) {
+    tag = "";
+
+    if($scope.locations[i].port_restrict)
+      tag = "port_restrict";
+
+    if($scope.locations[i].transp_proxy) {
+      if(tag != "")
+        tag = tag + ",transp_proxy";
+      else
+        tag = "transp_proxy";
+    }
+
+    if($scope.locations[i].ipv6) {
+      if(tag != "")
+        tag = tag + ",IPv6";
+      else
+        tag = "IPv6";
+    }
+
+    if($scope.locations[i].nat) {
+      if(tag != "")
+        tag = tag + ",NAT";
+      else
+        tag = "NAT";
+    }
+
+    // debug
+    console.log($scope.json_data.location);
+    console.log($scope.json_data.location[i]);
+
+    if(tag != "")
+      $scope.json_data.location[i].tag = tag;
+  }
+}
 /* --------------------------------------------------------------------------------- */
 // add english addresses based on czech ones
 // also set lang info
@@ -105,14 +159,23 @@ function add_addresses($scope)
   $scope.json_data.address[0].street.lang = "cs";
 }
 /* --------------------------------------------------------------------------------- */
+// fill additional properties to json structure
+/* --------------------------------------------------------------------------------- */
+function fill_form($scope)
+{
+  // TODO - dodatecna logika, ktera zohledni vyplnena pole location do klice tag
+  add_addresses($scope);
+  set_location_tags($scope);
+  add_info_url_lang($scope);
+  $scope.json_data.ts = new Date(); // TODO
+  // TODO - inst name lang - depends on backend (not) sending inst name
+}
+/* --------------------------------------------------------------------------------- */
 // save filled form as json to api
 /* --------------------------------------------------------------------------------- */
 function save_json_to_api($scope, $http)
 {
-  // TODO - dodatecna logika, ktera zohledni vyplnena pole location do klice tag
-  // TODO - update ts na aktualni cas
-
-  add_addresses($scope);
+  fill_form($scope);
 
   $http({
     method  : 'POST',
