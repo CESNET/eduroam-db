@@ -159,7 +159,6 @@ function add_addresses($scope)
 /* --------------------------------------------------------------------------------- */
 function fill_form($scope)
 {
-  // TODO - dodatecna logika, ktera zohledni vyplnena pole location do klice tag
   add_addresses($scope);
   set_location_tags($scope);
   add_info_url_lang($scope);
