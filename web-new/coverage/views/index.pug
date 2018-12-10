@@ -6,7 +6,8 @@ block content
       var realms = !{JSON.stringify(realms)};
     .container-fluid
       div
-        form.form-horizontal(name="main_form")
+        //- novalidate used as workaround to prevent console errors when removing locations
+        form.form-horizontal(name="main_form", novalidate)
           // ========================================================================================================
           h4 Výběr realmu
           // ========================================================================================================
