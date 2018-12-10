@@ -21,7 +21,7 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
 
   $scope.add_contact = function() {
     if($scope.json_data)
-      $scope.json_data.contact.push({ type : 0, privacy : 0});
+      $scope.json_data.contact.push({ type : 0, privacy : 0 });
   }
 
   $scope.remove_contact = function(index) {
