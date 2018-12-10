@@ -102,10 +102,6 @@ function set_location_tags($scope)
         tag = "NAT";
     }
 
-    // debug
-    console.log($scope.json_data.location);
-    console.log($scope.json_data.location[i]);
-
     if(tag != "")
       $scope.json_data.location[i].tag = tag;
   }
