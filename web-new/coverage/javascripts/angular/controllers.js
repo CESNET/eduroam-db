@@ -51,6 +51,7 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
   }
 
   $scope.get_json = function() {
+    $scope.loading = true;
     get_json_from_api($scope, $http);
   }
 }]);
