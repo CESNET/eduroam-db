@@ -221,7 +221,7 @@ function parse_location_data($scope, locations)
     else
       loc.nat = false;
 
-    if("wired" in locations[i])     // wired eduroam is available
+    if("wired_no" in locations[i])     // wired eduroam is available
       loc.wired = true;
     else
       loc.wired = false;
