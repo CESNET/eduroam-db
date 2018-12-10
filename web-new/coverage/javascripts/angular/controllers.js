@@ -1,7 +1,6 @@
 /* --------------------------------------------------------------------------------- */
-/* --------------------------------------------------------------------------------- */
 angular.module('coverage').controller('coverage_controller', ['$scope', '$http', function ($scope, $http) {
-  $scope.realm_validated = false;
+  $scope.loading = false;
   $scope.locations = [];
   $scope.admin_realms = realms;
 
@@ -143,19 +142,14 @@ function get_json_from_api($scope, $http)
       parse_location_data($scope, response.data.location);
       $scope.json_data = response.data;
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
-      $scope.realm_validated = true;
     }
 
-      //fill_form($scope);
+    $scope.loading = false;     // TODO - prodlouzit, aby to bylo pro uzivatele zrejme ?
   }, function(err) {
-    if (err.status == 404)
+    if (err.status == 404)      // TODO?
+      ;
   });
 
-}
-/* --------------------------------------------------------------------------------- */
-function fill_form($scope)
-{
-  
 }
 /* --------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------- */
