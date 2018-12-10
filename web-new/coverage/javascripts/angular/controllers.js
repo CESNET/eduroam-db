@@ -76,7 +76,6 @@ function save_json_to_api($scope, $http)
     //if (err.status == 404)
     //  $scope.realm_validated = false;
   });
-
 }
 /* --------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------- */
@@ -86,7 +85,7 @@ function add_empty_loc($scope)
                           nat : false, wired : false, heading : "Nová lokalita" });
 }
 /* --------------------------------------------------------------------------------- */
-// TODO
+// parse tag attributes from all locations to separate variables
 /* --------------------------------------------------------------------------------- */
 function parse_location_data($scope, locations)
 {
@@ -127,7 +126,7 @@ function parse_location_data($scope, locations)
   }
 }
 /* --------------------------------------------------------------------------------- */
-// TODO
+// retrieve json structure from backend api
 /* --------------------------------------------------------------------------------- */
 function get_json_from_api($scope, $http)
 {
