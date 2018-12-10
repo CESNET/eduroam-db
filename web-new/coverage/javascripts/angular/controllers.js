@@ -224,7 +224,7 @@ function parse_location_data($scope, locations)
     if("wired" in locations[i])     // wired eduroam is available
       loc.wired = true;
     else
-      loc.wired = true;
+      loc.wired = false;
 
     // accordion
     loc.heading = locations[i].address[0].street.data + " " + locations[i].address[0].city.data;
@@ -253,7 +253,6 @@ function get_json_from_api($scope, $http)
     if (err.status == 404)      // TODO?
       ;
   });
-
 }
 /* --------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------- */
