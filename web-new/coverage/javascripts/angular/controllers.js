@@ -19,34 +19,31 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
     { key : "ne", value : false }
   ];
 
-  //$scope.verify_realm = function() {
-  //  if($scope.realm != "")
-  //    verify_realm($scope, $http);
-  //  else
-  //    $scope.realm_validated = false;
-  //}
-
   $scope.add_contact = function() {
-    // TODO - kontrola, ze existuje $scope.json_data
-    $scope.json_data.contact.push({ type : 0, privacy : 0});
+    if($scope.json_data)
+      $scope.json_data.contact.push({ type : 0, privacy : 0});
   }
 
   $scope.remove_contact = function(index) {
-    // TODO - kontrola, ze existuje $scope.json_data
-    $scope.json_data.contact.splice(index, 1);       // TODO
+    if($scope.json_data)
+      $scope.json_data.contact.splice(index, 1);
   }
  
   $scope.add_location = function() {
-    // TODO - kontrola, ze existuje $scope.json_data
-    // TODO - bude potreba dodat nejake klice, ktere jsou needitovatelne
-    $scope.json_data.location.push({});
-    add_empty_loc($scope);
+    if($scope.json_data) {
+      $scope.json_data.location.push({ info_URL : [], address : [] });
+      add_empty_loc($scope);
+    }
   }
 
   $scope.remove_location = function(index) {
-    // TODO - kontrola, ze existuje $scope.json_data
-    $scope.json_data.location.splice(index, 1);
-    $scope.locations.splice(index, 1);
+    // debug
+    console.log("removing location");
+
+    if($scope.json_data) {
+      $scope.json_data.location.splice(index, 1);
+      $scope.locations.splice(index, 1);
+    }
   }
  
   $scope.save_data = function() {
