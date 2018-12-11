@@ -106,6 +106,7 @@ block content
                       div(layout-gt-xs='row')
                         button.btn.btn-default.addButton(type='button', ng-click='remove_contact($index)')
                           i.glyphicon.glyphicon-minus
+                  hr(ng-show='$index != (json_data.contact.length - 1)')
                   // ========================================================================================================
                 .form-group
                   label.col-sm-2.control-label Přidat Správce
