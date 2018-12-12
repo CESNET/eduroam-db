@@ -11,15 +11,16 @@ block content
           // ========================================================================================================
           h4 Výběr realmu
           // ========================================================================================================
-          .form-group
+          p(ng-show='admin_realms.length == 0')
+            | Pro vaše uživatelské jméno nejsou evidovány zádné dostupné realmy. Zkuste stránku obnovit po pěti minutách.
+            Pokud problém přetrvává, kontaktuje nás na adrese info@eduroam.cz.
+          // ========================================================================================================
+          .form-group(ng-show='admin_realms.length > 0')
             label.col-sm-2.control-label Realm
             .col-xs-2
               select.form-control(ng-model='selected_realm', ng-change='get_json()')
                 option(ng-repeat='option in admin_realms', value='{{option}}') {{option}}
 
-
-
-          //- TODO - jak resit pripad, kdy (jeste?) nebude realm k dispozici?
           //- TODO - specificka validace pro nektere elementy?
           div.lds-dual-ring(ng-show='loading')
           div(ng-show='selected_realm && !loading')
