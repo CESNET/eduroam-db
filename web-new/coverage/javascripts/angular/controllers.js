@@ -3,6 +3,8 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
   $scope.loading = false;
   $scope.locations = [];
   $scope.admin_realms = realms;
+  $scope.url_regex = /^http(s)?:\/\/.+\/.*$/;
+  $scope.phone_regex = /^\+420 \d{3} \d{3} \d{3}$/;
 
   $scope.contact_type = [
     "osoba",

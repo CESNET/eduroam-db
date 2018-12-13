@@ -49,15 +49,15 @@ block content
                   .col-xs-3
                     input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[0].city.data', name="city_cz", required)
                 // ========================================================================================================
-                .form-group(ng-class="{ 'has-error' : main_form.info_url_cz.$error.required && !main_form.info_url_cz.$pristine}")
+                .form-group(ng-class="{ 'has-error' : !main_form.info_url_cz.$pristine && (main_form.info_url_cz.$error.required || main_form.info_url_cz.$error.pattern)}")
                   label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
                   .col-xs-6
-                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='json_data.info_URL[0].data', name="info_url_cz", required)
+                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='json_data.info_URL[0].data', name="info_url_cz", required, ng-pattern='url_regex')
                 // ========================================================================================================
-                .form-group(ng-class="{ 'has-error' : main_form.info_url_en.$error.required && !main_form.info_url_en.$pristine}")
+                .form-group(ng-class="{ 'has-error' : main_form.info_url_en.$error.required && !main_form.info_url_en.$pristine && main_form.info_url_en.$error.pattern}")
                   label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
                   .col-xs-6
-                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', name="info_url_en", required)
+                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', name="info_url_en", required, ng-pattern='url_regex')
                 // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.type.$error.required && !main_form.type.$pristine}")
                   label.col-sm-2.control-label Typ zapojení:
@@ -86,10 +86,11 @@ block content
                     .col-xs-3
                       input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email', name="admin_{{$index}}_mail", required)
                   // ========================================================================================================
-                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_phone.$error.required && !main_form.admin_{{$index}}_phone.$pristine}")
+                  //- TODO - jak tohle dopadne kdyz z backendu prijde jiny format?
+                  .form-group(ng-class="{ 'has-error' : !main_form.admin_{{$index}}_phone.$pristine && (main_form.admin_{{$index}}_phone.$error.required || main_form.admin_{{$index}}_phone.$error.pattern)}")
                     label.col-sm-2.control-label Telefon:
                     .col-xs-3
-                      input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone', name="admin_{{$index}}_phone", required)
+                      input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone', name="admin_{{$index}}_phone", required, ng-pattern='phone_regex')
                   // ========================================================================================================
                   .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_type.$error.required && !main_form.admin_{{$index}}_type.$pristine}")
                     label.col-sm-2.control-label Typ kontaktu:
