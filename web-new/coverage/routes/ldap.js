@@ -63,25 +63,31 @@ function get_inst_data(client, data, response)
     attributes: items
   };
 
-  client.search(data.o_pointer, opts, function(err, res) {
-    assert.ifError(err);
+  if(data.o_pointer)
+    client.search(data.o_pointer, opts, function(err, res) {
+      assert.ifError(err);
 
-    res.on('searchEntry', function(entry) {
-      data.inst_details = entry.object;
-    });
-
-    res.on('error', function(err) {
-      console.error('error: ' + err.message);
-    });
-
-    res.on('end', function(result) {
-      client.unbind(function(err) {   // unbind after all search operations are done
-        assert.ifError(err);
+      res.on('searchEntry', function(entry) {
+        data.inst_details = entry.object;
       });
 
-      response.send(create_institituon_json(data));       // TODO - upravit strukturu tak, aby odpovidaja JSON souborum?
+      res.on('error', function(err) {
+        console.error('error: ' + err.message);
+      });
+
+      res.on('end', function(result) {
+        client.unbind(function(err) {   // unbind after all search operations are done
+          assert.ifError(err);
+        });
+
+        response.send(create_institituon_json(data));
+      });
     });
-  });
+
+  else {    // no org pointer available
+    data.inst_details = {};
+    response.send(create_institituon_json(data));
+  }
 }
 // --------------------------------------------------------------------------------------
 // create empty institution.json structure with ldap provided data
