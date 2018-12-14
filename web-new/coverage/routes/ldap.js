@@ -57,7 +57,7 @@ function get_user_realms(client, user, response, callback)
 // --------------------------------------------------------------------------------------
 function get_inst_data(client, data, response)
 {
-  var items = [ 'street', 'l', 'o' ];      // 'o;lang-cs' and 'o;lang-en' are subtypes of 'o', no need to declare explicitly
+  var items = [ 'street', 'l', 'o', 'dc' ];      // 'o;lang-cs' and 'o;lang-en' are subtypes of 'o', no need to declare explicitly
   var opts = {
     scope: 'sub',
     attributes: items
@@ -88,7 +88,6 @@ function get_inst_data(client, data, response)
 // --------------------------------------------------------------------------------------
 function create_institituon_json(data)
 {
-
   var ret = {
     "policy_URL": [
       {
@@ -110,7 +109,7 @@ function create_institituon_json(data)
     ],
     "info_URL": [
     ],
-    "instid": "cesnet.cz",          // TODO - jak se tohle vlastne generuje?        cn z organizace? v souborech je aktualne realm - hm? asi jsem vzal jina data nez z konverze edudb-cache?
+    "instid": data.inst_details.dc,
     "ROid": "CZ01"
   };
 
