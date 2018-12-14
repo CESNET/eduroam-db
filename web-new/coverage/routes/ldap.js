@@ -125,6 +125,30 @@ function create_institituon_json(data)
     else        // one mail only
       var contact = { "type": 0, "privacy": 0, "email": data.manager_details[i].mail, "name": data.manager_details[i]['cn;lang-cs'] };
 
+    // add phone number if available
+    // priorities: 'mobile' > 'telephonenumber' > 'ipphone'
+    if(data.manager_details[i].mobile) {
+      if(typeof(data.manager_details[i].mobile) === 'object')
+        contact.phone = data.manager_details[i].mobile[0];
+      else
+        contact.phone = data.manager_details[i].mobile;
+    }
+
+    else if(data.manager_details[i].telephonenumber) {
+      if(typeof(data.manager_details[i].telephonenumber) === 'object')
+        contact.phone = data.manager_details[i].telephonenumber[0];
+      else
+        contact.phone = data.manager_details[i].telephonenumber;
+    }
+
+    else if(data.manager_details[i].ipphone) {
+      if(typeof(data.manager_details[i].ipphone) === 'object')
+        contact.phone = data.manager_details[i].ipphone[0];
+      else
+        contact.phone = data.manager_details[i].ipphone;
+    }
+    // no phone information is added if not available
+
     ret.contact.push(contact);
   }
 
@@ -177,7 +201,7 @@ function create_institituon_json(data)
 // --------------------------------------------------------------------------------------
 function get_managers(client, ret, done)
 {
-  var items = [ 'cn', 'mail' ];         // TODO - phone number?
+  var items = [ 'cn', 'mail', 'mobile', 'telephonenumber', 'ipphone' ];
   ret.manager_details = [];
 
   var opts = {
