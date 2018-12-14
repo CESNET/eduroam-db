@@ -59,8 +59,7 @@ function get_user_realms(client, user, response, callback)
 // --------------------------------------------------------------------------------------
 function get_inst_data(client, data, response)
 {
-  var items = [ 'street', 'l', 'o', 'o;lang-cs' ];      // TODO ?
-
+  var items = [ 'street', 'l', 'o' ];      // 'o;lang-cs' and 'o;lang-en' are subtypes of 'o', no need to declare explicitly
   var opts = {
     scope: 'sub',
     attributes: items
@@ -180,8 +179,23 @@ function create_institituon_json(data)
 
   // --------------------------------------------------------------------------------------
 
-  ret.inst_name.push({ "data": data.inst_details.o, "lang": "cs" });
-  ret.inst_name.push({ "data": data.inst_details.o, "lang": "en" });
+  if(data.inst_details['o;lang-cs'])        // Czech name
+    ret.inst_name.push({ "data": data.inst_details['o;lang-cs'], "lang": "cs" });
+  else {                                    // generic name
+    if(data.inst_details.o)
+      ret.inst_name.push({ "data": data.inst_details.o, "lang": "cs" });
+    else
+      ret.inst_name.push({ "data": "", "lang": "cs" });         // no name available
+  }
+
+  if(data.inst_details['o;lang-en'])        // English name
+    ret.inst_name.push({ "data": data.inst_details['o;lang-en'], "lang": "en" });
+  else {                                    // generic name
+    if(data.inst_details.o)
+      ret.inst_name.push({ "data": data.inst_details.o, "lang": "cs" });
+    else
+      ret.inst_name.push({ "data": "", "lang": "cs" });         // no name available
+  }
 
   // --------------------------------------------------------------------------------------
 
