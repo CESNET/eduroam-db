@@ -30,8 +30,6 @@ function get_user_realms(client, user, response, callback)
     attributes: items
   };
 
-  console.log(opts.filter);
-
   client.search(config.search_base_realms, opts, function(err, res) {
     assert.ifError(err);
 
