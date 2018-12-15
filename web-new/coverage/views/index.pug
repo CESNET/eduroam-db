@@ -25,6 +25,7 @@ block content
             label.col-sm-2.control-label Realm
             .col-xs-2
               select.form-control(ng-model='selected_realm', ng-change='get_json()')
+                option(value="" selected disabled hidden) Vyberte realm
                 option(ng-repeat='option in admin_realms', value='{{option}}') {{option}}
 
           //- TODO - specificka validace pro nektere elementy?
