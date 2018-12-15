@@ -192,7 +192,6 @@ block content
                       .col-xs-2
                         select.form-control(ng-model='locations[$index].nat', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_nat", required)
                     // ========================================================================================================
-                    // TODO - pocet zasuvek?
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_wired.$error.required && !main_form.location_{{$index}}_wired.$pristine}")
                       label.col-sm-2.control-label Poskytujete eduroam na metalických zásuvkách?
                       .col-xs-2
