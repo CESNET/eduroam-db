@@ -6,6 +6,12 @@ block content
       var realms = !{JSON.stringify(realms)};
     .container-fluid
       div
+        // ========================================================================================================
+        h4 Správa informací o pokrytí eduroamu
+        p#basic_info
+          | Tato aplikace je určena pro správce organizací připojených do eduroamu. Slouží pro úpravu informací o pokrytí.
+
+        // ========================================================================================================
         //- novalidate used as workaround to prevent console errors when removing locations
         form.form-horizontal(name="main_form", novalidate)
           // ========================================================================================================
