@@ -165,7 +165,6 @@ function fill_form($scope)
   set_location_tags($scope);
   add_info_url_lang($scope);
   $scope.json_data.ts = new Date(); // TODO
-  // TODO - inst name lang - depends on backend (not) sending inst name
 }
 /* --------------------------------------------------------------------------------- */
 // save filled form as json to api
