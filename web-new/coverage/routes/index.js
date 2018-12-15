@@ -6,17 +6,21 @@ const fs = require('fs')
 const admin_mapping = require('../config/realm_to_admin.js')
 const inst_mapping = require('../config/realm_to_inst.js')
 // --------------------------------------------------------------------------------------
-/* GET home page. */
-router.get('/', function(req, res, next) {
+// get the name of the user logged in the application
+// --------------------------------------------------------------------------------------
+function get_user(req)
+{
   var username = req.headers["remote_user"];
-  username = username.split("@")[0];
+  if(username.indexOf("@") != -1)
+    username = username.split("@")[0];
 
-  // TODO - ptat se ldapu je uplne zbytecne
-  // ale dalo by se to vyuzit tak, ze pri prihlaseni by se aktualizovali informace
-  // ale asi je zbytecne to delat kdykoliv se nekdo prihlasi
-  //ldap.get_user_realms(username, res, respond);
-
-  respond(res, username, []);
+  return username;
+}
+// --------------------------------------------------------------------------------------
+// get title page
+// --------------------------------------------------------------------------------------
+router.get('/', function(req, res, next) {
+  respond(res, get_user(req));
 });
 // --------------------------------------------------------------------------------------
 // transform input data to array of realms
