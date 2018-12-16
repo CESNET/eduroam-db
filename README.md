@@ -4,9 +4,10 @@ to [new version 2](https://monitor.eduroam.org/fact_eduroam_db.php) in JSON form
 
 
 It also containts web interface to edit converted JSON files.
+The web interface is very simple. There is just one simple page with form to edit all the available information.
+The backend is really simple. There are configiration files for backend that abstract from our
+data storage, so its simpler if anyone else wants to use this project.
 
-
-TODO
 
 ## conversion tools
 
@@ -76,6 +77,11 @@ the problematic document can be printed with `jq '.institutions.institution[2].i
 
 ## web interface
 
+The web application in built in node.js.
+
+### frontend
+
+### backend
 
 ### configuration
 
