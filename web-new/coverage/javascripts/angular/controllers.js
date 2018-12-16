@@ -255,6 +255,7 @@ function get_json_from_api($scope, $http)
     url     : 'https://pokryti.eduroam.cz/api/' + $scope.selected_realm
   })
   .then(function(response) {
+    $scope.api_read_error = false;
     if(response.status == 200) {
       parse_location_data($scope, response.data.location);
       $scope.json_data = response.data;
