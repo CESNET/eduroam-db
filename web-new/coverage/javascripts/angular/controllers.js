@@ -1,5 +1,5 @@
 /* --------------------------------------------------------------------------------- */
-angular.module('coverage').controller('coverage_controller', ['$scope', '$http', function ($scope, $http) {
+angular.module('coverage').controller('coverage_controller', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
   $scope.loading = false;
   $scope.locations = [];
   $scope.admin_realms = realms;
@@ -51,6 +51,13 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
 
   $scope.get_json = function() {
     $scope.loading = true;
+
+    // wait 500 ms before displaying the form
+    // when switching realms, this seems usefull in the way the user knows that the form really changed
+    $timeout(function () {
+      $scope.loading = false;
+    }, 500);
+
     get_json_from_api($scope, $http);
   }
 }]);
@@ -252,11 +259,9 @@ function get_json_from_api($scope, $http)
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
     }
 
-    $scope.loading = false;     // TODO - prodlouzit, aby to bylo pro uzivatele zrejme ?
   }, function(err) {
     if (err.status == 404)      // TODO?
       ;
   });
 }
-/* --------------------------------------------------------------------------------- */
 /* --------------------------------------------------------------------------------- */
