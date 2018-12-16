@@ -57,13 +57,11 @@ function get_administered_realms(user)
   return ret;
 }
 // --------------------------------------------------------------------------------------
-// responsd to user
+// respond to user
 // --------------------------------------------------------------------------------------
-function respond(res, user, data) {
-  //res.render('index', { title: 'Správa informací o pokrytí', realms : check_realm_permissions(transform_realms(data), user) });
-  res.render('index', { title: 'Správa informací o pokrytí', realms : check_realm_permissions(user) });
+function respond(res, user) {
+  res.render('index', { title: 'Správa informací o pokrytí', realms : get_administered_realms(user) });
 }
-
 // --------------------------------------------------------------------------------------
 /* GET home page. */
 router.get('/api/:inst_id', function(req, res, next)
