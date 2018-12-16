@@ -63,24 +63,33 @@ function respond(res, user) {
   res.render('index', { title: 'Správa informací o pokrytí', realms : get_administered_realms(user) });
 }
 // --------------------------------------------------------------------------------------
-/* GET home page. */
+// get institution by realm
+// --------------------------------------------------------------------------------------
 router.get('/api/:inst_id', function(req, res, next)
 {
-  // TODO check inst_id - file inclusion !
+  // check that inst_id has correct form - dns domain
+  if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
 
-  //console.log(req.params.inst_id)
-  //console.log(inst_mapping[req.params.inst_id])
+    // check that the user has permission to read requested realm
+    if(get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1) {
 
-  var file = JSON.parse(fs.readFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json"), 'utf8');
-
-  // TODO - response status - 200 / 404
-
-  //console.log(file);
-
-  if(file)
-    res.send(file);
-  else
-    res.send([]);   // TODO
+      // check that requested realm exists in inst_mapping and correspoding JSON file exists
+      if(req.params.inst_id in inst_mapping && fs.existsSync('./coverage_files/' + inst_mapping[req.params.inst_id] + '.json')) {
+        var file = JSON.parse(fs.readFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + '.json'), 'utf8');
+        res.send(file);
+      }
+      else  // no data available, query ldap
+        ldap.get_inst(req.params.inst_id, res)
+    }
+    else {        // no permission to read requested realm
+      res.status(401);    // unathorized
+      res.send([]);       // send empty array
+    }
+  }
+  else {        // incorrect inst_id form
+    res.status(404);    // no such thing
+    res.send([]);       // send empty array
+  }
 });
 // --------------------------------------------------------------------------------------
 router.post('/api/:inst_id', function(req, res, next)
