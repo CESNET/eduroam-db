@@ -29,8 +29,14 @@ block content
                 option(ng-repeat='option in admin_realms', value='{{option}}') {{option}}
 
           //- TODO - specificka validace pro nektere elementy?
+          // ========================================================================================================
           div.lds-dual-ring(ng-show='loading')
-          div(ng-show='selected_realm && !loading')
+
+          div(ng-show='selected_realm  && api_read_error && !loading')
+            h4 {{error}}
+
+          // ========================================================================================================
+          div(ng-show='selected_realm  && !api_read_error && !loading')
             uib-accordion(close-others='true')
               .panel-default(uib-accordion-group='', heading='Základní údaje', is-open='true')
                 // ========================================================================================================

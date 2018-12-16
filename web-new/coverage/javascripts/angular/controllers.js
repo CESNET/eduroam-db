@@ -1,6 +1,8 @@
 /* --------------------------------------------------------------------------------- */
 angular.module('coverage').controller('coverage_controller', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
   $scope.loading = false;
+  $scope.api_read_error = false;
+  $scope.api_write_error = false;
   $scope.locations = [];
   $scope.admin_realms = realms;
   $scope.url_regex = /^http(s)?:\/\/.+\/.*$/;
@@ -260,8 +262,13 @@ function get_json_from_api($scope, $http)
     }
 
   }, function(err) {
-    if (err.status == 404)      // TODO?
-      ;
+    $scope.api_read_error = true;
+
+    if (err.status == 404)
+      $scope.error = "Zadali jste neplatný realm.";
+
+    if (err.status == 401)
+      $scope.error = "Nejste správce požadovaného realmu.";
   });
 }
 /* --------------------------------------------------------------------------------- */
