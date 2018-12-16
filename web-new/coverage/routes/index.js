@@ -45,18 +45,14 @@ function transform_realms(realms)
 // --------------------------------------------------------------------------------------
 // check permissions mapping of user to realms
 // --------------------------------------------------------------------------------------
-function check_realm_permissions(user)
+function get_administered_realms(user)
 {
-  //const config = ini.parse(fs.readFileSync('./config/realm_to_admin.ini', 'utf-8'))       // ini nefunguje, protoze nelze deklarovat klic, ktery ma vice hodnot
-  // pri mnohonasobne definici klice plati posledni hodnota
+  var ret;
 
-  // dalsi moznost je CSV
-
-  // JSON
-
-  //console.log(config[user + "@cesnet.cz"]);
-
-  var ret = admin_mapping[user + "@cesnet.cz"];
+  if((user + "@cesnet.cz") in admin_mapping)
+    ret = admin_mapping[user + "@cesnet.cz"];
+  else
+    ret = [];  // empty array
 
   return ret;
 }
