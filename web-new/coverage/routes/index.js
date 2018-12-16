@@ -83,12 +83,12 @@ router.get('/api/:inst_id', function(req, res, next)
     }
     else {        // no permission to read requested realm
       res.status(401);    // unathorized
-      res.send([]);       // send empty array
+      res.send("");
     }
   }
   else {        // incorrect inst_id form
     res.status(404);    // no such thing
-    res.send([]);       // send empty array
+    res.send("");
   }
 });
 // --------------------------------------------------------------------------------------
