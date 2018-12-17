@@ -6,6 +6,8 @@ const fs = require('fs')
 const admin_mapping = require('../config/realm_to_admin.js')
 const inst_mapping = require('../config/realm_to_inst.js')
 const token_mapping = require('../config/tokens.js')
+const jsonschema = require('jsonschema')
+const schema = require('../config/schema.json')
 // --------------------------------------------------------------------------------------
 // get the name of the user logged in the application
 // --------------------------------------------------------------------------------------
@@ -93,6 +95,15 @@ router.get('/api/:inst_id', function(req, res, next)
   }
 });
 // --------------------------------------------------------------------------------------
+// validate input against schema
+// --------------------------------------------------------------------------------------
+function validate_json_input(input)
+{
+  var data = { "schema_version": 2, "institutions": { "institution": [ input ] } };
+  var v = new jsonschema.Validator();
+  var ret = v.validate(data, schema);
+  return ret
+}
 // --------------------------------------------------------------------------------------
 // check if string is in JSON format
 // --------------------------------------------------------------------------------------
@@ -122,8 +133,6 @@ function is_json(data)
 // --------------------------------------------------------------------------------------
 router.post('/api/:inst_id', function(req, res, next)
 {
-  // TODO - validace
-
   // check that inst_id has correct form - dns domain
   if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
 
@@ -133,8 +142,16 @@ router.post('/api/:inst_id', function(req, res, next)
       // check that data in JSON format
       if(is_json(req.body)) {
         json = JSON.stringify(req.body, 'utf8');
-        //fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);         // TODO
-        res.send("");
+        var result = validate_json_input(req.body);     // validate input against schema
+
+        if(result.errors.length != 0) {     // check for validation errors
+          res.status(400);
+          res.send(result.errors);          // send errors to user
+        }
+        else {
+          //fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);         // TODO
+          res.send("");
+        }
       }
       else {        // is it even possible to get here? malfored data dies with code 400 at body-parser
         res.status(400);
@@ -156,8 +173,6 @@ router.post('/api/:inst_id', function(req, res, next)
 // --------------------------------------------------------------------------------------
 router.post('/api/automation/:inst_id', function(req, res, next)
 {
-  // TODO - validace
-
   // check that inst_id has correct form - dns domain
   if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
 
@@ -166,8 +181,17 @@ router.post('/api/automation/:inst_id', function(req, res, next)
       // check that data in JSON format
       if(is_json(req.body)) {
         json = JSON.stringify(req.body, 'utf8');
-        //fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);     // TODO
-        res.send("");
+
+        var result = validate_json_input(req.body);     // validate input against schema
+
+        if(result.errors.length != 0) {     // check for validation errors
+          res.status(400);
+          res.send(result.errors);          // send errors to user
+        }
+        else {
+          //fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);         // TODO
+          res.send("");
+        }
       }
       else {        // is it even possible to get here? malfored data dies with code 400 at body-parser
         res.status(400);
