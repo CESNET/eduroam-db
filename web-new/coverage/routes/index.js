@@ -92,11 +92,63 @@ router.get('/api/:inst_id', function(req, res, next)
   }
 });
 // --------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------
+// check if string is in JSON format
+// --------------------------------------------------------------------------------------
+function is_json(data)
+{
+  if(typeof(data) === 'object') {       // got object, try to stringify it
+    try {
+      JSON.stringify(data);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+  else if(typeof(data) === 'string') {        // got string, try to parse it
+    try {
+      JSON.parse(data);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
+  return false;
+}
+// --------------------------------------------------------------------------------------
+// update JSON file by realm
+// --------------------------------------------------------------------------------------
 router.post('/api/:inst_id', function(req, res, next)
 {
-  json = JSON.stringify(req.body, 'utf8');      // TODO - check correct file structure
-  fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);
-  res.send("");
+  // TODO - validace
+
+  // check that inst_id has correct form - dns domain
+  if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
+
+    // check that the user has permission to edit requested realm
+    if(req.headers["remote_user"] && get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1) {
+
+      // check that data in JSON format
+      if(is_json(req.body)) {
+        json = JSON.stringify(req.body, 'utf8');
+        //fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);         // TODO
+        res.send("");
+      }
+      else {        // is it even possible to get here? malfored data dies with code 400 at body-parser
+        res.status(400);
+        res.send("received malformed data: " + req.body);
+      }
+    }
+    else {        // no permission to edit requested realm
+      res.status(401);    // unathorized
+      res.send("");
+    }
+  }
+  else {        // incorrect inst_id form
+    res.status(404);    // no such thing
+    res.send("");
+  }
 });
 // --------------------------------------------------------------------------------------
 module.exports = router;
