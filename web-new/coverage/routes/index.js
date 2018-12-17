@@ -129,6 +129,30 @@ function is_json(data)
   return false;
 }
 // --------------------------------------------------------------------------------------
+// save data if have correct structure and validate against schema
+// --------------------------------------------------------------------------------------
+function save_data(req, res)
+{
+  // check that data in JSON format
+  if(is_json(req.body)) {
+    json = JSON.stringify(req.body, 'utf8');
+    var result = validate_json_input(req.body);     // validate input against schema
+
+    if(result.errors.length != 0) {     // check for validation errors
+      res.status(400);
+      res.send(result.errors);          // send errors to user
+    }
+    else {
+      //fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);         // TODO
+      res.send("");
+    }
+  }
+  else {        // is it even possible to get here? malfored data dies with code 400 at body-parser
+    res.status(400);
+    res.send("received malformed data: " + req.body);
+  }
+}
+// --------------------------------------------------------------------------------------
 // update JSON file by realm
 // --------------------------------------------------------------------------------------
 router.post('/api/:inst_id', function(req, res, next)
@@ -138,25 +162,7 @@ router.post('/api/:inst_id', function(req, res, next)
 
     // check that the user has permission to edit requested realm
     if(req.headers["remote_user"] && get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1) {
-
-      // check that data in JSON format
-      if(is_json(req.body)) {
-        json = JSON.stringify(req.body, 'utf8');
-        var result = validate_json_input(req.body);     // validate input against schema
-
-        if(result.errors.length != 0) {     // check for validation errors
-          res.status(400);
-          res.send(result.errors);          // send errors to user
-        }
-        else {
-          //fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);         // TODO
-          res.send("");
-        }
-      }
-      else {        // is it even possible to get here? malfored data dies with code 400 at body-parser
-        res.status(400);
-        res.send("received malformed data: " + req.body);
-      }
+      save_data(req, res);
     }
     else {        // no permission to edit requested realm
       res.status(401);    // unathorized
@@ -178,25 +184,7 @@ router.post('/api/automation/:inst_id', function(req, res, next)
 
     // token is present in request, is present in config and requested realm is accessible
     if(req.headers["authorization"] && req.headers["authorization"] in token_mapping && token_mapping[req.headers['authorization']].indexOf(req.params.inst_id) != -1) {
-      // check that data in JSON format
-      if(is_json(req.body)) {
-        json = JSON.stringify(req.body, 'utf8');
-
-        var result = validate_json_input(req.body);     // validate input against schema
-
-        if(result.errors.length != 0) {     // check for validation errors
-          res.status(400);
-          res.send(result.errors);          // send errors to user
-        }
-        else {
-          //fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);         // TODO
-          res.send("");
-        }
-      }
-      else {        // is it even possible to get here? malfored data dies with code 400 at body-parser
-        res.status(400);
-        res.send("received malformed data: " + req.body);
-      }
+      save_data(req, res);
     }
     else {        // no permission to edit requested realm
       res.status(401);    // unathorized
