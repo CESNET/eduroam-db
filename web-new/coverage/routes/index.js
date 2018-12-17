@@ -151,4 +151,37 @@ router.post('/api/:inst_id', function(req, res, next)
   }
 });
 // --------------------------------------------------------------------------------------
+// automated update of JSON file by realm
+// --------------------------------------------------------------------------------------
+router.post('/api/automation/:inst_id', function(req, res, next)
+{
+  // TODO - validace
+
+  // check that inst_id has correct form - dns domain
+  if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
+
+    // token is present in request, is present in config and requested realm is accessible
+    if(req.headers["authorization"] && req.headers["authorization"] in token_mapping && token_mapping[req.headers['authorization']].indexOf(req.params.inst_id) != -1) {
+      // check that data in JSON format
+      if(is_json(req.body)) {
+        json = JSON.stringify(req.body, 'utf8');
+        //fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);     // TODO
+        res.send("");
+      }
+      else {        // is it even possible to get here? malfored data dies with code 400 at body-parser
+        res.status(400);
+        res.send("received malformed data: " + req.body);
+      }
+    }
+    else {        // no permission to edit requested realm
+      res.status(401);    // unathorized
+      res.send("");
+    }
+  }
+  else {        // incorrect inst_id form
+    res.status(404);    // no such thing
+    res.send("");
+  }
+});
+// --------------------------------------------------------------------------------------
 module.exports = router;
