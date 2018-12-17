@@ -5,6 +5,7 @@ const ini = require('ini')
 const fs = require('fs')
 const admin_mapping = require('../config/realm_to_admin.js')
 const inst_mapping = require('../config/realm_to_inst.js')
+const token_mapping = require('../config/tokens.js')
 // --------------------------------------------------------------------------------------
 // get the name of the user logged in the application
 // --------------------------------------------------------------------------------------
