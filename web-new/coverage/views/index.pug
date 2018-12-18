@@ -84,25 +84,25 @@ block content
 
 
 
-              .panel-default(uib-accordion-group='', heading='Seznam správců')
+              .panel-default(uib-accordion-group='', heading='Seznam správců', ng-class="{ 'error' : admins_error }")
                 // ========================================================================================================
                 div(ng-repeat='contact in json_data.contact track by $index')
                   // ========================================================================================================
                   .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_name.$error.required && !main_form.admin_{{$index}}_name.$pristine}")
                     label.col-sm-2.control-label Správce:
                     .col-xs-3
-                      input.form-control(type='text', placeholder='Jan Novák', ng-model='contact.name', name="admin_{{$index}}_name", required)
+                      input.form-control(type='text', placeholder='Jan Novák', ng-model='contact.name', name="admin_{{$index}}_name", required, ng-blur='set_admin_error(main_form["admin_" + $index + "_name"].$error.required && !main_form["admin_" + $index + "_name"].$pristine)')
                   // ========================================================================================================
                   .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_mail.$error.required && !main_form.admin_{{$index}}_mail.$pristine}")
                     label.col-sm-2.control-label Email:
                     .col-xs-3
-                      input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email', name="admin_{{$index}}_mail", required)
+                      input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email', name="admin_{{$index}}_mail", required, ng-blur='set_admin_error(main_form["admin_" + $index + "_mail"].$error.required && !main_form["admin_" + $index + "_mail"].$pristine)')
                   // ========================================================================================================
                   //- TODO - jak tohle dopadne kdyz z backendu prijde jiny format?
                   .form-group(ng-class="{ 'has-error' : !main_form.admin_{{$index}}_phone.$pristine && (main_form.admin_{{$index}}_phone.$error.required || main_form.admin_{{$index}}_phone.$error.pattern)}")
                     label.col-sm-2.control-label Telefon:
                     .col-xs-3
-                      input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone', name="admin_{{$index}}_phone", required, ng-pattern='phone_regex')
+                      input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone', name="admin_{{$index}}_phone", required, ng-pattern='phone_regex', ng-blur='set_admin_error(!main_formmain_form["admin_" + $index + "_phone"].$pristine && (main_form["admin_" + $index + "_phone"].$error.required || main_form["admin_" + $index + "_phone"].$error.pattern))')
                   // ========================================================================================================
                   .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_type.$error.required && !main_form.admin_{{$index}}_type.$pristine}")
                     label.col-sm-2.control-label Typ kontaktu:
