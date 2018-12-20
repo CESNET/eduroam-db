@@ -104,3 +104,18 @@ TODO
 ### dependencies
 
 TODO
+
+### automated data update
+
+Since some organizations connected to eduroam might have
+their eduroam coverage information in some kind of their own database we wanted to provide
+some way to synchronize their data with this application.
+
+There is an authentication exception for eiditing api in the webserver configuration so anyone can access it
+even without providing any credentials. If anyone wants to synchronize the data automatically, they need to
+contact us to provide them an access token which server as an alternative authentication method.
+
+Example:
+```
+curl -H "Authorization:my_secret_token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --data-binary $'{"my":"data"}'
+```
