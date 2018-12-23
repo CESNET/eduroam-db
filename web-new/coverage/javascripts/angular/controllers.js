@@ -1,28 +1,13 @@
 /* --------------------------------------------------------------------------------- */
 angular.module('coverage').controller('coverage_controller', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
-  $scope.loading = false;
-  $scope.api_read_error = false;
-  $scope.api_write_error = false;
-  $scope.locations = [];
-  $scope.admin_realms = realms;
-  $scope.url_regex = /^http(s)?:\/\/.+\/.*$/;
-  $scope.phone_regex = /^\+420 \d{3} \d{3} \d{3}$/;
-
-  $scope.contact_type = [
-    "osoba",
-    "oddělení"
-  ];
-
-  $scope.contact_privacy = [
-    "privátní",
-    "veřejný"
-  ];
-
-  $scope.bool_options = [
-    { key : "ano", value : true },
-    { key : "ne", value : false }
-  ];
-
+  init_vars($scope);
+  init_functions($scope, $http, $timeout);
+}]);
+/* --------------------------------------------------------------------------------- */
+// bind auxiliary functions to $scope
+/* --------------------------------------------------------------------------------- */
+function init_functions($scope, $http, $timeout)
+{
   $scope.add_contact = function() {
     if($scope.json_data)
       $scope.json_data.contact.push({ type : 0, privacy : 0 });
@@ -51,6 +36,18 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
     save_json_to_api($scope, $http);
   }
 
+  $scope.set_basic_info_error = function(state) {
+    $scope.basic_info_error = state;
+  }
+
+  $scope.set_admin_error = function(state) {
+    $scope.admins_error = state;
+  }
+
+  $scope.set_location_error = function(state) {
+    $scope.location_error = state;
+  }
+
   $scope.get_json = function() {
     $scope.loading = true;
 
@@ -62,7 +59,48 @@ angular.module('coverage').controller('coverage_controller', ['$scope', '$http',
 
     get_json_from_api($scope, $http);
   }
-}]);
+
+  //// debug
+  //$scope.open_basic_info = function() {
+  //  //$('#basic_info .panel-collapse').collapse('show');      // works fine for specific element
+  //  // this works but does not add correct classes to parent elements
+  // //$(".panel-collapse").collapse("hide"); // works fine
+  //}
+}
+/* --------------------------------------------------------------------------------- */
+// initialize auxiliary variables
+/* --------------------------------------------------------------------------------- */
+function init_vars($scope)
+{
+  $scope.realm_changed = true;
+  $scope.loading = false;
+  $scope.api_read_error = false;
+  $scope.api_write_error = false;
+  $scope.locations = [];
+  $scope.admin_realms = realms;
+  $scope.url_regex = /^http(s)?:\/\/.+\/.*$/;
+  $scope.phone_regex = /^\+420 \d{3} \d{3} \d{3}$/;
+
+  // accordion errors
+  $scope.basic_info_error = false;
+  $scope.admins_error = false;
+  $scope.location_error = false;
+
+  $scope.contact_type = [
+    "osoba",
+    "oddělení"
+  ];
+
+  $scope.contact_privacy = [
+    "privátní",
+    "veřejný"
+  ];
+
+  $scope.bool_options = [
+    { key : "ano", value : true },
+    { key : "ne", value : false }
+  ];
+}
 /* --------------------------------------------------------------------------------- */
 // add lang for info url
 /* --------------------------------------------------------------------------------- */
