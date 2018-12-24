@@ -1,0 +1,21 @@
+doctype html
+html(ng-app="coverage")
+  head
+    meta(charset='utf-8')
+    title #{title}
+
+    //- TODO - stylesheets
+    //- TODO - font, ve ff se aktualne pouzivany font zobrazuje spatne - ceska diakritika
+    //- TODO - barva accordion odkazu - vratit tam puvodni, ktera se rozbila upravou knihovny
+
+    link(rel='stylesheet', href='/stylesheets/linker.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/app.min.css')
+    script(src='/javascripts/app.js')
+
+  body
+    div#container
+      include ./linker.pug
+      div.main
+        block content
+      include ./footer.pug
