@@ -173,10 +173,6 @@ function add_addresses($scope)
   }
 
   for(var i in $scope.json_data.location) {
-    console.log($scope.json_data.location[i]);
-    console.log($scope.json_data.location[i].address.length);
-    console.log($scope.json_data.location[i].address);
-
     if($scope.json_data.location[i].address.length == 1) {        // english address not available, create it
       $scope.json_data.location[i].address.push({ city : {}, street : {} });
       $scope.json_data.location[i].address[1].city.data = $scope.json_data.location[i].address[0].city.data;
