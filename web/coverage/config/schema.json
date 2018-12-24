@@ -1,0 +1,420 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "definitions": {
+    "multi_lang" : {
+      "$id": "#/definitions/multi_lang",
+      "type": "object",
+      "properties": { 
+        "lang": {
+          "type": "string", 
+          "title": "Language", 
+          "description": "Two lower letters which describe language", 
+          "examples": [
+            "hr"
+          ], 
+          "minLength": 2, 
+          "maxLength": 2
+        }, 
+        "data": {
+          "type": "string", 
+          "title": "Data", 
+          "description": "Data information on prior defined language", 
+          "minLength": 2 
+        }
+      },
+      "required": [ "lang", "data"]
+    },
+    "contact_block": {
+      "$id": "#/definitions/contact_block", 
+      "type": "object", 
+      "properties": {
+        "name": {
+          "type": "string", 
+          "title": "name", 
+          "description": "Contact name", 
+          "examples": [
+            "Pero Peric"
+          ], 
+          "minLength": 3
+        }, 
+        "email": {
+          "type": "string", 
+          "title": "email", 
+          "description": "Contact email", 
+          "examples": [
+            "pero@srce.hr"
+          ], 
+          "minLength": 5,
+          "format": "email"
+        }, 
+        "phone": {
+          "type": "string", 
+          "title": "phone", 
+          "description": "Contact phone", 
+          "examples": [
+            "+385012175387"
+          ], 
+          "minLength": 4
+        }, 
+        "type": {
+          "type": "integer", 
+          "title": "type", 
+          "description": "Type of contact 0 - Person, 1 - Service/Department", 
+          "examples": [
+            0
+          ], 
+          "minimum": 0, 
+          "maximum": 1
+        }, 
+        "privacy": {
+           "type": "integer", 
+           "title": "privacy", 
+           "description": "Privacy of contact 0 - Private, 1 - Public", 
+           "examples": [
+             1
+           ], 
+           "minimum": 0, 
+           "maximum": 1
+        }
+      },
+      "required": [ "name","email","phone","type","privacy" ]
+    }
+  },  
+  "type": "object", 
+  "$id": "https://monitor.eduroam.org/eduroam-database/v2/schs/institution.json", 
+  "properties": {
+    "schema_version": {
+      "type": "integer", 
+      "$id": "#/properties/schema_version", 
+      "title": "The Schema version", 
+      "description": "Define schema version only 2 for now", 
+      "default": 0, 
+      "examples": [
+        2
+      ], 
+      "minimum": 2, 
+      "maximum": 2
+    }, 
+    "institutions": {
+      "type": "object", 
+      "$id": "#/properties/institutions", 
+      "properties": {
+        "institution": {
+          "type": "array", 
+          "$id": "#/properties/institutions/properties/institution", 
+          "items": {
+            "type": "object", 
+            "$id": "#/properties/institutions/properties/institution/items", 
+            "properties": {
+              "instid": {
+                "type": "string", 
+                "$id": "#/properties/institutions/properties/institution/items/properties/inst_id", 
+                "title": "inst_id", 
+                "description": "Unique institution ID provided by RO", 
+                "default": "", 
+                "examples": [
+                  "srce01"
+                ], 
+                "minLength": 3
+              }, 
+              "ROid": {
+                "type": "string", 
+                "$id": "#/properties/institutions/properties/institution/properties/ROid", 
+                "title": "ROid", 
+                "description": "Predefined ID from central place", 
+                "default": "", 
+                "examples": [
+                  "HR01"
+                ], 
+                "minLength": 4, 
+                "maxLength": 4
+              }, 
+              "type": {
+                "type": "string", 
+                "$id": "#/properties/institutions/properties/institution/items/properties/type", 
+                "title": "type", 
+                "description": "Type of institution SP, IdP, IdP&SP", 
+                "examples": [
+                  "IdP+SP"
+                ],
+                "enum": ["Idp", "SP", "IdP+SP"] 
+              }, 
+              "stage": {
+                "type": "integer", 
+                "$id": "#/properties/institutions/properties/institution/properties/stage", 
+                "title": "stage", 
+                "description": "0 - Preproduction, 1 - Active", 
+                "default": 0, 
+                "examples": [
+                  1
+                ], 
+                "minimum": 0, 
+                "maximum": 1
+              },  
+              "inst_realm": {
+                "type": "array", 
+                "$id": "#/properties/institutions/properties/institution/items/properties/inst_realm",
+                "title": "inst_realm", 
+                "description": "Institution realm if is applicable", 
+                "items": {
+                  "type": "string", 
+                  "$id": "#/properties/institutions/properties/institution/items/properties/inst_realm/items", 
+                  "examples": [
+                    "srce.hr"
+                  ],
+                  "minItems": 1
+                }
+              }, 
+              "inst_name": {
+                "type": "array", 
+                "$id": "#/properties/institutions/properties/institution/items/properties/inst_name", 
+                "items": {"$ref": "#/definitions/multi_lang" },
+                "minItems": 1
+              }, 
+              "address": {
+                "type": "array", 
+                "$id": "#/properties/institutions/properties/institution/items/properties/address", 
+                "items": {
+                  "type": "object", 
+                  "$id": "#/properties/institutions/properties/institution/items/properties/address/items", 
+                  "properties": {
+                    "street": {"$ref": "#/definitions/multi_lang" },
+                    "city": {"$ref": "#/definitions/multi_lang" }
+                  }
+                },
+                "minItems": 1
+              }, 
+              "coordinates": {
+                "type": "string", 
+                "$id": "#/properties/ROs/properties/RO/properties/coordinates", 
+                "title": "coordinates", 
+                "description": "GPS coocrdinates of RO headquarters", 
+                "default": "", 
+                "examples": [
+                  "1.23,5.32",
+                  "1.23,5.32,147"
+                ], 
+                "minLength": 3
+              }, 
+              "inst_type": {
+                "type": "string", 
+                "$id": "#/properties/institutions/properties/institution/items/properties/inst_type", 
+                "title": "inst_type", 
+                "description": "IEEE 802.11-2012, clause 8.4.1.34 Venue Info", 
+                "default": "", 
+                "examples": [
+                  "ustanova"
+                ]
+              }, 
+              "contact": {
+                "type": "array", 
+                "$id": "#/properties/institutions/properties/institution/items/properties/contact", 
+                "items": {"$ref": "#/definitions/contact_block" },
+                "minItems": 1
+              }, 
+              "info_URL": {
+                "type": "array", 
+                "$id": "#/properties/institutions/properties/institution/items/properties/info_URL", 
+                "items": {"$ref": "#/definitions/multi_lang" },
+                "minItems": 1
+              }, 
+              "policy_URL": {
+                "type": "array", 
+                "$id": "#/properties/institutions/properties/institution/items/properties/policy_URL", 
+                "items": {"$ref": "#/definitions/multi_lang" },
+                "minItems": 1
+              }, 
+              "ts": {
+                "type": "string", 
+                "$id": "#/properties/institutions/properties/institution/properties/ts", 
+                "title": "ts", 
+                "description": "Time stamp of changes in format YYYY-MM-DDThh:mm:ssZ", 
+                "default": "", 
+                "examples": [
+                  "2017-11-11T12:00:00Z"
+                ], 
+                "minLength": 19, 
+                "format": "date-time"
+              },
+              "location": {
+                "type": "array", 
+                "$id": "#/properties/institutions/properties/institution/items/properties/location", 
+                "items": {
+                  "type": "object", 
+                  "$id": "#/properties/institutions/properties/institution/items/properties/location/items", 
+                  "properties": {
+                    "locationid": {
+                      "type": "string", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/location_id", 
+                      "title": "location_id", 
+                      "description": "Unique location ID provided by RO", 
+                      "examples": [
+                        "srce001"
+                      ], 
+                      "minLength": 4
+                    }, 
+                    "coordinates": {
+                      "type": "string", 
+                      "$id": "#/properties/ROs/properties/RO/properties/coordinates", 
+                      "title": "coordinates", 
+                      "description": "GPS coocrdinates of RO headquarters", 
+                      "default": "", 
+                      "examples": [
+                        "1.23,5.32",
+                        "1.23,5.32,147",
+                        "1.23,5.32;2.53,6.32;12.32,5.32"
+                      ], 
+                      "minLength": 3
+                    }, 
+                    "stage": {
+                      "type": "integer", 
+                      "$id": "#/properties/institutions/properties/institution/properties/stage", 
+                      "title": "stage", 
+                      "description": "0 - Preproduction, 1 - Active", 
+                      "default": 0, 
+                      "examples": [
+                        1
+                      ], 
+                      "minimum": 0, 
+                      "maximum": 1
+                    },  
+                    "type": {
+                      "type": "integer", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/type", 
+                      "title": "type", 
+                      "description": "Type of GPS coordinate(s) 0 - single spot, 1 - area, 2 - mobile", 
+                      "default": 0, 
+                      "examples": [
+                        0
+                      ], 
+                      "minimum": 0, 
+                      "maximum": 2
+                    }, 
+                    "loc_name": {
+                      "type": "array", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/loc_name", 
+                      "items": {"$ref": "#/definitions/multi_lang" },
+                      "minItems": 1
+                    }, 
+                    "address": {
+                      "type": "array", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/address", 
+                      "items": {
+                        "type": "object", 
+                        "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/address/items", 
+                        "properties": {
+                          "street": {"$ref": "#/definitions/multi_lang" },
+                          "city": {"$ref": "#/definitions/multi_lang" }
+                        }
+                      },
+                      "minItems": 1
+                    }, 
+                    "location_type": {
+                      "type": "string", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/location_type", 
+                      "title": "location_type", 
+                      "description": "IEEE 802.11-2012, clause 8.4.1.34 Venue Info", 
+                      "examples": [
+                        "poero"
+                      ]
+                    }, 
+                    "contact": {
+                      "type": "array", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/contact", 
+                      "items": {"$ref": "#/definitions/contact_block" },
+                      "minItems": 1
+                    }, 
+                    "SSID": {
+                      "type": "string", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/SSID", 
+                      "title": "SSID", 
+                      "description": "SSID", 
+                      "default": "", 
+                      "examples": [
+                        "eduroam"
+                      ], 
+                      "minLength": 7
+                    }, 
+                    "enc_level": {
+                      "type": "string", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/enc_level", 
+                      "title": "enc_level", 
+                      "description": "List of supported encryption levels separated with comma (,)", 
+                      "examples": [
+                        "wpa2/aes"
+                      ], 
+                      "minLength": 4 
+                    }, 
+                    "AP_no": {
+                      "type": "integer", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/AP_no", 
+                      "title": "AP_no", 
+                      "description": "Number of APs", 
+                      "examples": [
+                        10
+                      ], 
+                      "minimum": 1 
+                    }, 
+                    "wired_no": {
+                      "type": "integer", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/wired_no", 
+                      "title": "wired_no", 
+                      "description": "Number of enabled sockets for wired access", 
+                      "examples": [
+                        10
+                      ], 
+                      "minimum": 1                    }, 
+                    "tag": {
+                      "type": "string", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/tag", 
+                      "title": "tag", 
+                      "description": "specific characteristic(s); provide allowed values separated with comma (,) if a feature is enabled; allowed value(s): port_restrict, transp_proxy, IPv6, NAT, HS2.0", 
+                      "examples": [
+                        "NAT"
+                      ], 
+                      "minLength": 3 
+                    }, 
+                    "availability": {
+                      "type": "integer", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/availability", 
+                      "title": "availability", 
+                      "description": "0=default (no restrictions), 1=physical access restrictions", 
+                      "default": 0, 
+                      "examples": [
+                        0
+                      ], 
+                      "minimum": 0, 
+                      "maximum": 1
+                    }, 
+                    "operation_hour": {
+                      "type": "string", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/operation_hour", 
+                      "title": "operation_hour", 
+                      "description": "Provide info (in free text) if service is not available 24 hours per day by specifying operation hours (local time)", 
+                      "examples": [
+                        "Otvoreno od 08-16 sati"
+                      ], 
+                      "minLength": 4
+                    }, 
+                    "info_URL": {
+                      "type": "array", 
+                      "$id": "#/properties/institutions/properties/institution/items/properties/location/items/properties/info_URL", 
+                      "items": {"$ref": "#/definitions/multi_lang" },
+                      "minItems": 1
+                    }
+                  }
+                },
+                "minItems": 1,
+                "required": [ "locationid","coordinates","type","stage","SSID"]
+              }
+            }
+          },
+          "required": [ "instid","ROid","type","stage","inst_name","address","contact","info_URL","policy_URL","ts"]
+        }
+      },
+      "required": [ "institution"]
+    }
+  },
+  "required": [ "schema_version", "institutions"]
+}
+
