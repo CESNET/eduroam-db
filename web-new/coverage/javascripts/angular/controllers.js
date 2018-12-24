@@ -164,43 +164,45 @@ function set_location_tags($scope)
 /* --------------------------------------------------------------------------------- */
 function add_addresses($scope)
 {
-  if($scope.json_data.address.length == 1) {        // english address not available, create it
-    $scope.json_data.address.push({ city : {}, street : {} });
-    $scope.json_data.address[1].city.data = $scope.json_data.address[0].city.data;
-    $scope.json_data.address[1].city.lang = "en";
-    $scope.json_data.address[1].street.data = $scope.json_data.address[0].street.data;
-    $scope.json_data.address[1].street.lang = "en";
-  }
-  else {        // data may have changed, rewrite them
-    $scope.json_data.address[1].city.data = $scope.json_data.address[0].city.data;
-    $scope.json_data.address[1].city.lang = "en";
-    $scope.json_data.address[1].street.data = $scope.json_data.address[0].street.data;
-    $scope.json_data.address[1].street.lang = "en";
-  }
-
-  for(var i in $scope.json_data.location) {
-    if($scope.json_data.location[i].address.length == 1) {        // english address not available, create it
-      $scope.json_data.location[i].address.push({ city : {}, street : {} });
-      $scope.json_data.location[i].address[1].city.data = $scope.json_data.location[i].address[0].city.data;
-      $scope.json_data.location[i].address[1].city.lang = "en";
-      $scope.json_data.location[i].address[1].street.data = $scope.json_data.location[i].address[0].street.data;
-      $scope.json_data.location[i].address[1].street.lang = "en";
+  if($scope.json_data) {        // check that json_data are available
+    if($scope.json_data.address.length == 1) {        // english address not available, create it
+      $scope.json_data.address.push({ city : {}, street : {} });
+      $scope.json_data.address[1].city.data = $scope.json_data.address[0].city.data;
+      $scope.json_data.address[1].city.lang = "en";
+      $scope.json_data.address[1].street.data = $scope.json_data.address[0].street.data;
+      $scope.json_data.address[1].street.lang = "en";
     }
     else {        // data may have changed, rewrite them
-      $scope.json_data.location[i].address[1].city.data = $scope.json_data.location[i].address[0].city.data;
-      $scope.json_data.location[i].address[1].city.lang = "en";
-      $scope.json_data.location[i].address[1].street.data = $scope.json_data.location[i].address[0].street.data;
-      $scope.json_data.location[i].address[1].street.lang = "en";
+      $scope.json_data.address[1].city.data = $scope.json_data.address[0].city.data;
+      $scope.json_data.address[1].city.lang = "en";
+      $scope.json_data.address[1].street.data = $scope.json_data.address[0].street.data;
+      $scope.json_data.address[1].street.lang = "en";
+    }
+
+    for(var i in $scope.json_data.location) {
+      if($scope.json_data.location[i].address.length == 1) {        // english address not available, create it
+        $scope.json_data.location[i].address.push({ city : {}, street : {} });
+        $scope.json_data.location[i].address[1].city.data = $scope.json_data.location[i].address[0].city.data;
+        $scope.json_data.location[i].address[1].city.lang = "en";
+        $scope.json_data.location[i].address[1].street.data = $scope.json_data.location[i].address[0].street.data;
+        $scope.json_data.location[i].address[1].street.lang = "en";
+      }
+      else {        // data may have changed, rewrite them
+        $scope.json_data.location[i].address[1].city.data = $scope.json_data.location[i].address[0].city.data;
+        $scope.json_data.location[i].address[1].city.lang = "en";
+        $scope.json_data.location[i].address[1].street.data = $scope.json_data.location[i].address[0].street.data;
+        $scope.json_data.location[i].address[1].street.lang = "en";
+      }
+
+      // rewrite language info, just in case there is none
+      $scope.json_data.location[i].address[0].city.lang = "cs";
+      $scope.json_data.location[i].address[0].street.lang = "cs";
     }
 
     // rewrite language info, just in case there is none
-    $scope.json_data.location[i].address[0].city.lang = "cs";
-    $scope.json_data.location[i].address[0].street.lang = "cs";
+    $scope.json_data.address[0].city.lang = "cs";
+    $scope.json_data.address[0].street.lang = "cs";
   }
-
-  // rewrite language info, just in case there is none
-  $scope.json_data.address[0].city.lang = "cs";
-  $scope.json_data.address[0].street.lang = "cs";
 }
 /* --------------------------------------------------------------------------------- */
 // fill additional properties to json structure
