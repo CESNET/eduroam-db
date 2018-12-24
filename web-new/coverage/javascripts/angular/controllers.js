@@ -103,6 +103,12 @@ function init_vars($scope)
 /* --------------------------------------------------------------------------------- */
 function add_info_url_lang($scope)
 {
+  if(!$scope.json_data.info_URL[0])     // check if object exists
+    $scope.json_data.info_URL[0] = {};
+
+  if(!$scope.json_data.info_URL[1])     // check if object exists
+    $scope.json_data.info_URL[1] = {};
+
   $scope.json_data.info_URL[0].lang = "cs";
   $scope.json_data.info_URL[1].lang = "en";
 
