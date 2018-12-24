@@ -225,6 +225,13 @@ block content
                     button.btn.btn-default.addButton(type='button', ng-click='add_location()') Přidat lokalitu
 
 
+            // ========================================================================================================
+            // TODO - tohle chce nejak celkove vylepsit, aby uzivatel vedel co se stalo
+            // TODO - validace na frontendu?
+            div(ng-show='selected_realm  && api_write_error && !loading')
+              h4 {{error}}
+                pre {{error_msg}}
+
 
 
 
