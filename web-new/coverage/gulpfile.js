@@ -17,7 +17,7 @@ gulp.task('js', function() {
     gulp.src('javascripts/angular/angular_1.5.8-animate.min.js'),
     gulp.src('javascripts/angular/main.js'),
     gulp.src('javascripts/angular/controllers.js'),
-    gulp.src('javascripts/ui-bootstrap-tpls-2.5.0.min.js'),
+    gulp.src('javascripts/ui-bootstrap-tpls-2.5.0.js'),
     gulp.src('javascripts/jquery.min.js'),
   )
     .pipe(concat('app.js'))
