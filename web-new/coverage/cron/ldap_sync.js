@@ -1,14 +1,12 @@
 const ldap = require('ldapjs');
 const fs = require('fs');
-//const async = require('async');
 const assert = require('assert');
 const secrets = require('../config/secrets.js');
 const config = require('../config/config.js');
-//const data_export = require('./export.js');
 // --------------------------------------------------------------------------------------
 var exp = {}
 // --------------------------------------------------------------------------------------
-// process old data
+// sync data
 // --------------------------------------------------------------------------------------
 exp.sync = function (callback) {
   var client = ldap.createClient({
@@ -76,27 +74,6 @@ exp.search_realms = function (client, search_base, callback)
 
       if(callback)
         callback();
-
-    
-
-
-      //search_radius_servers(client, ret, database, function() {
-      //  search_orgs(client, ret, database, function() {
-      //    search_managers(client, ret, database, function() {
-      //      update_realms(ret, database, search_base, function() {
-      //        client.unbind(function(err) {   // unbind after all search operations are done
-      //          assert.ifError(err);
-      //        });
-
-      //        if(callback)
-      //          callback();
-      //      });
-      //    });
-      //  });
-      //});
-
-
-
     });
   });
 }
