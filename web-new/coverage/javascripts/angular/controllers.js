@@ -50,6 +50,7 @@ function init_functions($scope, $http, $timeout)
 
   $scope.get_json = function() {
     $scope.loading = true;
+    $scope.accordion_shared_scope.toggleOpen();     // open the basic info tab on realm change
 
     // wait 500 ms before displaying the form
     // when switching realms, this seems usefull in the way the user knows that the form really changed
@@ -59,13 +60,6 @@ function init_functions($scope, $http, $timeout)
 
     get_json_from_api($scope, $http);
   }
-
-  //// debug
-  //$scope.open_basic_info = function() {
-  //  //$('#basic_info .panel-collapse').collapse('show');      // works fine for specific element
-  //  // this works but does not add correct classes to parent elements
-  // //$(".panel-collapse").collapse("hide"); // works fine
-  //}
 }
 /* --------------------------------------------------------------------------------- */
 // initialize auxiliary variables
@@ -80,6 +74,8 @@ function init_vars($scope)
   $scope.admin_realms = realms;
   $scope.url_regex = /^http(s)?:\/\/.+\/.*$/;
   $scope.phone_regex = /^\+420 \d{3} \d{3} \d{3}$/;
+
+  $scope.accordion_shared_scope = {};
 
   // accordion errors
   $scope.basic_info_error = false;
