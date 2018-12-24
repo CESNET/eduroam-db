@@ -2,6 +2,7 @@
 angular.module('coverage').controller('coverage_controller', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
   init_vars($scope);
   init_functions($scope, $http, $timeout);
+  get_schema($scope, $http);
 }]);
 /* --------------------------------------------------------------------------------- */
 // bind auxiliary functions to $scope
@@ -304,6 +305,19 @@ function get_json_from_api($scope, $http)
 
     if (err.status == 401)
       $scope.error = "Nejste správce požadovaného realmu.";
+  });
+}
+/* --------------------------------------------------------------------------------- */
+// get eduroam database json schema v2
+/* --------------------------------------------------------------------------------- */
+function get_schema($scope, $http)
+{
+  $http({
+    method  : 'GET',
+    url     : 'https://pokryti.eduroam.cz/schema.json'
+  })
+  .then(function(response) {
+    $scope.schema = response.data;
   });
 }
 /* --------------------------------------------------------------------------------- */
