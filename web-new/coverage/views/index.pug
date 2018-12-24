@@ -35,7 +35,7 @@ block content
             h4 {{error}}
 
           // ========================================================================================================
-          div(ng-show='selected_realm  && !api_read_error && !loading')
+          div(ng-show='selected_realm && !api_read_error && !loading')
             uib-accordion(close-others='true')
               .panel-default(uib-accordion-group='', heading='Základní údaje', is-open='false', ng-class="{ 'error' : basic_info_error }", parent-scope='accordion_shared_scope')
                 // ========================================================================================================
