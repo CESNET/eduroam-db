@@ -74,7 +74,7 @@ function init_vars($scope)
   $scope.locations = [];
   $scope.admin_realms = realms;
   $scope.url_regex = /^http(s)?:\/\/.+\/.*$/;
-  $scope.phone_regex = /^\+420 \d{3} \d{3} \d{3}$/;
+  $scope.phone_regex = /^[+]?[()/0-9. -]{12,}$/;
 
   $scope.accordion_shared_scope = {};
 
