@@ -331,14 +331,6 @@ function get_json_from_api($scope, $http)
       $scope.json_data = response.data;
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
     }
-
-    //$("#basic_info").trigger('click');
-
-    // TODO - pri nacteni noveho realmu vzdy prepnout na zakladni informace
-    // 
-    // scrollovani tabu
-    // - tab by vzdy mel byt videt cely
-
   }, function(err) {
     $scope.api_read_error = true;
 
