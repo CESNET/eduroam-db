@@ -74,7 +74,7 @@ router.get('/api/:inst_id', function(req, res, next)
   if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
 
     // check that the user has permission to read requested realm
-    if(get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1) {
+    if(req.headers["remote_user"] && get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1) {
 
       // check that requested realm exists in inst_mapping and correspoding JSON file exists
       if(req.params.inst_id in inst_mapping && fs.existsSync('./coverage_files/' + inst_mapping[req.params.inst_id] + '.json')) {
