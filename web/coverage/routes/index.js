@@ -143,7 +143,7 @@ function save_data(req, res)
       res.send(result.errors);          // send errors to user
     }
     else {
-      //fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);         // TODO
+      fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);
       res.send("");
     }
   }
