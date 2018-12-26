@@ -88,22 +88,50 @@ The web application in built in node.js.
 The main idea to use configuration for this was to separate create additional layer
 that is not dependent on any specific data source.
 
+Configuration is done via JSON format. There are two main configuration files.
+The first configuration file specifies mapping of realms to administrators.
+The second configuration file speficies mapping of realms to institution ids as used in conversion process.
+See below for specific details.
+
 ### admin to realm mapping
 
 It is necessary for the web application to know which administrator has permissions to edit specific realms.
 This is done via configration.
 
-Configuration is done via JSON format. TODO example
+The configuration file is placed in `web/coverage/config/realm_to_admin.js`.
+The file is not part of the repository for security reasons.
 
-TODO
+Sample configuration may look like:
+```
+module.exports =
+{
+    "user1@university1.tld": [
+        "realm1",
+        "realm2",
+        "realm3",
+        "realm4",
+        "realm5"
+    ],
+    "user1@university2.tld": [
+        "realm1",
+        "realm3"
+    ],
+    "user2@university2.tld": [
+        "realm6"
+    ],
+}
+```
 
-#### mapping of realms to admins
+The `module.exports` is just a node.js way of exposing file
+contents to be able to use one file in another.
+
+#### mapping of realms to institutions
 
 TODO
 
 ### dependencies
 
-TODO
+The web application is built in node.js. It needs node.js to run.
 
 ### automated data update
 
