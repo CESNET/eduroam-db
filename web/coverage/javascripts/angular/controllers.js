@@ -255,8 +255,8 @@ function save_json_to_api($scope, $http)
     else if(err.status == 404)
       $scope.error = "Snažíte se editovat neplatný realm.";
 
-    else
-      ;  // TODO - generic error message
+    else        // generic error occured on backend
+      $scope.error = "Nastala chyba při ukládání dat. Nahlaste prosím tento problém správcům na adrese info@eduroam.cz.";
   });
 }
 /* --------------------------------------------------------------------------------- */
