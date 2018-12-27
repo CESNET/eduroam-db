@@ -239,6 +239,10 @@ block content
                 button.btn.btn-default(type='button', ng-click='save_data()', ng-disabled="main_form.$invalid || json_data.location.length == 0 || json_data.contact.length == 0") Uložit data
 
             // ========================================================================================================
+            h4.fade-in-out(ng-show='api_write_success') Data úspěšně uložena.
+
+
+            // ========================================================================================================
             uib-accordion(close-others='true')
               .panel-default(uib-accordion-group='', heading='Zobrazit JSON')
                 pre.

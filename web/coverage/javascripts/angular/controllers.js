@@ -71,6 +71,7 @@ function init_vars($scope)
   $scope.loading = false;
   $scope.api_read_error = false;
   $scope.api_write_error = false;
+  $scope.api_write_success = false;
   $scope.locations = [];
   $scope.admin_realms = realms;
   $scope.url_regex = /^http(s)?:\/\/.+\/.*$/;
@@ -232,23 +233,15 @@ function save_json_to_api($scope, $http)
     data    : $scope.json_data
   })
   .then(function(response) {
-    if(response.status == 200)
-        ;       // TODO - saved popup
+    if(response.status == 200) {
+      $scope.api_write_error = false;
+      $scope.api_write_success = true;
 
-    console.log($scope.locations);
-
-    $scope.api_write_error = false;
-
+      $timeout(function () {
+        $scope.api_write_success = false;
+      }, 3000);
+    }
   }, function(err) {
-    // TODO
-    //if (err.status == 404)
-    //  $scope.realm_validated = false;
-    // TODO - selhala validace
-
-    // - nastala chyba
-    // moznost odeslat chybove hlaseni?
-    // TODO debug nechat - zobrazit JSON nechat
-
     $scope.api_write_error = true;
 
     if(err.status == 400) {
