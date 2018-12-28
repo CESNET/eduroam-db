@@ -34,7 +34,7 @@ function init_functions($scope, $http, $timeout)
   }
  
   $scope.save_data = function() {
-    save_json_to_api($scope, $http);
+    save_json_to_api($scope, $http, $timeout);
   }
 
   $scope.set_basic_info_error = function(state) {
@@ -218,7 +218,7 @@ function fill_form($scope)
 /* --------------------------------------------------------------------------------- */
 // save filled form as json to api
 /* --------------------------------------------------------------------------------- */
-function save_json_to_api($scope, $http)
+function save_json_to_api($scope, $http, $timeout)
 {
   fill_form($scope);
 
