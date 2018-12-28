@@ -98,7 +98,6 @@ block content
                     .col-xs-3
                       input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email', name="admin_{{$index}}_mail", required, ng-blur='set_admin_error(main_form["admin_" + $index + "_mail"].$error.required && !main_form["admin_" + $index + "_mail"].$pristine)')
                   // ========================================================================================================
-                  //- TODO - jak tohle dopadne kdyz z backendu prijde jiny format?
                   .form-group(ng-class="{ 'has-error' : !main_form.admin_{{$index}}_phone.$pristine && (main_form.admin_{{$index}}_phone.$error.required || main_form.admin_{{$index}}_phone.$error.pattern)}")
                     label.col-sm-2.control-label Telefon:
                     .col-xs-3
