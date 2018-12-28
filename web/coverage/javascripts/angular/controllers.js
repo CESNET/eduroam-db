@@ -59,7 +59,11 @@ function init_functions($scope, $http, $timeout)
       $scope.loading = false;
     }, 500);
 
-    get_json_from_api($scope, $http);
+    get_json_from_api($scope, $http, $timeout);
+  }
+
+  $scope.find_map_location = function(index) {
+    query_osm_api($scope, $http, index);      // query the openstreetmap api
   }
 }
 /* --------------------------------------------------------------------------------- */
@@ -309,9 +313,25 @@ function parse_location_data($scope, locations)
   }
 }
 /* --------------------------------------------------------------------------------- */
+// initialize openstreetmap
+/* --------------------------------------------------------------------------------- */
+function init_map($timeout)
+{
+  $timeout(function () {
+    map = new OpenLayers.Map("ol_test");
+    var mapnik         = new OpenLayers.Layer.OSM();
+    var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+    var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+    var position       = new OpenLayers.LonLat(13.41,52.52).transform(fromProjection, toProjection);
+    var zoom           = 15;
+    map.addLayer(mapnik);
+    map.setCenter(position, zoom);
+  }, 300);
+}
+/* --------------------------------------------------------------------------------- */
 // retrieve json structure from backend api
 /* --------------------------------------------------------------------------------- */
-function get_json_from_api($scope, $http)
+function get_json_from_api($scope, $http, $timeout)
 {
   $http({
     method  : 'GET',
@@ -323,6 +343,8 @@ function get_json_from_api($scope, $http)
       parse_location_data($scope, response.data.location);
       $scope.json_data = response.data;
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
+
+      init_map($timeout);
     }
   }, function(err) {
     $scope.api_read_error = true;
@@ -332,6 +354,38 @@ function get_json_from_api($scope, $http)
 
     if (err.status == 401)
       $scope.error = "Nejste správce požadovaného realmu.";
+  });
+}
+/* --------------------------------------------------------------------------------- */
+// query openstreetmap API
+/* --------------------------------------------------------------------------------- */
+function query_osm_api($scope, $http, index)
+{
+  var params = "format=json";
+
+  if($scope.json_data.location[index].address[0].street.data)
+    params += "&street=" + encodeURI($scope.json_data.location[index].address[0].street.data);
+
+  if($scope.json_data.location[index].address[0].city.data)
+    params += "&city=" + encodeURI($scope.json_data.location[index].address[0].city.data);
+
+  $http({
+    method  : 'GET',
+    url     : 'https://nominatim.openstreetmap.org/search?' + params
+  })
+  .then(function(response) {
+    if(response.data.length > 0) {   // got some data
+      // there may be more results, but for simplicity work with the first one only
+      $scope.osm_data = response.data[0];        // get osm API data
+      var lon = parseFloat($scope.osm_data.lon).toFixed(6);   // get lon
+      var lat = parseFloat($scope.osm_data.lat).toFixed(6);   // get lat
+
+      $scope.json_data.location[index].coordinates = lon + "," + lat;       // set form coordinates
+
+      // set map marker
+    }
+  }, function(err) {
+    // TODO ?
   });
 }
 /* --------------------------------------------------------------------------------- */

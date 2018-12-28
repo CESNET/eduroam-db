@@ -146,12 +146,12 @@ block content
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_street.$error.required && !main_form.location_{{$index}}_street.$pristine}")
                       label.col-sm-2.control-label Ulice a číslo popisné:
                       .col-xs-3
-                        input.form-control(type='text', placeholder='Vodičkova 1', ng-model='location.address[0].street.data', name="location_{{$index}}_street", required, ng-blur='set_location_error(main_form["location_" + $index + "_street"].$error.required && !main_form["location_" + $index + "_street"].$pristine)')
+                        input.form-control(type='text', placeholder='Vodičkova 1', ng-model='location.address[0].street.data', name="location_{{$index}}_street", required, ng-blur='set_location_error(main_form["location_" + $index + "_street"].$error.required && !main_form["location_" + $index + "_street"].$pristine); find_map_location($index);')
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_city.$error.required && !main_form.location_{{$index}}_city.$pristine}")
                       label.col-sm-2.control-label Město:
                       .col-xs-3
-                        input.form-control(type='text', placeholder='Praha 1', ng-model='location.address[0].city.data', name="location_{{$index}}_city", required, ng-blur='set_location_error(main_form["location_" + $index + "_city"].$error.required && !main_form["location_" + $index + "_city"].$pristine)')
+                        input.form-control(type='text', placeholder='Praha 1', ng-model='location.address[0].city.data', name="location_{{$index}}_city", required, ng-blur='set_location_error(main_form["location_" + $index + "_city"].$error.required && !main_form["location_" + $index + "_city"].$pristine); find_map_location($index);')
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_cz.$error.required && !main_form.location_{{$index}}_info_url_cz.$pristine}")
                       label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
@@ -163,10 +163,15 @@ block content
                       .col-xs-5
                         input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='location.info_URL[1].data', name="location_{{$index}}_info_url_en", required, ng-blur='set_location_error(main_form["location_" + $index + "_info_url_en"].$error.required && !main_form["location_" + $index + "_info_url_en"].$pristine)')
                     // ========================================================================================================
+                    // TODO - kontrola pomoci regularu?
+                    // TODO - disabled input, aby tam nemohli psat nejake blbosti?
+                    // TODO - jinak by se muselo specifikovat v jakem poradi a formatu to napsat ....
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_coordinates.$error.required && !main_form.location_{{$index}}_coordinates.$pristine}")
                       label.col-sm-2.control-label Geograficé umísťění:
                       .col-xs-3
-                        input.form-control(type='text', placeholder='TODO', ng-model='location.coordinates', name="location_{{$index}}_coordinates", required, ng-blur='set_location_error(main_form["location_" + $index + "_coordinates"].$error.required && !main_form["location_" + $index + "_coordinates"].$pristine)')
+                        input.form-control(type='text', placeholder='Vyberte bod na mapě', ng-model='location.coordinates', disabled, name="location_{{$index}}_coordinates", required, ng-blur='set_location_error(main_form["location_" + $index + "_coordinates"].$error.required && !main_form["location_" + $index + "_coordinates"].$pristine)')
+                    // TODO - styling
+                    div#ol_test(style="height:250px; width:250px")
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_enc_level.$error.required && !main_form.location_{{$index}}_enc_level.$pristine}")
                       label.col-sm-2.control-label Použité šifrování:
