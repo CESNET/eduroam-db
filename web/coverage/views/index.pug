@@ -239,7 +239,9 @@ block content
                 button.btn.btn-default(type='button', ng-click='save_data()', ng-disabled="main_form.$invalid || json_data.location.length == 0 || json_data.contact.length == 0") Uložit data
 
             // ========================================================================================================
-            h4.alert.alert-success.fade-in-out(ng-show='api_write_success') Data úspěšně uložena.
+            .form-group
+              .col-xs-2
+                h4.alert.alert-success.fade-in-out(ng-show='api_write_success') Data úspěšně uložena.
 
 
             // ========================================================================================================
