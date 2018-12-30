@@ -81,7 +81,17 @@ The web application in built in node.js.
 
 ### frontend
 
+The frontend is just one simple page with form to enable user to edit data.
+
 ### backend
+
+The backend is composed from several API endpoints.
+The main one is `/api/:inst_id` for both GET a POST request types.
+
+The GET variant first checks the user permissions. Then it checks the mapping of given realm to institution.
+If the JSON data file exists, it reads the data and sends them to frontend. If the JSON data file does not exist
+it performs an LDAP query to get all the data available. After querying LDAP is finished, all the data are sent to frontend.
+
 
 ### configuration
 
