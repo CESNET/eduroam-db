@@ -93,6 +93,11 @@ If the JSON data file exists, it reads the data and sends them to frontend. If t
 it performs an LDAP query to get all the data available. After querying LDAP is finished, all the data are sent to frontend.
 
 
+The POST variant first checks the user permissions. Then it checks the mapping of given realm to institution.
+POST input is then checked if it is a valid JSON. Finally the input data are validated against eduroam db v2 schema.
+If all checks are OK, then the data are saved.
+
+
 ### configuration
 
 The main idea to use configuration for this was to separate create additional layer
