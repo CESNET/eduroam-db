@@ -140,9 +140,24 @@ module.exports =
 The `module.exports` is just a node.js way of exposing file
 contents to be able to use one file in another.
 
-#### mapping of realms to institutions
+#### realm to institution mapping
 
-TODO
+It is necessary for the web application to know which realm corresponds to specific instid as used in converter.
+This is done via configration.
+
+The configuration file is placed in `web/coverage/config/realm_to_inst.js`.
+The file is not part of the repository for security reasons.
+
+Sample configuration may look like:
+```
+module.exports =
+{
+    "realm1.cz": "instid1",
+    "realm2.cz": "instid2",
+    "realm3.cz": "instid3",
+    "realm4.cz": "instid4",
+}
+```
 
 ### dependencies
 
