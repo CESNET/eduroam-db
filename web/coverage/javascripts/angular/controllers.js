@@ -24,6 +24,8 @@ function init_functions($scope, $http, $timeout)
       $scope.json_data.location.push({ info_URL : [], address : [] });
       add_empty_loc($scope);
     }
+
+    // TODO - init map
   }
 
   $scope.remove_location = function(index) {
@@ -64,6 +66,10 @@ function init_functions($scope, $http, $timeout)
 
   $scope.find_map_location = function(index) {
     query_osm_api($scope, $http, index);      // query the openstreetmap api
+  }
+
+  $scope.init_leaflet_by_id = function(index) {
+    init_leaflet_map_by_id(index);
   }
 }
 /* --------------------------------------------------------------------------------- */
@@ -313,20 +319,13 @@ function parse_location_data($scope, locations)
   }
 }
 /* --------------------------------------------------------------------------------- */
-// initialize openstreetmap
+// init leaflet map by id
 /* --------------------------------------------------------------------------------- */
-function init_map($timeout)
+function init_leaflet_map_by_id(id)
 {
-  $timeout(function () {
-    map = new OpenLayers.Map("ol_test");
-    var mapnik         = new OpenLayers.Layer.OSM();
-    var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-    var toProjection   = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-    var position       = new OpenLayers.LonLat(13.41,52.52).transform(fromProjection, toProjection);
-    var zoom           = 15;
-    map.addLayer(mapnik);
-    map.setCenter(position, zoom);
-  }, 300);
+  var map = L.map('map_' + id).setView([51.505, -0.09], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  }).addTo(map);
 }
 /* --------------------------------------------------------------------------------- */
 // retrieve json structure from backend api
@@ -343,8 +342,6 @@ function get_json_from_api($scope, $http, $timeout)
       parse_location_data($scope, response.data.location);
       $scope.json_data = response.data;
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
-
-      init_map($timeout);
     }
   }, function(err) {
     $scope.api_read_error = true;
