@@ -69,7 +69,7 @@ function init_functions($scope, $http, $timeout)
   }
 
   $scope.init_leaflet_by_id = function(index) {
-    init_leaflet_map_by_id(index);
+    init_leaflet_map_by_id($scope, index);
   }
 }
 /* --------------------------------------------------------------------------------- */
@@ -321,11 +321,19 @@ function parse_location_data($scope, locations)
 /* --------------------------------------------------------------------------------- */
 // init leaflet map by id
 /* --------------------------------------------------------------------------------- */
-function init_leaflet_map_by_id(id)
+function init_leaflet_map_by_id($scope, index)
 {
-  var map = L.map('map_' + id).setView([51.505, -0.09], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  }).addTo(map);
+  var coords = [];
+
+  if($scope.json_data.location[index].coordinates) {        // extract coords from data
+    coords.push($scope.json_data.location[index].coordinates.split(",")[1]);
+    coords.push($scope.json_data.location[index].coordinates.split(",")[0]);
+  }
+  else
+    coords = [50.1017839, 14.3885668];      // CESNET
+
+  var map = L.map('map_' + index).setView(coords, 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
 }
 /* --------------------------------------------------------------------------------- */
 // retrieve json structure from backend api
