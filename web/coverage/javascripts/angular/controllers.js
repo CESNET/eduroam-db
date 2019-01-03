@@ -24,8 +24,7 @@ function init_functions($scope, $http, $timeout)
       $scope.json_data.location.push({ info_URL : [], address : [] });
       add_empty_loc($scope);
     }
-
-    // TODO - init map
+    // map init is done automatically by acoordion expanding
   }
 
   $scope.remove_location = function(index) {
