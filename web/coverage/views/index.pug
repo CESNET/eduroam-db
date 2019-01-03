@@ -39,39 +39,39 @@ block content
             uib-accordion(close-others='true')
               .panel-default(uib-accordion-group='', heading='Základní údaje', is-open='false', ng-class="{ 'error' : basic_info_error }", parent-scope='accordion_shared_scope')
                 // ========================================================================================================
-                .form-group(ng-class="{ 'has-error' : main_form.name_cz.$error.required && !main_form.name_cz.$pristine}")
+                .form-group(ng-class="{ 'has-error' : main_form.name_cz.$error.required }")
                   label.col-sm-2.control-label Český název:
                   .col-xs-6
-                    input.form-control(type='text', placeholder='Ukázková škola Praha 1', ng-model='json_data.inst_name[0].data', name="name_cz", required, ng-blur='set_basic_info_error(main_form.name_cz.$error.required && !main_form.name_cz.$pristine)')
+                    input.form-control(type='text', placeholder='Ukázková škola Praha 1', ng-model='json_data.inst_name[0].data', name="name_cz", required, ng-blur='set_basic_info_error(main_form.name_cz.$error.required)')
                 // ========================================================================================================
-                .form-group(ng-class="{ 'has-error' : main_form.name_en.$error.required && !main_form.name_en.$pristine}")
+                .form-group(ng-class="{ 'has-error' : main_form.name_en.$error.required }")
                   label.col-sm-2.control-label Anglický název:
                   .col-xs-6
-                    input.form-control(type='text', placeholder='Example school Prague 1', ng-model='json_data.inst_name[1].data', name="name_en", required ng-blur='set_basic_info_error(main_form.name_en.$error.required && !main_form.name_en.$pristine)')
+                    input.form-control(type='text', placeholder='Example school Prague 1', ng-model='json_data.inst_name[1].data', name="name_en", required ng-blur='set_basic_info_error(main_form.name_en.$error.required)')
                 .form-group
                   label.col-sm-2.control-label Adresa
                 // ========================================================================================================
-                .form-group(ng-class="{ 'has-error' : main_form.street_cz.$error.required && !main_form.street_cz.$pristine}")
+                .form-group(ng-class="{ 'has-error' : main_form.street_cz.$error.required }")
                   label.col-sm-2.control-label Ulice a číslo popisné:
                   .col-xs-3
-                    input.form-control(type='text', placeholder='Vodičkova 1', ng-model='json_data.address[0].street.data', name="street_cz", required ng-blur='set_basic_info_error(main_form.street_cz.$error.required && !main_form.street_cz.$pristine)')
+                    input.form-control(type='text', placeholder='Vodičkova 1', ng-model='json_data.address[0].street.data', name="street_cz", required ng-blur='set_basic_info_error(main_form.street_cz.$error.required)')
                 // ========================================================================================================
-                .form-group(ng-class="{ 'has-error' : main_form.city_cz.$error.required && !main_form.city_cz.$pristine}")
+                .form-group(ng-class="{ 'has-error' : main_form.city_cz.$error.required }")
                   label.col-sm-2.control-label Město:
                   .col-xs-3
-                    input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[0].city.data', name="city_cz", required ng-blur='set_basic_info_error(main_form.city_cz.$error.required && !main_form.city_cz.$pristine)')
+                    input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[0].city.data', name="city_cz", required ng-blur='set_basic_info_error(main_form.city_cz.$error.required)')
                 // ========================================================================================================
-                .form-group(ng-class="{ 'has-error' : !main_form.info_url_cz.$pristine && (main_form.info_url_cz.$error.required || main_form.info_url_cz.$error.pattern)}")
+                .form-group(ng-class="{ 'has-error' : main_form.info_url_cz.$error.required || main_form.info_url_cz.$error.pattern }")
                   label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
                   .col-xs-6
-                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='json_data.info_URL[0].data', name="info_url_cz", required, ng-pattern='url_regex', ng-blur='set_basic_info_error(!main_form.info_url_cz.$pristine && (main_form.info_url_cz.$error.required || main_form.info_url_cz.$error.pattern))')
+                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='json_data.info_URL[0].data', name="info_url_cz", required, ng-pattern='url_regex', ng-blur='set_basic_info_error((main_form.info_url_cz.$error.required || main_form.info_url_cz.$error.pattern))')
                 // ========================================================================================================
-                .form-group(ng-class="{ 'has-error' : !main_form.info_url_en.$error.pristine && (main_form.info_url_en.$required && main_form.info_url_en.$error.pattern)}")
+                .form-group(ng-class="{ 'has-error' : main_form.info_url_en.$required && main_form.info_url_en.$error.pattern }")
                   label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
                   .col-xs-6
-                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', name="info_url_en", required, ng-pattern='url_regex', ng-blur='set_basic_info_error(!main_form.info_url_en.$error.pristine && (main_form.info_url_en.$required && main_form.info_url_en.$error.pattern))')
+                    input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', name="info_url_en", required, ng-pattern='url_regex', ng-blur='set_basic_info_error((main_form.info_url_en.$required && main_form.info_url_en.$error.pattern))')
                 // ========================================================================================================
-                .form-group(ng-class="{ 'has-error' : main_form.type.$error.required && !main_form.type.$pristine}")
+                .form-group(ng-class="{ 'has-error' : main_form.type.$error.required }")
                   label.col-sm-2.control-label Typ zapojení:
                   .col-xs-2
                     select.form-control(ng-model='json_data.type', name="type", required, disabled)
@@ -88,27 +88,27 @@ block content
                 // ========================================================================================================
                 div(ng-repeat='contact in json_data.contact track by $index')
                   // ========================================================================================================
-                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_name.$error.required && !main_form.admin_{{$index}}_name.$pristine}")
+                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_name.$error.required }")
                     label.col-sm-2.control-label Správce:
                     .col-xs-3
-                      input.form-control(type='text', placeholder='Jan Novák', ng-model='contact.name', name="admin_{{$index}}_name", required, ng-blur='set_admin_error(main_form["admin_" + $index + "_name"].$error.required && !main_form["admin_" + $index + "_name"].$pristine)')
+                      input.form-control(type='text', placeholder='Jan Novák', ng-model='contact.name', name="admin_{{$index}}_name", required, ng-blur='set_admin_error(main_form["admin_" + $index + "_name"].$error.required)')
                   // ========================================================================================================
-                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_mail.$error.required && !main_form.admin_{{$index}}_mail.$pristine}")
+                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_mail.$error.required }")
                     label.col-sm-2.control-label Email:
                     .col-xs-3
-                      input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email', name="admin_{{$index}}_mail", required, ng-blur='set_admin_error(main_form["admin_" + $index + "_mail"].$error.required && !main_form["admin_" + $index + "_mail"].$pristine)')
+                      input.form-control(type='text', placeholder='jan.novak@skola.cz', ng-model='contact.email', name="admin_{{$index}}_mail", required, ng-blur='set_admin_error(main_form["admin_" + $index + "_mail"].$error.required)')
                   // ========================================================================================================
-                  .form-group(ng-class="{ 'has-error' : !main_form.admin_{{$index}}_phone.$pristine && (main_form.admin_{{$index}}_phone.$error.required || main_form.admin_{{$index}}_phone.$error.pattern)}")
+                  .form-group(ng-class="{ 'has-error' : (main_form.admin_{{$index}}_phone.$error.required || main_form.admin_{{$index}}_phone.$error.pattern)}")
                     label.col-sm-2.control-label Telefon:
                     .col-xs-3
-                      input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone', name="admin_{{$index}}_phone", required, ng-pattern='phone_regex', ng-blur='set_admin_error(!main_formmain_form["admin_" + $index + "_phone"].$pristine && (main_form["admin_" + $index + "_phone"].$error.required || main_form["admin_" + $index + "_phone"].$error.pattern))')
+                      input.form-control(type='text', placeholder='+420 123 456 789', ng-model='contact.phone', name="admin_{{$index}}_phone", required, ng-pattern='phone_regex', ng-blur='set_admin_error((main_form["admin_" + $index + "_phone"].$error.required || main_form["admin_" + $index + "_phone"].$error.pattern))')
                   // ========================================================================================================
-                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_type.$error.required && !main_form.admin_{{$index}}_type.$pristine}")
+                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_type.$error.required }")
                     label.col-sm-2.control-label Typ kontaktu:
                     .col-xs-3
                       select.form-control(ng-model='contact.type', ng-options='contact_type.indexOf(type) as type for type in contact_type', name="admin_{{$index}}_type", required)
                   // ========================================================================================================
-                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_privacy.$error.required && !main_form.admin_{{$index}}_privacy.$pristine}")
+                  .form-group(ng-class="{ 'has-error' : main_form.admin_{{$index}}_privacy.$error.required }")
                     label.col-sm-2.control-label Soukromí kontaktu:
                     .col-xs-3
                       select.form-control(ng-model='contact.privacy', ng-options='contact_privacy.indexOf(type) as type for type in contact_privacy', name="admin_{{$index}}_privacy", required)
@@ -143,78 +143,78 @@ block content
                     .form-group
                       label.col-sm-2.control-label Adresa
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_street.$error.required && !main_form.location_{{$index}}_street.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_street.$error.required }")
                       label.col-sm-2.control-label Ulice a číslo popisné:
                       .col-xs-3
-                        input.form-control(type='text', placeholder='Vodičkova 1', ng-model='location.address[0].street.data', name="location_{{$index}}_street", required, ng-blur='set_location_error(main_form["location_" + $index + "_street"].$error.required && !main_form["location_" + $index + "_street"].$pristine); find_map_location($index);')
+                        input.form-control(type='text', placeholder='Vodičkova 1', ng-model='location.address[0].street.data', name="location_{{$index}}_street", required, ng-blur='set_location_error(main_form["location_" + $index + "_street"].$error.required); find_map_location($index);')
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_city.$error.required && !main_form.location_{{$index}}_city.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_city.$error.required }")
                       label.col-sm-2.control-label Město:
                       .col-xs-3
-                        input.form-control(type='text', placeholder='Praha 1', ng-model='location.address[0].city.data', name="location_{{$index}}_city", required, ng-blur='set_location_error(main_form["location_" + $index + "_city"].$error.required && !main_form["location_" + $index + "_city"].$pristine); find_map_location($index);')
+                        input.form-control(type='text', placeholder='Praha 1', ng-model='location.address[0].city.data', name="location_{{$index}}_city", required, ng-blur='set_location_error(main_form["location_" + $index + "_city"].$error.required); find_map_location($index);')
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_cz.$error.required && !main_form.location_{{$index}}_info_url_cz.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_cz.$error.required }")
                       label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
                       .col-xs-5
-                        input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='location.info_URL[0].data', name="location_{{$index}}_info_url_cz", required, ng-blur='set_location_error(main_form["location_" + $index + "_info_url_cz"].$error.required && !main_form["location_" + $index + "_info_url_cz"].$pristine)')
+                        input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='location.info_URL[0].data', name="location_{{$index}}_info_url_cz", required, ng-blur='set_location_error(main_form["location_" + $index + "_info_url_cz"].$error.required)')
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_en.$error.required && !main_form.location_{{$index}}_info_url_en.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_en.$error.required }")
                       label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
                       .col-xs-5
-                        input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='location.info_URL[1].data', name="location_{{$index}}_info_url_en", required, ng-blur='set_location_error(main_form["location_" + $index + "_info_url_en"].$error.required && !main_form["location_" + $index + "_info_url_en"].$pristine)')
+                        input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='location.info_URL[1].data', name="location_{{$index}}_info_url_en", required, ng-blur='set_location_error(main_form["location_" + $index + "_info_url_en"].$error.required)')
                     // ========================================================================================================
                     // TODO - kontrola pomoci regularu?
                     // TODO - disabled input, aby tam nemohli psat nejake blbosti?
                     // TODO - jinak by se muselo specifikovat v jakem poradi a formatu to napsat ....
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_coordinates.$error.required && !main_form.location_{{$index}}_coordinates.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_coordinates.$error.required }")
                       label.col-sm-2.control-label Geograficé umísťění:
                       .col-xs-3
-                        input.form-control(type='text', placeholder='Vyberte bod na mapě', ng-model='location.coordinates', disabled, name="location_{{$index}}_coordinates", required, ng-blur='set_location_error(main_form["location_" + $index + "_coordinates"].$error.required && !main_form["location_" + $index + "_coordinates"].$pristine)')
-                    // TODO - styling
-                    div#ol_test(style="height:250px; width:250px")
+                        input.form-control(type='text', placeholder='Vyberte bod na mapě', ng-model='location.coordinates', disabled, name="location_{{$index}}_coordinates", required, ng-blur='set_location_error(main_form["location_" + $index + "_coordinates"].$error.required)')
+                    //TODO - styling
+                    div.map(id="map_{{$index}}", style="height:500px; width:500px")
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_enc_level.$error.required && !main_form.location_{{$index}}_enc_level.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_enc_level.$error.required }")
                       label.col-sm-2.control-label Použité šifrování:
                       .col-xs-3
-                        input.form-control(type='text', ng-model='location.enc_level', list='enc_types', name="location_{{$index}}_enc_level", required, ng-blur='set_location_error(main_form["location_" + $index + "_enc_level"].$error.required && !main_form["location_" + $index + "_enc_level"].$pristine)')
+                        input.form-control(type='text', ng-model='location.enc_level', list='enc_types', name="location_{{$index}}_enc_level", required, ng-blur='set_location_error(main_form["location_" + $index + "_enc_level"].$error.required)')
                         //TODO - dalsi moznosti do listu?
                         datalist#enc_types
                           option(value='WPA2 + AES') WPA2 + AES
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_port_restrict.$error.required && !main_form.location_{{$index}}_port_restrict.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_port_restrict.$error.required }")
                       label.col-sm-2.control-label Existuje blokování portů?
                       .col-xs-2
                         select.form-control(ng-model='locations[$index].port_restrict', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_port_restrict", required)
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_transp_proxy.$error.required && !main_form.location_{{$index}}_transp_proxy.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_transp_proxy.$error.required }")
                       label.col-sm-2.control-label Je použita transparentní proxy?
                       .col-xs-2
                         select.form-control(ng-model='locations[$index].transp_proxy', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_transp_proxy", required)
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_ipv6.$error.required && !main_form.location_{{$index}}_ipv6.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_ipv6.$error.required }")
                       label.col-sm-2.control-label Je podporován protokol IPv6?
                       .col-xs-2
                         select.form-control(ng-model='locations[$index].ipv6', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_ipv6", required)
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_nat.$error.required && !main_form.location_{{$index}}_nat.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_nat.$error.required && }")
                       label.col-sm-2.control-label Je používán překlad adres (NAT)?
                       .col-xs-2
                         select.form-control(ng-model='locations[$index].nat', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_nat", required)
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_wired.$error.required && !main_form.location_{{$index}}_wired.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_wired.$error.required && }")
                       label.col-sm-2.control-label Poskytujete eduroam na metalických zásuvkách?
                       .col-xs-2
                         select.form-control(ng-model='locations[$index].wired', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_wired", required)
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_wired_count.$error.required && !main_form.location_{{$index}}_wired_count.$pristine}", ng-show='locations[$index].wired')
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_wired_count.$error.required }", ng-show='locations[$index].wired')
                       label.col-sm-2.control-label Počet metalických zásuvek
                       .col-xs-1
                         input.form-control(type='number', placeholder='5', ng-model='locations[$index].wired_count', name="location_{{$index}}_wired_count", ng-required='locations[$index].wired')
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_ap_no.$error.required && !main_form.location_{{$index}}_ap_no.$pristine}")
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_ap_no.$error.required }")
                       label.col-sm-2.control-label Počet použitých AP:
                       .col-xs-1
-                        input.form-control(type='number', placeholder='5', ng-model='location.AP_no', name="location_{{$index}}_ap_no", required, ng-blur='set_location_error(main_form["location_" + $index + "_ap_no"].$error.required && !main_form["location_" + $index + "_ap_no"].$pristine)')
+                        input.form-control(type='number', placeholder='5', ng-model='location.AP_no', name="location_{{$index}}_ap_no", required, ng-blur='set_location_error(main_form["location_" + $index + "_ap_no"].$error.required)')
                     // ========================================================================================================
                     .form-group(ng-show='json_data.location.length > 1')
                       label.col-sm-2.control-label Odebrat lokalitu
