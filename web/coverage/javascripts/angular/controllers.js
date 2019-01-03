@@ -222,7 +222,9 @@ function fill_form($scope)
   add_addresses($scope);
   set_location_tags($scope);
   add_info_url_lang($scope);
-  $scope.json_data.ts = new Date(); // TODO
+  $scope.json_data.ts = new Date().toISOString();
+  // replace seconds and milliseconds with "00Z"
+  $scope.json_data.ts = $scope.json_data.ts.substring(0, 17) + "00Z";
 }
 /* --------------------------------------------------------------------------------- */
 // save filled form as json to api
