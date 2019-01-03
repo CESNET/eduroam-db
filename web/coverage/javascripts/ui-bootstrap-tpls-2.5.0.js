@@ -222,7 +222,11 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse', 'ui.bootstrap
       panelClass: '@?',           // Ditto with panelClass
       isOpen: '=?',
       isDisabled: '=?',
-      parentScope: '=?'
+      parentScope: '=?',
+      collapsed: '&?',
+      collapsing: '&?',
+      expanded: '&?',
+      expanding: '&?'
     },
     controller: function() {
       this.setHeading = function(element) {
@@ -7416,7 +7420,7 @@ angular.module("uib/template/accordion/accordion-group.html", []).run(["$templat
     "    <a role=\"button\" data-toggle=\"collapse\" aria-expanded=\"{{isOpen}}\" aria-controls=\"{{::panelId}}\" tabindex=\"0\" class=\"accordion-toggle\" ng-click=\"toggleOpen()\" uib-accordion-transclude=\"heading\" ng-disabled=\"isDisabled\" uib-tabindex-toggle><span uib-accordion-header ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span></a>\n" +
     "  </h4>\n" +
     "</div>\n" +
-    "<div id=\"{{::panelId}}\" aria-labelledby=\"{{::headingId}}\" aria-hidden=\"{{!isOpen}}\" role=\"tabpanel\" class=\"panel-collapse collapse\" uib-collapse=\"!isOpen\">\n" +
+    "<div id=\"{{::panelId}}\" aria-labelledby=\"{{::headingId}}\" aria-hidden=\"{{!isOpen}}\" role=\"tabpanel\" class=\"panel-collapse collapse\" uib-collapse=\"!isOpen\" collapsed=\"collapsed()\" collapsing=\"collapsing()\" expanded=\"expanded()\" expanding=\"expanding()\">" +
     "  <div class=\"panel-body\" ng-transclude></div>\n" +
     "</div>\n" +
     "");
