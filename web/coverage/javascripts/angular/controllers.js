@@ -88,10 +88,10 @@ function validate_basic_info($scope, form)
   else if(form.city_cz.$error.required)
     $scope.basic_info_error = true;
 
-  else if(form.info_url_cz.$error.required || main_form.info_url_cz.$error.pattern)
+  else if(form.info_url_cz.$error.required || form.info_url_cz.$error.pattern)
     $scope.basic_info_error = true;
 
-  else if(form.info_url_en.$error.required || main_form.info_url_en.$error.pattern)
+  else if(form.info_url_en.$error.required || form.info_url_en.$error.pattern)
     $scope.basic_info_error = true;
 
   else if(form.type.$error.required)
