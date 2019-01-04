@@ -378,11 +378,6 @@ function save_json_to_api($scope, $http, $timeout)
 {
   fill_form($scope);
 
-  //validate_data($scope);
-
-  // TODO - if data are valid, send them to backend
-  // otherwise display errors to user
-
   $http({
     method  : 'POST',
     url     : 'https://pokryti.eduroam.cz/api/' + $scope.selected_realm,
