@@ -61,6 +61,10 @@ block content
                   .col-xs-3
                     input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[0].city.data', name="city_cz", required ng-blur='validate_basic_info(main_form)')
                 // ========================================================================================================
+                .form-group
+                  .col-xs-6
+                    a.info_url_hint(href="https://www.eduroam.cz/cs/spravce/edudb2/uvod") Jak má vypadat informační URL? TODO doplnit konkretni odkaz
+                // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.info_url_cz.$error.required || main_form.info_url_cz.$error.pattern }")
                   label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
                   .col-xs-6
@@ -158,6 +162,10 @@ block content
                       .col-xs-3
                         input.form-control(type='text', placeholder='Vyberte bod na mapě', ng-model='location.coordinates', disabled, name="location_{{$index}}_coordinates", required, ng-blur='validate_locations(main_form)')
                     div.map(id="map_{{$index}}")
+                    // ========================================================================================================
+                    .form-group
+                      .col-xs-6
+                        a.info_url_hint(href="https://www.eduroam.cz/cs/spravce/edudb2/uvod") Jak má vypadat informační URL? TODO doplnit konkretni odkaz
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_cz.$error.required || main_form.location_{{$index}}_info_url_cz.$error.pattern }")
                       label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
