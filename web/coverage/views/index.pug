@@ -157,8 +157,7 @@ block content
                       label.col-sm-2.control-label Geograficé umísťění:
                       .col-xs-3
                         input.form-control(type='text', placeholder='Vyberte bod na mapě', ng-model='location.coordinates', disabled, name="location_{{$index}}_coordinates", required, ng-blur='validate_locations(main_form)')
-                    //TODO - styling
-                    div.map(id="map_{{$index}}", style="height:500px; width:500px")
+                    div.map(id="map_{{$index}}")
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_cz.$error.required || main_form.location_{{$index}}_info_url_cz.$error.pattern }")
                       label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:

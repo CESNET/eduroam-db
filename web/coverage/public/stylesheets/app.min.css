@@ -258,3 +258,9 @@ a {
 .fade-in-out.ng-hide {
   opacity: 0;
 }
+
+.map {
+  height: 500px;
+  margin-bottom: 20px;
+  width: 100%;
+}
