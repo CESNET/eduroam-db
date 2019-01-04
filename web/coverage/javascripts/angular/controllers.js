@@ -38,16 +38,16 @@ function init_functions($scope, $http, $timeout)
     save_json_to_api($scope, $http, $timeout);
   }
 
-  $scope.set_basic_info_error = function(state) {
-    $scope.basic_info_error = state;
+  $scope.validate_basic_info = function(form) {
+    validate_basic_info($scope, form);
   }
 
-  $scope.set_admin_error = function(state) {
-    $scope.admins_error = state;
+  $scope.validate_admins = function(form) {
+    validate_admins($scope, form);
   }
 
-  $scope.set_location_error = function(state) {
-    $scope.location_error = state;
+  $scope.validate_locations = function(form) {
+    validate_locations($scope, form);
   }
 
   $scope.get_json = function() {
@@ -73,6 +73,150 @@ function init_functions($scope, $http, $timeout)
   }
 }
 /* --------------------------------------------------------------------------------- */
+// validate basic info inputs
+/* --------------------------------------------------------------------------------- */
+function validate_basic_info($scope, form)
+{
+  if(form.name_cz.$error.required)
+    $scope.basic_info_error = true;
+
+  else if(form.name_en.$error.required)
+    $scope.basic_info_error = true;
+
+  else if(form.street_cz.$error.required)
+    $scope.basic_info_error = true;
+
+  else if(form.city_cz.$error.required)
+    $scope.basic_info_error = true;
+
+  else if(form.info_url_cz.$error.required || main_form.info_url_cz.$error.pattern)
+    $scope.basic_info_error = true;
+
+  else if(form.info_url_en.$error.required || main_form.info_url_en.$error.pattern)
+    $scope.basic_info_error = true;
+
+  else if(form.type.$error.required)
+    $scope.basic_info_error = true;
+
+  else
+    $scope.basic_info_error = false;
+}
+/* --------------------------------------------------------------------------------- */
+// validate admins
+/* --------------------------------------------------------------------------------- */
+function validate_admins($scope, form)
+{
+  for(var i = 0; i < $scope.json_data.contact.length; i++) {
+    if(form["admin_" + i + "_name"].$error.required) {
+      $scope.admins_error = true;
+      break;
+    }
+
+    else if(form["admin_" + i + "_mail"].$error.required) {
+      $scope.admins_error = true;
+      break;
+    }
+
+    else if(form["admin_" + i + "_phone"].$error.required) {
+      $scope.admins_error = true;
+      break;
+    }
+
+    else if(form["admin_" + i + "_type"].$error.required) {
+      $scope.admins_error = true;
+      break;
+    }
+
+    else if(form["admin_" + i + "_privacy"].$error.required) {
+      $scope.admins_error = true;
+      break;
+    }
+
+    else {      // no other error occured
+      if(i == $scope.json_data.contact.length -1)     // last item
+        $scope.admins_error = false;
+    }
+  }
+}
+/* --------------------------------------------------------------------------------- */
+// validate locations
+/* --------------------------------------------------------------------------------- */
+function validate_locations($scope, form)
+{
+  for(var i = 0; i < $scope.json_data.location.length; i++) {
+    if(form["location_" + i + "_street"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_city"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_info_url_cz"].$error.required || form["location_" + i + "_info_url_cz"].$error.pattern) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_info_url_en"].$error.required || form["location_" + i + "_info_url_en"].$error.pattern) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_coordinates"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_enc_level"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_port_restrict"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_transp_proxy"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_ipv6"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_nat"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_wired"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    // wired is set - check wired_count
+    else if($scope.locations[i].wired && form["location_" + i + "_wired_count"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else if(form["location_" + i + "_ap_no"].$error.required) {
+      $scope.location_error = true;
+      break;
+    }
+
+    else {      // no other error occured
+      if(i == $scope.json_data.contact.length -1)     // last item
+        $scope.location_error = false;
+    }
+  }
+}
+/* --------------------------------------------------------------------------------- */
 // initialize auxiliary variables
 /* --------------------------------------------------------------------------------- */
 function init_vars($scope)
@@ -86,6 +230,7 @@ function init_vars($scope)
   $scope.admin_realms = realms;
   $scope.url_regex = /^http(s)?:\/\/.+\/.*$/;
   $scope.phone_regex = /^[+]?[()/0-9. -]{12,}$/;
+  $scope.mail_regex = /^.+@.+\..+$/;
 
   $scope.accordion_shared_scope = {};
 
