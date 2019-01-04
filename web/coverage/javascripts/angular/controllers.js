@@ -111,12 +111,12 @@ function validate_admins($scope, form)
       break;
     }
 
-    else if(form["admin_" + i + "_mail"].$error.required) {
+    else if(form["admin_" + i + "_mail"].$error.required || form["admin_" + i + "_mail"].$error.pattern) {
       $scope.admins_error = true;
       break;
     }
 
-    else if(form["admin_" + i + "_phone"].$error.required) {
+    else if(form["admin_" + i + "_phone"].$error.required || form["admin_" + i + "_phone"].$error.pattern) {
       $scope.admins_error = true;
       break;
     }
