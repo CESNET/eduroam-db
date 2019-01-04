@@ -169,12 +169,12 @@ block content
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_cz.$error.required || main_form.location_{{$index}}_info_url_cz.$error.pattern }")
                       label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
-                      .col-xs-5
+                      .col-xs-6
                         input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='location.info_URL[0].data', name="location_{{$index}}_info_url_cz", required, ng-pattern='url_regex', ng-blur='validate_locations(main_form)')
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_en.$error.required || main_form.location_{{$index}}_info_url_en.$error.pattern }")
                       label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
-                      .col-xs-5
+                      .col-xs-6
                         input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='location.info_URL[1].data', name="location_{{$index}}_info_url_en", required, ng-pattern='url_regex', ng-blur='validate_locations(main_form)')
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_enc_level.$error.required }")
