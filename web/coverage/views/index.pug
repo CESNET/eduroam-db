@@ -153,6 +153,13 @@ block content
                       .col-xs-3
                         input.form-control(type='text', placeholder='Praha 1', ng-model='location.address[0].city.data', name="location_{{$index}}_city", required, ng-blur='validate_locations(main_form); find_map_location($index);')
                     // ========================================================================================================
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_coordinates.$error.required }")
+                      label.col-sm-2.control-label Geograficé umísťění:
+                      .col-xs-3
+                        input.form-control(type='text', placeholder='Vyberte bod na mapě', ng-model='location.coordinates', disabled, name="location_{{$index}}_coordinates", required, ng-blur='validate_locations(main_form)')
+                    //TODO - styling
+                    div.map(id="map_{{$index}}", style="height:500px; width:500px")
+                    // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_cz.$error.required || main_form.location_{{$index}}_info_url_cz.$error.pattern }")
                       label.col-sm-2.control-label Informační URL pro návštevníky v Českém jazyce:
                       .col-xs-5
@@ -162,13 +169,6 @@ block content
                       label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
                       .col-xs-5
                         input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='location.info_URL[1].data', name="location_{{$index}}_info_url_en", required, ng-pattern='url_regex', ng-blur='validate_locations(main_form)')
-                    // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_coordinates.$error.required }")
-                      label.col-sm-2.control-label Geograficé umísťění:
-                      .col-xs-3
-                        input.form-control(type='text', placeholder='Vyberte bod na mapě', ng-model='location.coordinates', disabled, name="location_{{$index}}_coordinates", required, ng-blur='validate_locations(main_form)')
-                    //TODO - styling
-                    div.map(id="map_{{$index}}", style="height:500px; width:500px")
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_enc_level.$error.required }")
                       label.col-sm-2.control-label Použité šifrování:
