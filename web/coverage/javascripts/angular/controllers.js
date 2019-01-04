@@ -2,7 +2,6 @@
 angular.module('coverage').controller('coverage_controller', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
   init_vars($scope);
   init_functions($scope, $http, $timeout);
-  get_schema($scope, $http);
 }]);
 /* --------------------------------------------------------------------------------- */
 // bind auxiliary functions to $scope
@@ -540,80 +539,4 @@ function query_osm_api($scope, $http, index)
     // TODO ?
   });
 }
-/* --------------------------------------------------------------------------------- */
-// get eduroam database json schema v2
-/* --------------------------------------------------------------------------------- */
-function get_schema($scope, $http)
-{
-  $http({
-    method  : 'GET',
-    url     : 'https://pokryti.eduroam.cz/schema.json'
-  })
-  .then(function(response) {
-    $scope.schema = response.data;
-    console.log($scope.schema);
-  });
-}
-/* --------------------------------------------------------------------------------- */
-// validate data against schema
-/* --------------------------------------------------------------------------------- */
-function validate_data($scope)
-{
-  var JSV = require("./jsv").JSV;
-  var json = {};
-  var schema = {"type" : "object"};
-  var env = JSV.createEnvironment("test");
-  var report = env.validate(json, schema);
-
-  if (report.errors.length === 0) {
-      //JSON is valid against the schema
-  }  
-}
-///* --------------------------------------------------------------------------------- */
-//// validate data against schema
-///* --------------------------------------------------------------------------------- */
-//function validate_data($scope)
-//{
-//  const env = new djv();
-//  const jsonSchema = {
-//    "common": {
-//      "properties": {
-//        "type": {
-//          "enum": ["common"]
-//        }
-//      },
-//      "required": [
-//        "type"
-//      ]
-//    }
-//  };
-//
-//  env.validate(
-//
-//  //// Use `addSchema` to add json-schema
-//  //env.addSchema('test', jsonSchema);
-//  //env.validate('test#/common', { type: 'common' });
-//  //// => undefined
-//
-//  //env.validate('test#/common', { type: 'custom' });
-//  //// => 'required: data'
-//}
-/* --------------------------------------------------------------------------------- */
-//// validate data against schema
-///* --------------------------------------------------------------------------------- */
-//function validate_data($scope)
-//{
-//  var ajv = new Ajv; 
-//  var validate = ajv.compile($scope.schema);
-//  
-//  validate({ "schema_version": 2, "institutions": { "institution": [ $scope.json_data ] } })
-//  .then(function (data) {
-//    console.log('Data is valid', data); // { userId: 1, postId: 19 }
-//  })
-//  .catch(function (err) {
-//    //if (!(err instanceof Ajv.ValidationError)) throw err;
-//    // data is invalid
-//    console.log('Validation errors:', err.errors);
-//  });
-//}
 /* --------------------------------------------------------------------------------- */
