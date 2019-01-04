@@ -482,6 +482,17 @@ function init_leaflet_map_by_id($scope, index)
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
 }
 /* --------------------------------------------------------------------------------- */
+// validate whole from after json data are read from backend
+/* --------------------------------------------------------------------------------- */
+function validate_form($scope, $timeout)
+{
+  $timeout(function () {
+    validate_basic_info($scope, $scope.main_form);
+    validate_admins($scope, $scope.main_form);
+    validate_locations($scope, $scope.main_form);
+  }, 200);
+}
+/* --------------------------------------------------------------------------------- */
 // retrieve json structure from backend api
 /* --------------------------------------------------------------------------------- */
 function get_json_from_api($scope, $http, $timeout)
@@ -496,6 +507,7 @@ function get_json_from_api($scope, $http, $timeout)
       parse_location_data($scope, response.data.location);
       $scope.json_data = response.data;
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
+      validate_form($scope, $timeout);
     }
   }, function(err) {
     $scope.api_read_error = true;
