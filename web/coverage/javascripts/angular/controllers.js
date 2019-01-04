@@ -52,6 +52,7 @@ function init_functions($scope, $http, $timeout)
 
   $scope.get_json = function() {
     $scope.loading = true;
+    $scope.api_write_error = false;                 // no write error for newly selected realm
     $scope.accordion_shared_scope.toggleOpen();     // open the basic info tab on realm change
 
     // wait 500 ms before displaying the form
