@@ -401,7 +401,7 @@ function save_json_to_api($scope, $http, $timeout)
     $scope.api_write_error = true;
 
     if(err.status == 400) {
-      $scope.error = "Nastala chyba při validaci ukládaných dat.";
+      $scope.error = "Data se nepodařilo uložit, protože došlo k chybě při validaci.";
       $scope.error_msg = JSON.stringify(err.data, undefined, 4);
     }
 
