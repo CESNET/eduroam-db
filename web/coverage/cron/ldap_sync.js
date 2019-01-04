@@ -85,8 +85,11 @@ function prepare_data(data)
   ret = {};
   ret.admin_to_realm = {};
   ret.realm_to_inst = {};
+  ret.realms = [];
 
   for(var i in data) {
+    ret.realms.push(data[i].realm);
+
     for(var j in data[i].managers) {
       data[i].managers[j] = data[i].managers[j].replace("uid=", "").replace(",ou=people,dc=cesnet,dc=cz", "@cesnet.cz");
 
@@ -115,6 +118,8 @@ function generate_config(data)
     fs.writeFileSync("./config/realm_to_inst.js", "module.exports = \n");
     fs.appendFileSync("./config/realm_to_inst.js", JSON.stringify(data.realm_to_inst, null, 4));
   }
+  fs.writeFileSync("./config/realms.js", "module.exports = \n");
+  fs.appendFileSync("./config/realms.js", JSON.stringify(data.realms, null, 4));
 }
 // --------------------------------------------------------------------------------------
 module.exports = exp;
