@@ -1,7 +1,7 @@
 const gulp = require('gulp');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
-const streamqueue  = require('streamqueue');
+const streamqueue = require('streamqueue');
 // -----------------------------------------------------------
 // minify css
 gulp.task('css', function() {
