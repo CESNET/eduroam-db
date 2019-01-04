@@ -70,7 +70,7 @@ block content
                   .col-xs-6
                     input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_cz.html', ng-model='json_data.info_URL[0].data', name="info_url_cz", required, ng-pattern='url_regex', ng-blur='validate_basic_info(main_form)')
                 // ========================================================================================================
-                .form-group(ng-class="{ 'has-error' : main_form.info_url_en.$required || main_form.info_url_en.$error.pattern }")
+                .form-group(ng-class="{ 'has-error' : main_form.info_url_en.$error.required || main_form.info_url_en.$error.pattern }")
                   label.col-sm-2.control-label Informační URL pro návštevníky v Anglickém jazyce:
                   .col-xs-6
                     input.form-control(type='text', placeholder='https://skola.cz/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', name="info_url_en", required, ng-pattern='url_regex', ng-blur='validate_basic_info(main_form)')
