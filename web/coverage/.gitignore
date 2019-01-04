@@ -3,3 +3,4 @@ coverage_files
 config/realm_to_admin.js
 config/realm_to_inst.js
 config/tokens.js
+config/admins.js

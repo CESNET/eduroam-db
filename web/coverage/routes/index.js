@@ -8,16 +8,14 @@ const inst_mapping = require('../config/realm_to_inst.js')
 const token_mapping = require('../config/tokens.js')
 const jsonschema = require('jsonschema')
 const schema = require('../config/schema.json')
+const admins = require('../config/admins.js')
+const realms = require('../config/realms.js')
 // --------------------------------------------------------------------------------------
 // get the name of the user logged in the application
 // --------------------------------------------------------------------------------------
 function get_user(req)
 {
-  var username = req.headers["remote_user"];
-  if(username.indexOf("@") != -1)
-    username = username.split("@")[0];
-
-  return username;
+  return req.headers["remote_user"];
 }
 // --------------------------------------------------------------------------------------
 // get title page
@@ -26,24 +24,14 @@ router.get('/', function(req, res, next) {
   respond(res, get_user(req));
 });
 // --------------------------------------------------------------------------------------
-// transform input data to array of realms
+// check if user is super admin
 // --------------------------------------------------------------------------------------
-function transform_realms(realms)
+function is_super_admin(user)
 {
-  var ret = [];
+  if(admins.admins.indexOf(user) != -1)
+    return true;        // super admin
 
-  if (typeof(realms) === 'object')
-    for(var i in realms) {
-      if(typeof(realms[i]) === 'object') {      // realm with aliases
-        ret.push(realms[i][0]);         // add first realm
-      }
-      else
-        ret.push(realms[i]);         // add realm
-    }
-  else      // single realm for admin?
-    ;    // TODO
-
-  return ret;
+  return false;         // NOT super admin
 }
 // --------------------------------------------------------------------------------------
 // check permissions mapping of user to realms
@@ -52,8 +40,11 @@ function get_administered_realms(user)
 {
   var ret;
 
-  if((user + "@cesnet.cz") in admin_mapping)
-    ret = admin_mapping[user + "@cesnet.cz"];
+  if(is_super_admin(user))                     // super admin - can choose any realm
+    ret = realms;
+
+  else if(user in admin_mapping)               // regular user, can choose only own realm
+    ret = admin_mapping[user];
   else
     ret = [];  // empty array
 
@@ -74,7 +65,7 @@ router.get('/api/:inst_id', function(req, res, next)
   if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
 
     // check that the user has permission to read requested realm
-    if(req.headers["remote_user"] && get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1) {
+    if(req.headers["remote_user"] && (get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1 || is_super_admin(user))) {
 
       // check that requested realm exists in inst_mapping and correspoding JSON file exists
       if(req.params.inst_id in inst_mapping && fs.existsSync('./coverage_files/' + inst_mapping[req.params.inst_id] + '.json')) {
@@ -161,7 +152,7 @@ router.post('/api/:inst_id', function(req, res, next)
   if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
 
     // check that the user has permission to edit requested realm
-    if(req.headers["remote_user"] && get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1) {
+    if(req.headers["remote_user"] && (get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1 || is_super_admin(user))) {
       save_data(req, res);
     }
     else {        // no permission to edit requested realm
