@@ -52,7 +52,9 @@ function init_functions($scope, $http, $timeout)
   $scope.get_json = function() {
     $scope.loading = true;
     $scope.api_write_error = false;                 // no write error for newly selected realm
-    $scope.accordion_shared_scope.toggleOpen();     // open the basic info tab on realm change
+
+    if(!$scope.basic_info.open)                    // only if closed
+      $scope.accordion_shared_scope.toggleOpen();     // open the basic info tab on realm change
 
     // wait 500 ms before displaying the form
     // when switching realms, this seems usefull in the way the user knows that the form really changed
@@ -220,11 +222,12 @@ function validate_locations($scope, form)
 /* --------------------------------------------------------------------------------- */
 function init_vars($scope)
 {
-  $scope.realm_changed = true;
   $scope.loading = false;
   $scope.api_read_error = false;
   $scope.api_write_error = false;
   $scope.api_write_success = false;
+  $scope.basic_info = {};           // accordion only works correctly with object
+  $scope.basic_info.open = false;
   $scope.locations = [];
   $scope.admin_realms = realms;
   $scope.url_regex = /^http(s)?:\/\/.+$/;

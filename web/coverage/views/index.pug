@@ -37,7 +37,7 @@ block content
           // ========================================================================================================
           div(ng-show='selected_realm && !api_read_error && !loading')
             uib-accordion(close-others='true')
-              .panel-default(uib-accordion-group='', heading='Základní údaje', is-open='false', ng-class="{ 'error' : basic_info_error }", parent-scope='accordion_shared_scope')
+              .panel-default(uib-accordion-group='', heading='Základní údaje', is-open='basic_info.open', ng-class="{ 'error' : basic_info_error }", parent-scope='accordion_shared_scope')
                 // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.name_cz.$error.required }")
                   label.col-sm-2.control-label Český název:
