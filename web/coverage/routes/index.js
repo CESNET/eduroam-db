@@ -131,7 +131,12 @@ function save_data(req, res)
 
     if(result.errors.length != 0) {     // check for validation errors
       res.status(400);
-      res.send(result.errors);          // send errors to user
+      var errors = [];
+
+      for(var i = 0; i < result.errors.length; i++)       // iterate all errors
+        errors.push({ property : result.errors[i].property, message : result.errors[i].message });      //  send only error property and message
+
+      res.send(errors);          // send errors to user
     }
     else {
       fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);
