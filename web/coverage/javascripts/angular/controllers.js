@@ -271,6 +271,12 @@ function add_info_url_lang($scope)
   $scope.json_data.info_URL[1].lang = "en";
 
   for(var i in $scope.json_data.location) {
+    if(!$scope.json_data.location[i].info_URL[0])     // check if object exists
+      $scope.json_data.location[i].info_URL[0] = {};
+
+    if(!$scope.json_data.location[i].info_URL[1])     // check if object exists
+      $scope.json_data.location[i].info_URL[1] = {};
+
     $scope.json_data.location[i].info_URL[0].lang = "cs";
     $scope.json_data.location[i].info_URL[1].lang = "en";
   }
