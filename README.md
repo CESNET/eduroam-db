@@ -159,6 +159,19 @@ module.exports =
 }
 ```
 
+#### super admin mode
+
+Application includes a super admin mode as an options for NRO adminitors to edit institutions' coverage information.
+An administator needs to be manually configured to become super admin. The configuration file is placed in `web/coverage/config/admins.js`.
+
+Sample configuration may look like:
+```
+module.exports =
+{
+  "admins" : [ "admin1@nro1.tld", "admin2@nro2.tld" ]
+}
+```
+
 ### dependencies
 
 The web application is built in node.js. It needs node.js to run.
