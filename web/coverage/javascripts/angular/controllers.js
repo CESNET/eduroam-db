@@ -470,50 +470,26 @@ function parse_location_data($scope, locations)
   }
 }
 /* --------------------------------------------------------------------------------- */
-// TODO
-/* --------------------------------------------------------------------------------- */
-function get_center(coords)
-{
-  var center = [];
-  var cnt1 = 0;
-  var cnt2 = 0;
-
-  for(var i in coords) {
-    cnt1 += Number(coords[i][0]);
-    cnt2 += Number(coords[i][1]);
-  }
-
-  center.push(parseFloat(cnt1 / coords.length).toFixed(6));
-  center.push(parseFloat(cnt2 / coords.length).toFixed(6));
-
-  return center;
-}
-/* --------------------------------------------------------------------------------- */
 // init coverage map (all locations in one map)
 /* --------------------------------------------------------------------------------- */
 function init_coverage_map($scope)
 {
   var coords = [];
+  var map = L.map('coverage_map');
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
 
   for(var i = 0; i < $scope.json_data.location.length; i++) {
     var tmp = [];
     tmp.push($scope.json_data.location[i].coordinates.split(",")[1]);
     tmp.push($scope.json_data.location[i].coordinates.split(",")[0]);
+    var marker = new L.marker(tmp).addTo(map);
 
+    // TODO - markery ulozit do scopu a aktualizovat v konkretni lokalite pri klinuti?
     coords.push(tmp);
   }
 
-  // TODO - some better logic to check if all points are on the map for set zoom level?
-  var center = get_center(coords);
-
-  var map = L.map('coverage_map').setView(center, 17);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
-
-  //// add marker on click
-  //var marker_group = new L.LayerGroup();
-  //map.on('click', function(e) {
-  //  var marker = new L.marker(e.latlng).addTo(map);
-  //});
+  map.fitBounds(coords);
+  map.scrollWheelZoom.disable();   //disable default scroll - TODO
 }
 /* --------------------------------------------------------------------------------- */
 // init leaflet map by id
