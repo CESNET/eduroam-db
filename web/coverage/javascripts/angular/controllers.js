@@ -524,9 +524,21 @@ function get_json_from_api($scope, $http, $timeout)
   });
 }
 /* --------------------------------------------------------------------------------- */
+// update form coordinates for specific location
+/* --------------------------------------------------------------------------------- */
+function update_location_coords($scope, $timeout, index, lat, lon)
+{
+  var lon = parseFloat(lon).toFixed(6);   // get lon
+  var lat = parseFloat(lat).toFixed(6);   // get lat
+
+  $timeout(function () {
+    $scope.json_data.location[index].coordinates = lon + "," + lat;       // set form coordinates
+  }, 0);
+}
+/* --------------------------------------------------------------------------------- */
 // query openstreetmap API
 /* --------------------------------------------------------------------------------- */
-function query_osm_api($scope, $http, index)
+function query_osm_api($scope, $timeout, $http, index)
 {
   var params = "format=json";
 
@@ -544,11 +556,7 @@ function query_osm_api($scope, $http, index)
     if(response.data.length > 0) {   // got some data
       // there may be more results, but for simplicity work with the first one only
       $scope.osm_data = response.data[0];        // get osm API data
-      var lon = parseFloat($scope.osm_data.lon).toFixed(6);   // get lon
-      var lat = parseFloat($scope.osm_data.lat).toFixed(6);   // get lat
-
-      $scope.json_data.location[index].coordinates = lon + "," + lat;       // set form coordinates
-
+      update_location_coords($scope, $timeout, index, $scope.osm_data.lat, $scope.osm_data.lon);
       // set map marker
     }
   }, function(err) {
