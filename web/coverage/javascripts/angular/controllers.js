@@ -474,6 +474,8 @@ function parse_location_data($scope, locations)
 /* --------------------------------------------------------------------------------- */
 function init_coverage_map($scope)
 {
+  $scope.coverage_map = {};
+  $scope.coverage_map.markers = [];
   var coords = [];
   var map = L.map('coverage_map');
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
@@ -483,13 +485,14 @@ function init_coverage_map($scope)
     tmp.push($scope.json_data.location[i].coordinates.split(",")[1]);
     tmp.push($scope.json_data.location[i].coordinates.split(",")[0]);
     var marker = new L.marker(tmp).addTo(map);
-
-    // TODO - markery ulozit do scopu a aktualizovat v konkretni lokalite pri klinuti?
+    marker.bindPopup($scope.locations[i].heading).openPopup();      // popup with location street and city
     coords.push(tmp);
+    $scope.coverage_map.markers[i] = marker;
   }
 
   map.fitBounds(coords);
   map.scrollWheelZoom.disable();   //disable default scroll - TODO
+  $scope.coverage_map.map = map;
 }
 /* --------------------------------------------------------------------------------- */
 // init leaflet map by id
@@ -522,6 +525,7 @@ function init_leaflet_map_by_id($scope, $timeout, index)
       if(!$scope.markers[index]) {      // only one marker per map
         var marker = new L.marker(e.latlng).addTo(map);
         $scope.markers[index] = marker;
+        var marker = new L.marker(e.latlng).addTo($scope.coverage_map); // add to global map
       }
     });
   }
@@ -532,6 +536,10 @@ function init_leaflet_map_by_id($scope, $timeout, index)
       $scope.markers[index].setLatLng(e.latlng);
       $scope.markers[index].update();
       update_location_coords($scope, $timeout, index, e.latlng.lat, e.latlng.lng);
+
+      // update global map marker
+      $scope.coverage_map.markers[index].setLatLng(e.latlng);
+      $scope.coverage_map.markers[index].update();
     }
   });
 }
