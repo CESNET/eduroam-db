@@ -66,11 +66,11 @@ function init_functions($scope, $http, $timeout)
   }
 
   $scope.find_map_location = function(index) {
-    query_osm_api($scope, $http, index);      // query the openstreetmap api
+    query_osm_api($scope, $timeout, $http, index);      // query the openstreetmap api
   }
 
   $scope.init_leaflet_by_id = function(index) {
-    init_leaflet_map_by_id($scope, index);
+    init_leaflet_map_by_id($scope, $timeout, index);
   }
 }
 /* --------------------------------------------------------------------------------- */
@@ -233,6 +233,7 @@ function init_vars($scope)
   $scope.url_regex = /^http(s)?:\/\/.+$/;
   $scope.phone_regex = /^[+]?[()/0-9. -]{12,}$/;
   $scope.mail_regex = /^.+@.+\..+$/;
+  $scope.markers = [];
 
   $scope.accordion_shared_scope = {};
 
@@ -469,21 +470,94 @@ function parse_location_data($scope, locations)
   }
 }
 /* --------------------------------------------------------------------------------- */
-// init leaflet map by id
+// TODO
 /* --------------------------------------------------------------------------------- */
-function init_leaflet_map_by_id($scope, index)
+function get_center(coords)
+{
+  var center = [];
+  var cnt1 = 0;
+  var cnt2 = 0;
+
+  for(var i in coords) {
+    cnt1 += Number(coords[i][0]);
+    cnt2 += Number(coords[i][1]);
+  }
+
+  center.push(parseFloat(cnt1 / coords.length).toFixed(6));
+  center.push(parseFloat(cnt2 / coords.length).toFixed(6));
+
+  return center;
+}
+/* --------------------------------------------------------------------------------- */
+// init coverage map (all locations in one map)
+/* --------------------------------------------------------------------------------- */
+function init_coverage_map($scope)
 {
   var coords = [];
+
+  for(var i = 0; i < $scope.json_data.location.length; i++) {
+    var tmp = [];
+    tmp.push($scope.json_data.location[i].coordinates.split(",")[1]);
+    tmp.push($scope.json_data.location[i].coordinates.split(",")[0]);
+
+    coords.push(tmp);
+  }
+
+  // TODO - some better logic to check if all points are on the map for set zoom level?
+  var center = get_center(coords);
+
+  var map = L.map('coverage_map').setView(center, 17);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+
+  //// add marker on click
+  //var marker_group = new L.LayerGroup();
+  //map.on('click', function(e) {
+  //  var marker = new L.marker(e.latlng).addTo(map);
+  //});
+}
+/* --------------------------------------------------------------------------------- */
+// init leaflet map by id
+/* --------------------------------------------------------------------------------- */
+function init_leaflet_map_by_id($scope, $timeout, index)
+{
+  var coords = [];
+  var zoom;
 
   if($scope.json_data.location[index].coordinates) {        // extract coords from data
     coords.push($scope.json_data.location[index].coordinates.split(",")[1]);
     coords.push($scope.json_data.location[index].coordinates.split(",")[0]);
+    zoom = 20;      // set zoom to close, if coords are available
   }
-  else
+  else {
     coords = [50.1017839, 14.3885668];      // CESNET
+    zoom = 8;
+  }
 
-  var map = L.map('map_' + index).setView(coords, 13);
+  var map = L.map('map_' + index).setView(coords, zoom);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+
+  if($scope.json_data.location[index].coordinates) {        // add marker
+    var marker = new L.marker(coords).addTo(map);
+    $scope.markers[index] = marker;
+  }
+  else {
+    // add marker on click
+    map.on('click', function(e) {
+      if(!$scope.markers[index]) {      // only one marker per map
+        var marker = new L.marker(e.latlng).addTo(map);
+        $scope.markers[index] = marker;
+      }
+    });
+  }
+
+  // move marker on click
+  map.on('click', function(e) {
+    if($scope.markers[index]) {      // marker exists
+      $scope.markers[index].setLatLng(e.latlng);
+      $scope.markers[index].update();
+      update_location_coords($scope, $timeout, index, e.latlng.lat, e.latlng.lng);
+    }
+  });
 }
 /* --------------------------------------------------------------------------------- */
 // validate whole from after json data are read from backend
