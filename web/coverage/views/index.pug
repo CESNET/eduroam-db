@@ -150,12 +150,12 @@ block content
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_street.$error.required }")
                       label.col-sm-2.control-label Ulice a číslo popisné:
                       .col-xs-3
-                        input.form-control(type='text', placeholder='Vodičkova 1', ng-model='location.address[0].street.data', name="location_{{$index}}_street", required, ng-blur='validate_locations(main_form); find_map_location($index);')
+                        input.form-control(type='text', placeholder='Vodičkova 1', ng-model='location.address[0].street.data', name="location_{{$index}}_street", required, ng-blur='validate_locations(main_form); find_map_location($index); set_location_heading($index);')
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_city.$error.required }")
                       label.col-sm-2.control-label Město:
                       .col-xs-3
-                        input.form-control(type='text', placeholder='Praha 1', ng-model='location.address[0].city.data', name="location_{{$index}}_city", required, ng-blur='validate_locations(main_form); find_map_location($index);')
+                        input.form-control(type='text', placeholder='Praha 1', ng-model='location.address[0].city.data', name="location_{{$index}}_city", required, ng-blur='validate_locations(main_form); find_map_location($index); set_location_heading($index);')
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_coordinates.$error.required }")
                       label.col-sm-2.control-label Geograficé umísťění:
