@@ -72,6 +72,10 @@ function init_functions($scope, $http, $timeout)
   $scope.init_leaflet_by_id = function(index) {
     init_leaflet_map_by_id($scope, $timeout, index);
   }
+
+  $scope.init_coverage_map = function() {
+    init_coverage_map($scope);
+  }
 }
 /* --------------------------------------------------------------------------------- */
 // validate basic info inputs
@@ -233,7 +237,6 @@ function init_vars($scope)
   $scope.url_regex = /^http(s)?:\/\/.+$/;
   $scope.phone_regex = /^[+]?[()/0-9. -]{12,}$/;
   $scope.mail_regex = /^.+@.+\..+$/;
-  $scope.markers = [];
 
   $scope.accordion_shared_scope = {};
 
@@ -495,6 +498,52 @@ function init_coverage_map($scope)
   $scope.coverage_map.map = map;
 }
 /* --------------------------------------------------------------------------------- */
+// add markers to specific location map
+/* --------------------------------------------------------------------------------- */
+function add_location_markers($scope, $timeout, index, map)
+{
+  if($scope.json_data.location[index].coordinates) {        // check if coords are defined
+    var coords = [];
+    coords.push($scope.json_data.location[index].coordinates.split(",")[1]);
+    coords.push($scope.json_data.location[index].coordinates.split(",")[0]);
+    var marker = new L.marker(coords).addTo(map);       // add marker
+    $scope.locations[index].marker = marker;    // store marker in location
+  }
+
+  if(!$scope.json_data.location[index].coordinates) {        // coords not present, add marker on click
+    // add marker on click
+    map.on('click', function(e) {
+      if(!$scope.locations[index].marker) {      // only one marker per map
+        var marker = new L.marker(e.latlng).addTo(map);
+        $scope.locations[index].marker = marker;        // store marker in location
+      }
+      if(!$scope.coverage_map.markers[index]) {      // no marker in global map for this location yet
+        var marker = new L.marker(e.latlng).addTo($scope.coverage_map.map); // add to global map
+        $scope.coverage_map.markers[index] = marker;     // save global map marker
+
+        if($scope.locations[index].heading)     // set popup if defined
+          //marker.bindPopup($scope.locations[index].heading).openPopup();      // popup with location street and city
+          marker.bindPopup($scope.locations[index].heading);
+      }
+    });
+  }
+
+  // move marker on click
+  map.on('click', function(e) {
+    if($scope.locations[index].marker) {      // marker exists
+      $scope.locations[index].marker.setLatLng(e.latlng);
+      $scope.locations[index].marker.update();
+      update_location_coords($scope, $timeout, index, e.latlng.lat, e.latlng.lng);
+
+      // update global map marker
+      if($scope.coverage_map.markers[index]) {
+        $scope.coverage_map.markers[index].setLatLng(e.latlng);
+        $scope.coverage_map.markers[index].update();
+      }
+    }
+  });
+}
+/* --------------------------------------------------------------------------------- */
 // init leaflet map by id
 /* --------------------------------------------------------------------------------- */
 function init_leaflet_map_by_id($scope, $timeout, index)
@@ -513,35 +562,42 @@ function init_leaflet_map_by_id($scope, $timeout, index)
   }
 
   var map = L.map('map_' + index).setView(coords, zoom);
+  map.scrollWheelZoom.disable();   //disable default scroll - TODO
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+  $scope.locations[index].map = map;        // save map
 
-  if($scope.json_data.location[index].coordinates) {        // add marker
-    var marker = new L.marker(coords).addTo(map);
-    $scope.markers[index] = marker;
-  }
-  else {
-    // add marker on click
-    map.on('click', function(e) {
-      if(!$scope.markers[index]) {      // only one marker per map
-        var marker = new L.marker(e.latlng).addTo(map);
-        $scope.markers[index] = marker;
-        var marker = new L.marker(e.latlng).addTo($scope.coverage_map); // add to global map
-      }
-    });
-  }
+  add_location_markers($scope, $timeout, index, map);
 
-  // move marker on click
-  map.on('click', function(e) {
-    if($scope.markers[index]) {      // marker exists
-      $scope.markers[index].setLatLng(e.latlng);
-      $scope.markers[index].update();
-      update_location_coords($scope, $timeout, index, e.latlng.lat, e.latlng.lng);
+  //if($scope.json_data.location[index].coordinates) {        // add marker
+  //  var marker = new L.marker(coords).addTo(map);
+  //  $scope.markers[index] = marker;
+  //}
+  //else {
+  //  // add marker on click
+  //  map.on('click', function(e) {
+  //    if(!$scope.markers[index]) {      // only one marker per map
+  //      var marker = new L.marker(e.latlng).addTo(map);
+  //      $scope.markers[index] = marker;
+  //      var marker = new L.marker(e.latlng).addTo($scope.coverage_map); // add to global map
 
-      // update global map marker
-      $scope.coverage_map.markers[index].setLatLng(e.latlng);
-      $scope.coverage_map.markers[index].update();
-    }
-  });
+  //      if($scope.locations[index].heading)     // set popup if defined
+  //        marker.bindPopup($scope.locations[index].heading).openPopup();      // popup with location street and city
+  //    }
+  //  });
+  //}
+
+  //// move marker on click
+  //map.on('click', function(e) {
+  //  if($scope.markers[index]) {      // marker exists
+  //    $scope.markers[index].setLatLng(e.latlng);
+  //    $scope.markers[index].update();
+  //    update_location_coords($scope, $timeout, index, e.latlng.lat, e.latlng.lng);
+
+  //    // update global map marker
+  //    $scope.coverage_map.markers[index].setLatLng(e.latlng);
+  //    $scope.coverage_map.markers[index].update();
+  //  }
+  //});
 }
 /* --------------------------------------------------------------------------------- */
 // validate whole from after json data are read from backend
@@ -600,10 +656,10 @@ function query_osm_api($scope, $timeout, $http, index)
 {
   var params = "format=json";
 
-  if($scope.json_data.location[index].address[0].street.data)
+  if($scope.json_data.location[index].address[0].street && $scope.json_data.location[index].address[0].street.data)
     params += "&street=" + encodeURI($scope.json_data.location[index].address[0].street.data);
 
-  if($scope.json_data.location[index].address[0].city.data)
+  if($scope.json_data.location[index].address[0].city && $scope.json_data.location[index].address[0].city.data)
     params += "&city=" + encodeURI($scope.json_data.location[index].address[0].city.data);
 
   $http({
@@ -615,7 +671,9 @@ function query_osm_api($scope, $timeout, $http, index)
       // there may be more results, but for simplicity work with the first one only
       $scope.osm_data = response.data[0];        // get osm API data
       update_location_coords($scope, $timeout, index, $scope.osm_data.lat, $scope.osm_data.lon);
-      // set map marker
+
+      // add map marker
+      add_location_markers($scope, $timeout, index, $scope.locations[index].map);
     }
   }, function(err) {
     // TODO ?
