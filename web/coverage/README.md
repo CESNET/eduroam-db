@@ -14,14 +14,18 @@
     Co kdyz nebudou mit mapy presna data? V takovem pripade by bylo nemozne (?) mit zaroven presne souradnice a ulici/mesto, pokud
     budou mit mapy chybna data.
   - pridat do mapy vyhledani ulice/mesta podle vybraneho bodu na mape?
+    - jo tohle je rozumne reseni predchoziho bodu
   - zakaz scrollovani, scrollovani pomoci ctrl + kolecka
 
 - predelat dropdowny v lokalitach na checkboxy?
 
 - vizualni signalizace super admin modu?
-
+  - ano
+  
 - chybove podbarveni pro konkrentni lokalitu? tohle by asi nebylo uplne jednoduche implementovat
+  - ta se bez toho obejdeme
 
 - abecedni setrideni realmu?
+  - hezci reverzne podle domen jako mame na matici
 
 - vratit puvodni modrou barvu odkazu pro nazvy jednotlivych sekci? Po uprave knihovny se tohle rozbilo
