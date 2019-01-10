@@ -4,12 +4,18 @@ block content
   body(ng-controller='coverage_controller', name='main_form')
     script.
       var realms = !{JSON.stringify(realms)};
+      var admin = !{JSON.stringify(admin)};
     .container-fluid
       div
         // ========================================================================================================
         h4 Správa informací o pokrytí eduroamu
         p#basic_info
           | Aplikace je určena pro správce organizací připojených do eduroamu. Slouží pro úpravu informací o pokrytí. Dokumentace je k dispozici #[a(href="https://www.eduroam.cz/cs/spravce/edudb2/uvod") zde].
+
+        // ========================================================================================================
+        h4(ng-show='admin') Jste přihlášen jako administrátor a můžete editovat informace o pokrytí libovolné organizace.
+        // ========================================================================================================
+
 
         // ========================================================================================================
         //- novalidate used as workaround to prevent console errors when removing locations

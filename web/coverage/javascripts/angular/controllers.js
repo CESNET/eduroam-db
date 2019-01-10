@@ -263,6 +263,7 @@ function init_vars($scope)
   $scope.basic_info.open = false;
   $scope.locations = [];
   $scope.admin_realms = realms;
+  $scope.admin = admin;
   $scope.url_regex = /^http(s)?:\/\/.+$/;
   $scope.phone_regex = /^[+]?[()/0-9. -]{12,}$/;
   $scope.mail_regex = /^.+@.+\..+$/;
