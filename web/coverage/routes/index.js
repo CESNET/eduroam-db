@@ -54,7 +54,7 @@ function get_administered_realms(user)
 // respond to user
 // --------------------------------------------------------------------------------------
 function respond(res, user) {
-  res.render('index', { title: 'Správa informací o pokrytí', realms : get_administered_realms(user) });
+  res.render('index', { title: 'Správa informací o pokrytí', realms : get_administered_realms(user), admin : is_super_admin(user) });
 }
 // --------------------------------------------------------------------------------------
 // get institution by realm
