@@ -84,7 +84,7 @@ function init_functions($scope, $http, $timeout)
 
   $scope.set_location_heading = function(index) {
     // set heading if city and street are set
-    if($scope.json_data.location[index].address[0].city && $scope.json_data.location[index].address[0].city.data &&
+    if($scope.json_data.location[index].address[0] && $scope.json_data.location[index].address[0].city && $scope.json_data.location[index].address[0].city.data &&
        $scope.json_data.location[index].address[0].street && $scope.json_data.location[index].address[0].street.data) {
       $scope.locations[index].heading = $scope.json_data.location[index].address[0].street.data + " " + $scope.json_data.location[index].address[0].city.data;
       $scope.coverage_map.markers[index].bindPopup($scope.locations[index].heading); // update global map marker popup
@@ -660,10 +660,10 @@ function query_osm_api($scope, $timeout, $http, index)
 {
   var params = "format=json";
 
-  if($scope.json_data.location[index].address[0].street && $scope.json_data.location[index].address[0].street.data)
+  if($scope.json_data.location[index].address[0] && $scope.json_data.location[index].address[0].street && $scope.json_data.location[index].address[0].street.data)
     params += "&street=" + encodeURI($scope.json_data.location[index].address[0].street.data);
 
-  if($scope.json_data.location[index].address[0].city && $scope.json_data.location[index].address[0].city.data)
+  if($scope.json_data.location[index].address[0] && $scope.json_data.location[index].address[0].city && $scope.json_data.location[index].address[0].city.data)
     params += "&city=" + encodeURI($scope.json_data.location[index].address[0].city.data);
 
   $http({
