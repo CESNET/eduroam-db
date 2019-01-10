@@ -494,7 +494,7 @@ function init_coverage_map($scope)
   $scope.coverage_map = {};
   $scope.coverage_map.markers = [];
   var coords = [];
-  var map = L.map('coverage_map');
+  var map = L.map('coverage_map', { gestureHandling: true });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
 
   for(var i = 0; i < $scope.json_data.location.length; i++) {
@@ -591,7 +591,7 @@ function init_leaflet_map_by_id($scope, $timeout, index)
     zoom = 8;
   }
 
-  var map = L.map('map_' + index).setView(coords, zoom);
+  var map = L.map('map_' + index, { gestureHandling: true }).setView(coords, zoom);
   map.scrollWheelZoom.disable();   //disable default scroll - TODO
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
   $scope.locations[index].map = map;        // save map

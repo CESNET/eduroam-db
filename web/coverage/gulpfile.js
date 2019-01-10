@@ -20,6 +20,7 @@ gulp.task('js', function() {
     gulp.src('javascripts/ui-bootstrap-tpls-2.5.0.js'),
     gulp.src('javascripts/jquery.min.js'),
     gulp.src('javascripts/leaflet.js'),
+    gulp.src('javascripts/leaflet-gesture-handling.min.js'),
   )
     .pipe(concat('app.js'))
     //.pipe(uglify())
