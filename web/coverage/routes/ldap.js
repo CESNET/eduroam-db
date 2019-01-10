@@ -271,7 +271,7 @@ function get_inst(client, realm, response)
       ret.realm_list = entry.object.cn;
 
       if(typeof(entry.object.manager) === 'object')
-        ret.managers = object.entry.manager;
+        ret.managers = entry.object.manager;
       else
         ret.managers.push(entry.object.manager);
     });
