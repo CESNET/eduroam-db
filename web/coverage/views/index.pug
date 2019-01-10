@@ -239,9 +239,8 @@ block content
 
             // ========================================================================================================
             // TODO - tohle chce nejak celkove vylepsit, aby uzivatel vedel co se stalo
-            // TODO - validace na frontendu?
-            div(ng-show='selected_realm && api_write_error && !loading')
-              h4 {{error}}
+            div#write_error(ng-show='selected_realm && api_write_error && !loading')
+              h4.alert.alert-danger {{error}}
                 pre(ng-show='error_msg') {{error_msg}}
 
 
