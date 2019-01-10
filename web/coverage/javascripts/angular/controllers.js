@@ -53,7 +53,7 @@ function init_functions($scope, $http, $timeout)
     $scope.loading = true;
     $scope.api_write_error = false;                 // no write error for newly selected realm
 
-    if($scope.coverage_map) {
+    if($scope.coverage_map && $scope.coverage_map.map) {
       $scope.coverage_map.map.remove();       // destroy global coverage map
       $scope.coverage_map.markers = [];       // clear all global markers
     }
