@@ -628,12 +628,12 @@ function update_location_coords($scope, $timeout, index, lat, lon)
 
   $timeout(function () {
     $scope.json_data.location[index].coordinates = lon + "," + lat;       // set form coordinates
-  }, 0);
 
-  if(!$scope.locations[index].marker)       // first marker on map
-    add_location_marker($scope, $timeout, index, $scope.locations[index].map);
-  else
-    update_location_marker($scope, index, lat, lon);
+    if(!$scope.locations[index].marker)       // first marker on map
+      add_location_marker($scope, $timeout, index, $scope.locations[index].map);
+    else
+      update_location_marker($scope, index, lat, lon);
+  }, 0);        // timeout used just to notify input field about change
 }
 /* --------------------------------------------------------------------------------- */
 // query openstreetmap API
@@ -656,7 +656,6 @@ function query_osm_api($scope, $timeout, $http, index)
     if(response.data.length > 0) {   // got some data
       // there may be more results, but for simplicity work with the first one only
       $scope.osm_data = response.data[0];        // get osm API data
-      var tmp = $scope.json_data.location[index].coordinates;
 
       // also handles markers adding/updating
       update_location_coords($scope, $timeout, index, $scope.osm_data.lat, $scope.osm_data.lon);
