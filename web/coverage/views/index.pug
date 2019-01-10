@@ -136,7 +136,7 @@ block content
 
               .panel-default(uib-accordion-group='', heading='Informace o pokrytých lokalitách', expanded='init_coverage_map()', ng-class="{ 'error' : location_error }")
                 uib-accordion(close-others='true')
-                  uib-accordion-group.panel-default(uib-accordion-group='', ng-repeat='location in json_data.location track by $index', expanded='init_leaflet_by_id($index)')
+                  uib-accordion-group.panel-default(uib-accordion-group='', ng-repeat='location in json_data.location track by $index', expanded='init_leaflet_by_id($index)', ng-class="{ 'error' : locations[$index].error }")
                     uib-accordion-heading
                       | {{locations[$index].heading}}
                       .pull-right

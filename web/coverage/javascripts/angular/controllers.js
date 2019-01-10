@@ -165,71 +165,86 @@ function validate_locations($scope, form)
   for(var i = 0; i < $scope.json_data.location.length; i++) {
     if(form["location_" + i + "_street"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_city"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_info_url_cz"].$error.required || form["location_" + i + "_info_url_cz"].$error.pattern) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_info_url_en"].$error.required || form["location_" + i + "_info_url_en"].$error.pattern) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_coordinates"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_enc_level"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_port_restrict"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_transp_proxy"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_ipv6"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_nat"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_wired"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     // wired is set - check wired_count
     else if($scope.locations[i].wired && form["location_" + i + "_wired_count"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else if(form["location_" + i + "_ap_no"].$error.required) {
       $scope.location_error = true;
+      $scope.locations[i].error = true;
       break;
     }
 
     else {      // no other error occured
+      $scope.locations[i].error = false;        // location specific error
+
       if(i == $scope.json_data.contact.length -1)     // last item
         $scope.location_error = false;
     }
