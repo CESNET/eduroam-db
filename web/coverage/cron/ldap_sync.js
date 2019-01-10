@@ -78,17 +78,30 @@ exp.search_realms = function (client, search_base, callback)
   });
 }
 // --------------------------------------------------------------------------------------
+// sort realms by domain
+// --------------------------------------------------------------------------------------
+function sort_by_domain(a, b)
+{
+  var tmp_a = a.split(".").reverse().join(".");
+  var tmp_b = b.split(".").reverse().join(".");
+
+  if(tmp_a > tmp_b)
+    return 1;
+
+  return -1;
+}
+// --------------------------------------------------------------------------------------
 // prepare data in needed form
 // --------------------------------------------------------------------------------------
 function prepare_data(data)
 {
-  ret = {};
+  var ret = {};
   ret.admin_to_realm = {};
   ret.realm_to_inst = {};
-  ret.realms = [];
+  var tmp_realms = [];
 
   for(var i in data) {
-    ret.realms.push(data[i].realm);
+    tmp_realms.push(data[i].realm);
 
     for(var j in data[i].managers) {
       data[i].managers[j] = data[i].managers[j].replace("uid=", "").replace(",ou=people,dc=cesnet,dc=cz", "@cesnet.cz");
@@ -105,6 +118,7 @@ function prepare_data(data)
       ret.realm_to_inst[data[i].realm] = data[i].org_ptr.replace("dc=", "").replace(",ou=Organizations,dc=cesnet,dc=cz", "").replace(" ", "_");
   }
 
+  ret.realms = tmp_realms.sort(sort_by_domain);
   generate_config(ret);
 }
 // --------------------------------------------------------------------------------------
