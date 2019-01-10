@@ -62,7 +62,7 @@ function respond(res, user) {
 router.get('/api/:inst_id', function(req, res, next)
 {
   // check that inst_id has correct form - dns domain
-  if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
+  if(/^([a-zA-z0-9-]+\.){1,}[a-zA-z0-9-]+$/.test(req.params.inst_id)) {
 
     // check that the user has permission to read requested realm
     if(req.headers["remote_user"] && (get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1 || is_super_admin(user))) {
@@ -154,7 +154,7 @@ function save_data(req, res)
 router.post('/api/:inst_id', function(req, res, next)
 {
   // check that inst_id has correct form - dns domain
-  if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
+  if(/^([a-zA-z0-9-]+\.){1,}[a-zA-z0-9-]+$/.test(req.params.inst_id)) {
 
     // check that the user has permission to edit requested realm
     if(req.headers["remote_user"] && (get_administered_realms(get_user(req)).indexOf(req.params.inst_id) != -1 || is_super_admin(user))) {
@@ -176,7 +176,7 @@ router.post('/api/:inst_id', function(req, res, next)
 router.post('/api/automation/:inst_id', function(req, res, next)
 {
   // check that inst_id has correct form - dns domain
-  if(/^([a-zA-z0-9]+\.){1,}[a-zA-z0-9]+$/.test(req.params.inst_id)) {
+  if(/^([a-zA-z0-9-]+\.){1,}[a-zA-z0-9-]+$/.test(req.params.inst_id)) {
 
     // token is present in request, is present in config and requested realm is accessible
     if(req.headers["authorization"] && req.headers["authorization"] in token_mapping && token_mapping[req.headers['authorization']].indexOf(req.params.inst_id) != -1) {
