@@ -530,6 +530,15 @@ function add_location_marker($scope, $timeout, index, map)
     coords.push($scope.json_data.location[index].coordinates.split(",")[0]);
     var marker = new L.marker(coords).addTo(map);       // add marker
     $scope.locations[index].marker = marker;    // store marker in location
+
+    if(!$scope.coverage_map.markers[index]) {    // init with coords for new location not present on global map
+      var marker = new L.marker(coords).addTo($scope.coverage_map.map);       // add marker to global map
+      $scope.coverage_map.markers[index] = marker;    // store marker in global map
+
+      if($scope.locations[index].heading)     // set popup if defined
+        marker.bindPopup($scope.locations[index].heading);
+    }
+    // no need to add marker to global map otherwise
   }
 
   // new location
