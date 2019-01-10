@@ -567,37 +567,6 @@ function init_leaflet_map_by_id($scope, $timeout, index)
   $scope.locations[index].map = map;        // save map
 
   add_location_markers($scope, $timeout, index, map);
-
-  //if($scope.json_data.location[index].coordinates) {        // add marker
-  //  var marker = new L.marker(coords).addTo(map);
-  //  $scope.markers[index] = marker;
-  //}
-  //else {
-  //  // add marker on click
-  //  map.on('click', function(e) {
-  //    if(!$scope.markers[index]) {      // only one marker per map
-  //      var marker = new L.marker(e.latlng).addTo(map);
-  //      $scope.markers[index] = marker;
-  //      var marker = new L.marker(e.latlng).addTo($scope.coverage_map); // add to global map
-
-  //      if($scope.locations[index].heading)     // set popup if defined
-  //        marker.bindPopup($scope.locations[index].heading).openPopup();      // popup with location street and city
-  //    }
-  //  });
-  //}
-
-  //// move marker on click
-  //map.on('click', function(e) {
-  //  if($scope.markers[index]) {      // marker exists
-  //    $scope.markers[index].setLatLng(e.latlng);
-  //    $scope.markers[index].update();
-  //    update_location_coords($scope, $timeout, index, e.latlng.lat, e.latlng.lng);
-
-  //    // update global map marker
-  //    $scope.coverage_map.markers[index].setLatLng(e.latlng);
-  //    $scope.coverage_map.markers[index].update();
-  //  }
-  //});
 }
 /* --------------------------------------------------------------------------------- */
 // validate whole from after json data are read from backend
