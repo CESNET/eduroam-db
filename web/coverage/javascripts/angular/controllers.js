@@ -533,7 +533,6 @@ function init_coverage_map($scope)
   }
 
   map.fitBounds(coords);
-  map.scrollWheelZoom.disable();   //disable default scroll - TODO
   $scope.coverage_map.map = map;
 }
 /* --------------------------------------------------------------------------------- */
