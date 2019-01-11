@@ -75,11 +75,11 @@ function init_functions($scope, $http, $timeout)
   }
 
   $scope.find_map_location = function(index) {
-    query_osm_api($scope, $timeout, $http, index);      // query the openstreetmap api
+    query_osm_api_by_input($scope, $timeout, $http, index);      // query the openstreetmap api
   }
 
   $scope.init_leaflet_by_id = function(index) {
-    init_leaflet_map_by_id($scope, $timeout, index);
+    init_leaflet_map_by_id($scope, $http, $timeout, index);
   }
 
   $scope.init_coverage_map = function() {
@@ -555,7 +555,7 @@ function update_location_marker($scope, index, lat, lon)
 /* --------------------------------------------------------------------------------- */
 // add markers to specific location map
 /* --------------------------------------------------------------------------------- */
-function add_location_marker($scope, $timeout, index, map)
+function add_location_marker($scope, $http, $timeout, index, map)
 {
   // location with defined coords
   if($scope.json_data.location[index].coordinates) {        // check if coords are defined
@@ -590,18 +590,21 @@ function add_location_marker($scope, $timeout, index, map)
         if($scope.locations[index].heading)     // set popup if defined
           marker.bindPopup($scope.locations[index].heading);
       }
+
+      query_osm_api_by_location($scope, $timeout, $http, index, e.latlng.lat, e.latlng.lng);
     });
   }
 
   // move marker on click - existing or new location
   map.on('click', function(e) {
-    update_location_coords($scope, $timeout, index, e.latlng.lat, e.latlng.lng);
+    update_location_coords($scope, $http, $timeout, index, e.latlng.lat, e.latlng.lng);
+    query_osm_api_by_location($scope, $timeout, $http, index, e.latlng.lat, e.latlng.lng);
   });
 }
 /* --------------------------------------------------------------------------------- */
 // init leaflet map by id
 /* --------------------------------------------------------------------------------- */
-function init_leaflet_map_by_id($scope, $timeout, index)
+function init_leaflet_map_by_id($scope, $http, $timeout, index)
 {
   var coords = [];
   var zoom;
@@ -617,11 +620,10 @@ function init_leaflet_map_by_id($scope, $timeout, index)
   }
 
   var map = L.map('map_' + index, { gestureHandling: true }).setView(coords, zoom);
-  map.scrollWheelZoom.disable();   //disable default scroll - TODO
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
   $scope.locations[index].map = map;        // save map
 
-  add_location_marker($scope, $timeout, index, map);
+  add_location_marker($scope, $http, $timeout, index, map);
 }
 /* --------------------------------------------------------------------------------- */
 // validate whole from after json data are read from backend
@@ -664,7 +666,7 @@ function get_json_from_api($scope, $http, $timeout)
 /* --------------------------------------------------------------------------------- */
 // update form coordinates for specific location
 /* --------------------------------------------------------------------------------- */
-function update_location_coords($scope, $timeout, index, lat, lon)
+function update_location_coords($scope, $http, $timeout, index, lat, lon)
 {
   var lon = parseFloat(lon).toFixed(6);   // get lon
   var lat = parseFloat(lat).toFixed(6);   // get lat
@@ -673,15 +675,15 @@ function update_location_coords($scope, $timeout, index, lat, lon)
     $scope.json_data.location[index].coordinates = lon + "," + lat;       // set form coordinates
 
     if(!$scope.locations[index].marker)       // first marker on map
-      add_location_marker($scope, $timeout, index, $scope.locations[index].map);
+      add_location_marker($scope, $http, $timeout, index, $scope.locations[index].map);
     else
       update_location_marker($scope, index, lat, lon);
   }, 0);        // timeout used just to notify input field about change
 }
 /* --------------------------------------------------------------------------------- */
-// query openstreetmap API
+// query openstreetmap API by form inputs
 /* --------------------------------------------------------------------------------- */
-function query_osm_api($scope, $timeout, $http, index)
+function query_osm_api_by_input($scope, $timeout, $http, index)
 {
   var params = "format=json";
 
@@ -701,10 +703,46 @@ function query_osm_api($scope, $timeout, $http, index)
       $scope.osm_data = response.data[0];        // get osm API data
 
       // also handles markers adding/updating
-      update_location_coords($scope, $timeout, index, $scope.osm_data.lat, $scope.osm_data.lon);
+      update_location_coords($scope, $http, $timeout, index, $scope.osm_data.lat, $scope.osm_data.lon);
     }
   }, function(err) {
     // TODO ?
   });
 }
 /* --------------------------------------------------------------------------------- */
+// update city and street input by location clicked on map
+/* --------------------------------------------------------------------------------- */
+function update_city_street_by_location($scope, index, street, city)
+{
+  $scope.json_data.location[index].address[0].street.data = street;
+  $scope.json_data.location[index].address[0].city.data = city;
+}
+/* --------------------------------------------------------------------------------- */
+// query openstreetmap API by location selected on map
+/* --------------------------------------------------------------------------------- */
+function query_osm_api_by_location($scope, $timeout, $http, index, lat, lon)
+{
+  var params = "format=json&lat=" + lat + "&lon=" + lon + "&zoom=18";
+
+  $http({
+    method  : 'GET',
+    url     : 'https://nominatim.openstreetmap.org/reverse?' + params
+  })
+  .then(function(response) {
+    console.log(response.data.address);
+    $scope.osm_data = response.data;        // get osm API data
+
+    // returned data are really variable, so its not easy to determine street name
+
+    if(response.data.address.pedestrian)
+      update_city_street_by_location($scope, index, response.data.address.pedestrian, response.data.address.city);
+    else if(response.data.address.road && response.data.address.house_number)
+      update_city_street_by_location($scope, index, response.data.address.road + " " + response.data.address.house_number, response.data.address.city);
+    else if(response.data.address.road)
+      update_city_street_by_location($scope, index, response.data.address.road, response.data.address.city);
+    else
+      update_city_street_by_location($scope, index, "", response.data.address.city);
+  }, function(err) {
+    // TODO ?
+  });
+}
