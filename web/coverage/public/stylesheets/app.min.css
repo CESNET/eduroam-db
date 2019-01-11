@@ -264,3 +264,13 @@ a {
   margin-bottom: 20px;
   width: 100%;
 }
+
+.info_url_hint {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 10px;
+}
+
+#coverage_map_title {
+  padding-left: 15px;
+}
