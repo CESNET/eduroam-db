@@ -28,6 +28,10 @@ function init_functions($scope, $http, $timeout)
 
   $scope.remove_location = function(index) {
     if($scope.json_data) {
+      // destroy map first
+      if($scope.locations[index].map)
+        $scope.locations[index].map.remove();
+
       $scope.json_data.location.splice(index, 1);
       $scope.locations.splice(index, 1);
     }
@@ -466,6 +470,11 @@ function add_empty_loc($scope)
 /* --------------------------------------------------------------------------------- */
 function parse_location_data($scope, locations)
 {
+  // destroy map before deleting array
+  for(var i in $scope.locations)
+    if($scope.locations[i].map)
+      $scope.locations[i].map.remove();
+
   $scope.locations.splice(0);   // delete array before adding new elements
 
   for(var i in locations) {
