@@ -203,36 +203,6 @@ function validate_locations($scope, form)
       break;
     }
 
-    else if(form["location_" + i + "_port_restrict"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
-
-    else if(form["location_" + i + "_transp_proxy"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
-
-    else if(form["location_" + i + "_ipv6"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
-
-    else if(form["location_" + i + "_nat"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
-
-    else if(form["location_" + i + "_wired"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
-
     // wired is set - check wired_count
     else if($scope.locations[i].wired && form["location_" + i + "_wired_count"].$error.required) {
       $scope.location_error = true;
