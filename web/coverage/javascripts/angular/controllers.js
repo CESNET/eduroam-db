@@ -94,6 +94,34 @@ function init_functions($scope, $http, $timeout)
       $scope.coverage_map.markers[index].bindPopup($scope.locations[index].heading); // update global map marker popup
     }
   }
+
+  $scope.$watch('api_write_error', function(newValue, oldValue) {
+      if (newValue !== oldValue) {
+        if(newValue == true)
+          scroll_to_error();
+      }
+  });
+}
+/* --------------------------------------------------------------------------------- */
+// scroll page to error msg
+/* --------------------------------------------------------------------------------- */
+function scroll_to_error()
+{
+  setTimeout(function() {
+    var element = document.getElementById('write_error');
+    var topPos = element.getBoundingClientRect().top + window.scrollY;
+
+    // scroll to table
+    $('html, body').animate({
+      scrollTop: topPos
+    });
+  }, 100);
+
+  // timeout is used because ng-show changes the value instantly, but
+  // it takes some time to render the element to the page
+  // it is possible to get top element offset only after the element has been fully render
+  // not a totally clean solution is used, but it should work quite well
+  // wait 100 ms for the element to be fully rendered, then get top offset and scroll the page
 }
 /* --------------------------------------------------------------------------------- */
 // validate basic info inputs
@@ -420,6 +448,8 @@ function save_json_to_api($scope, $http, $timeout)
 
     else        // generic error occured on backend
       $scope.error = "Nastala chyba při ukládání dat. Nahlaste prosím tento problém správcům na adrese info@eduroam.cz.";
+
+    scroll_to_error();
   });
 }
 /* --------------------------------------------------------------------------------- */
