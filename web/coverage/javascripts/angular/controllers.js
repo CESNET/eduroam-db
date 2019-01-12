@@ -288,11 +288,6 @@ function init_vars($scope)
     "privátní",
     "veřejný"
   ];
-
-  $scope.bool_options = [
-    { key : "ano", value : true },
-    { key : "ne", value : false }
-  ];
 }
 /* --------------------------------------------------------------------------------- */
 // add lang for info url

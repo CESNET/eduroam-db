@@ -191,30 +191,26 @@ block content
                         datalist#enc_types
                           option(value='WPA2 + AES') WPA2 + AES
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_port_restrict.$error.required }")
-                      label.col-sm-2.control-label Existuje blokování portů?
-                      .col-xs-2
-                        select.form-control(ng-model='locations[$index].port_restrict', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_port_restrict", required)
-                    // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_transp_proxy.$error.required }")
-                      label.col-sm-2.control-label Je použita transparentní proxy?
-                      .col-xs-2
-                        select.form-control(ng-model='locations[$index].transp_proxy', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_transp_proxy", required)
-                    // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_ipv6.$error.required }")
-                      label.col-sm-2.control-label Je podporován protokol IPv6?
-                      .col-xs-2
-                        select.form-control(ng-model='locations[$index].ipv6', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_ipv6", required)
-                    // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_nat.$error.required }")
-                      label.col-sm-2.control-label Je používán překlad adres (NAT)?
-                      .col-xs-2
-                        select.form-control(ng-model='locations[$index].nat', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_nat", required)
-                    // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_wired.$error.required }")
-                      label.col-sm-2.control-label Poskytujete eduroam na metalických zásuvkách?
-                      .col-xs-2
-                        select.form-control(ng-model='locations[$index].wired', ng-options='opt.value as opt.key for opt in bool_options', name="location_{{$index}}_wired", required)
+                    .form-group
+                      label.col-sm-2.control-label
+                        input.checkbox-inline.pull-right.col-sm-push-1(type='checkbox', ng-model='locations[$index].port_restrict')
+                        | Existuje blokování portů?
+
+                      label.col-sm-2.control-label
+                        input.checkbox-inline.pull-right.col-sm-push-1(type='checkbox', ng-model='locations[$index].transp_proxy')
+                        | Je použita transparentní proxy?
+
+                      label.col-sm-2.control-label
+                        input.checkbox-inline.pull-right.col-sm-push-1(type='checkbox', ng-model='locations[$index].ipv6')
+                        | Je podporován protokol IPv6?
+
+                      label.col-sm-2.control-label
+                        input.checkbox-inline.pull-right.col-sm-push-1(type='checkbox', ng-model='locations[$index].nat')
+                        | Je používán překlad adres (NAT)?
+
+                      label.col-sm-2.control-label
+                        input.checkbox-inline.pull-right.col-sm-push-1(type='checkbox', ng-model='locations[$index].wired')
+                        | Poskytujete eduroam na metalických zásuvkách?
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_wired_count.$error.required }", ng-show='locations[$index].wired')
                       label.col-sm-2.control-label Počet metalických zásuvek
