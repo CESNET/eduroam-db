@@ -15,17 +15,19 @@
     budou mit mapy chybna data.
   - pridat do mapy vyhledani ulice/mesta podle vybraneho bodu na mape?
     - jo tohle je rozumne reseni predchoziho bodu
-  - zakaz scrollovani, scrollovani pomoci ctrl + kolecka
 
 - predelat dropdowny v lokalitach na checkboxy?
+  - pridano, vyhovuje?
 
 - vizualni signalizace super admin modu?
-  - ano
+  - pridano, vyhovuje?
   
 - chybove podbarveni pro konkrentni lokalitu? tohle by asi nebylo uplne jednoduche implementovat
-  - ta se bez toho obejdeme
-
-- abecedni setrideni realmu?
-  - hezci reverzne podle domen jako mame na matici
+  - nakonec to bylo celkem jednoduche, vyhovuje?
 
 - vratit puvodni modrou barvu odkazu pro nazvy jednotlivych sekci? Po uprave knihovny se tohle rozbilo
+
+- tlacitko pro zobrazeni JSONu je zpet, ale pouze v admin modu
+
+- pridat mail do requestu na openstreetmap api?
+  - detaily viz https://wiki.openstreetmap.org/wiki/Nominatim
