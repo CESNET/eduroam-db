@@ -37,7 +37,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // --------------------------------------------------------------------------------------
 app.use('/', index);
-//app.use('/.well-known', express.static('public/.well-known'));    // TODO?
 
 // --------------------------------------------------------------------------------------
 // catch 404 and forward to error handler
