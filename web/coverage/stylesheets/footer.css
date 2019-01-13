@@ -1,0 +1,121 @@
+#dokuwiki__footer {
+  position:absolute;
+  bottom:0;
+  overflow: hidden;
+  width: 100%;
+  height: 320px;
+  /* margin: -320px 0 0; */ /* musi byt vypnuto pro spravne umisteni paticky a neprekryvani ostatnich elementu */
+  clear: both;
+  padding: 40px 20px;
+  background-color: #4b4d4a;
+  color: #ffffff;
+  border-top: 12px solid #dcdcda;
+  font-family: Helvetica, Arial, sans-serif;
+}
+#dokuwiki__footer a:link,
+#dokuwiki__footer a:visited {
+  color: #ffffff;
+  font-family: Helvetica, Arial, sans-serif;
+  text-decoration: underline;
+}
+#dokuwiki__footer .wrapper {
+  margin: 0 auto;
+  max-width: 1230px;
+  padding: 0px 40px;
+}
+#dokuwiki__footer .cols .col:last-child {
+  width: 15.6%;
+  padding-right: 0;
+}
+#dokuwiki__footer .col {
+  float: left;
+  /* width: 15.6%; */
+  width: 19%;
+  padding-right: 3.4%;
+  margin-bottom: 20px;
+  text-align: left;
+  line-height: 2em;
+  font-family: Helvetica, Arial, sans-serif;
+}
+@media (max-width: 720px) {
+  #dokuwiki__footer .col {
+    width: 100%;
+    padding-right: 0;
+  }
+}
+#dokuwiki__footer .col h1 {
+  padding-bottom: 0.8em;
+  margin-bottom: 1em;
+  font-size: 1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid white;
+  font-family: Helvetica, Arial, sans-serif;
+}
+#dokuwiki__footer .col ul {
+  padding-left: 0;
+}
+#dokuwiki__footer .col ul li {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 25px;
+  background: 77797c no-repeat 0px 0.5em;
+}
+#dokuwiki__footer .col.logo {
+  /* width: 39.5%; */ /* tohle funguje nejak divne */
+  width: 42.9%;
+}
+#dokuwiki__footer .col.logo img {
+  margin-bottom: 20px;
+}
+#dokuwiki__footer .copyright {
+  clear: both;
+  text-align: right;
+}
+[dir=rtl] #dokuwiki__footer .license img {
+  margin: 0 0 0 .5em;
+}
+#dokuwiki__footer {
+  clear: both;
+}
+#links {
+  margin-top:0;
+}
+#contact {
+  margin-top:0;
+}
+#service_desk {
+  margin-top:0;
+}
+li.level1 {
+  background:url("/images/bullet.png") no-repeat left center;
+  padding-left:5px;
+  list-style:none;
+}
+#dokuwiki__footer {
+  text-align: center;
+}
+#dokuwiki__footer > .pad {
+  font-size: 0.875em;
+}
+#dokuwiki__footer div.license {
+  margin-bottom: 0.5em;
+  font-size: 100%;
+}
+#dokuwiki__footer div.buttons a img {
+  opacity: 0.5;
+}
+#dokuwiki__footer div.buttons a:hover img,
+#dokuwiki__footer div.buttons a:active img,
+#dokuwiki__footer div.buttons a:focus img {
+  opacity: 1;
+}
+.level1 > p {
+  padding-left:0;
+}
+.copyright {
+  line-height:1.4;
+}
+
+#dokuwiki__footer a.urlextern {
+  text-decoration-line: none;
+}
