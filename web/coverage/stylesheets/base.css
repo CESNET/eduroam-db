@@ -77,3 +77,8 @@ a {
 #coverage_map_title {
   padding-left: 15px;
 }
+
+#container {
+    min-height:100%;
+    position:relative;
+}
