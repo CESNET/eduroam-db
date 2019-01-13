@@ -6,12 +6,12 @@ const streamqueue = require('streamqueue');
 // minify css
 gulp.task('css', function() {
   return streamqueue({ objectMode: true },
-    gulp.src('stylesheets/base.css'),
+    gulp.src('stylesheets/linker.css'),
     gulp.src('stylesheets/bootstrap.min.css'),
+    gulp.src('stylesheets/base.css'),
     gulp.src('stylesheets/footer.css'),
     gulp.src('stylesheets/leaflet.css'),
-    gulp.src('stylesheets/leaflet-gesture-handling.css'),
-    gulp.src('stylesheets/linker.css')
+    gulp.src('stylesheets/leaflet-gesture-handling.css')
   )
     .pipe(concat('app.min.css'))
     .pipe(gulp.dest('public/stylesheets'));
