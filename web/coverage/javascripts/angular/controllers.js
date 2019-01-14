@@ -697,8 +697,5 @@ function query_osm_api_by_input($scope, $timeout, $http, index)
       update_location_coords($scope, $http, $timeout, index, $scope.osm_data.lat, $scope.osm_data.lon);
     }
   }, function(err) {
-    // TODO ?
-  });
-}
   });
 }
