@@ -291,7 +291,7 @@ function init_vars($scope)
     iconUrl: '/images/map_icon8.png',
     iconSize:     [32, 32], // size of the icon
     iconAnchor:   [16, 32], // point of the icon which will correspond to marker's location
-    popupAnchor:  [0, -50] // point from which the popup should open relative to the iconAnchor
+    popupAnchor:  [-2, -32] // point from which the popup should open relative to the iconAnchor
 });
 }
 /* --------------------------------------------------------------------------------- */
