@@ -195,54 +195,33 @@ function validate_admins($scope, form)
 function validate_locations($scope, form)
 {
   for(var i = 0; i < $scope.json_data.location.length; i++) {
-    if(form["location_" + i + "_street"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    $scope.location_error = true;
+    $scope.locations[i].error = true;
 
-    else if(form["location_" + i + "_city"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    if(form["location_" + i + "_street"].$error.required)
+      ;
 
-    else if(form["location_" + i + "_info_url_cz"].$error.required || form["location_" + i + "_info_url_cz"].$error.pattern) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if(form["location_" + i + "_city"].$error.required)
+      ;
 
-    else if(form["location_" + i + "_info_url_en"].$error.required || form["location_" + i + "_info_url_en"].$error.pattern) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if(form["location_" + i + "_info_url_cz"].$error.required || form["location_" + i + "_info_url_cz"].$error.pattern)
+      ;
 
-    else if(form["location_" + i + "_coordinates"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if(form["location_" + i + "_info_url_en"].$error.required || form["location_" + i + "_info_url_en"].$error.pattern)
+      ;
 
-    else if(form["location_" + i + "_enc_level"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if(form["location_" + i + "_coordinates"].$error.required)
+      ;
+
+    else if(form["location_" + i + "_enc_level"].$error.required)
+      ;
 
     // wired is set - check wired_count
-    else if($scope.locations[i].wired && form["location_" + i + "_wired_count"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if($scope.locations[i].wired && form["location_" + i + "_wired_count"].$error.required)
+      ;
 
-    else if(form["location_" + i + "_ap_no"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if(form["location_" + i + "_ap_no"].$error.required)
+      ;
 
     else {      // no other error occured
       $scope.locations[i].error = false;        // location specific error
