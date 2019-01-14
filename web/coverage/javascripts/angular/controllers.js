@@ -230,6 +230,10 @@ function validate_locations($scope, form)
         $scope.location_error = false;
     }
   }
+
+  // no locations present
+  if($scope.json_data.location.length == 0)
+    $scope.location_error = true;
 }
 /* --------------------------------------------------------------------------------- */
 // initialize auxiliary variables
