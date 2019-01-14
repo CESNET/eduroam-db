@@ -286,6 +286,13 @@ function init_vars($scope)
     "privátní",
     "veřejný"
   ];
+
+  $scope.marker_icon = L.icon({
+    iconUrl: '/images/map_icon8.png',
+    iconSize:     [32, 32], // size of the icon
+    iconAnchor:   [16, 32], // point of the icon which will correspond to marker's location
+    popupAnchor:  [0, -50] // point from which the popup should open relative to the iconAnchor
+});
 }
 /* --------------------------------------------------------------------------------- */
 // add lang for info url
@@ -521,7 +528,7 @@ function init_coverage_map($scope)
     var tmp = [];
     tmp.push($scope.json_data.location[i].coordinates.split(",")[1]);
     tmp.push($scope.json_data.location[i].coordinates.split(",")[0]);
-    var marker = new L.marker(tmp).addTo(map);
+    var marker = new L.marker(tmp, { icon : $scope.marker_icon }).addTo(map);
     marker.bindPopup($scope.locations[i].heading).openPopup();      // popup with location street and city
     coords.push(tmp);
     $scope.coverage_map.markers[i] = marker;
@@ -556,11 +563,11 @@ function add_location_marker($scope, $http, $timeout, index, map)
     var coords = [];
     coords.push($scope.json_data.location[index].coordinates.split(",")[1]);
     coords.push($scope.json_data.location[index].coordinates.split(",")[0]);
-    var marker = new L.marker(coords).addTo(map);       // add marker
+    var marker = new L.marker(coords, { icon : $scope.marker_icon }).addTo(map);       // add marker
     $scope.locations[index].marker = marker;    // store marker in location
 
     if(!$scope.coverage_map.markers[index]) {    // init with coords for new location not present on global map
-      var marker = new L.marker(coords).addTo($scope.coverage_map.map);       // add marker to global map
+      var marker = new L.marker(coords, { icon : $scope.marker_icon }).addTo($scope.coverage_map.map);       // add marker to global map
       $scope.coverage_map.markers[index] = marker;    // store marker in global map
 
       if($scope.locations[index].heading)     // set popup if defined
@@ -574,11 +581,11 @@ function add_location_marker($scope, $http, $timeout, index, map)
     // add marker on click
     map.on('click', function(e) {
       if(!$scope.locations[index].marker) {      // only one marker per map
-        var marker = new L.marker(e.latlng).addTo(map);
+        var marker = new L.marker(e.latlng, { icon : $scope.marker_icon }).addTo(map);
         $scope.locations[index].marker = marker;        // store marker in location
       }
       if(!$scope.coverage_map.markers[index]) {      // no marker in global map for this location yet
-        var marker = new L.marker(e.latlng).addTo($scope.coverage_map.map); // add to global map
+        var marker = new L.marker(e.latlng, { icon : $scope.marker_icon }).addTo($scope.coverage_map.map); // add to global map
         $scope.coverage_map.markers[index] = marker;     // save global map marker
 
         if($scope.locations[index].heading)     // set popup if defined
