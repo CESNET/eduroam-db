@@ -195,7 +195,6 @@ function validate_admins($scope, form)
 function validate_locations($scope, form)
 {
   for(var i = 0; i < $scope.json_data.location.length; i++) {
-    $scope.location_error = true;
     $scope.locations[i].error = true;
 
     if(form["location_" + i + "_street"].$error.required)
@@ -223,11 +222,14 @@ function validate_locations($scope, form)
     else if(form["location_" + i + "_ap_no"].$error.required)
       ;
 
-    else {      // no other error occured
+    else      // no other error occured
       $scope.locations[i].error = false;        // location specific error
+  }
 
-      if(i == $scope.json_data.contact.length -1)     // last item
-        $scope.location_error = false;
+  for(var i = 0; i < $scope.json_data.location.length; i++) {
+    if($scope.locations[i].error) {
+      $scope.location_error = true;
+      break;
     }
   }
 
