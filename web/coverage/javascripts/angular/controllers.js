@@ -527,6 +527,20 @@ function init_coverage_map($scope)
   $scope.coverage_map.map = map;
 }
 /* --------------------------------------------------------------------------------- */
+// update global map bounds
+/* --------------------------------------------------------------------------------- */
+function update_global_map($scope)
+{
+  var coords = [];
+
+  for(var i = 0; i < $scope.coverage_map.markers.length; i++) {
+    var tmp = $scope.coverage_map.markers[i].getLatLng()
+    coords.push([tmp.lat, tmp.lng]);
+  }
+
+  $scope.coverage_map.map.fitBounds(coords);
+}
+/* --------------------------------------------------------------------------------- */
 // update local and global map markers
 /* --------------------------------------------------------------------------------- */
 function update_location_marker($scope, index, lat, lon)
@@ -541,6 +555,8 @@ function update_location_marker($scope, index, lat, lon)
     $scope.coverage_map.markers[index].setLatLng([lat, lon]);
     $scope.coverage_map.markers[index].update();
   }
+
+  update_global_map($scope);
 }
 /* --------------------------------------------------------------------------------- */
 // add markers to specific location map
@@ -576,6 +592,7 @@ function add_location_marker($scope, $http, $timeout, index, map)
       if(!$scope.coverage_map.markers[index]) {      // no marker in global map for this location yet
         var marker = new L.marker(e.latlng, { icon : $scope.marker_icon }).addTo($scope.coverage_map.map); // add to global map
         $scope.coverage_map.markers[index] = marker;     // save global map marker
+        update_global_map($scope);
 
         if($scope.locations[index].heading)     // set popup if defined
           marker.bindPopup($scope.locations[index].heading);
@@ -661,8 +678,10 @@ function update_location_coords($scope, $http, $timeout, index, lat, lon)
   $timeout(function () {
     $scope.json_data.location[index].coordinates = lon + "," + lat;       // set form coordinates
 
-    if(!$scope.locations[index].marker)       // first marker on map
+    if(!$scope.locations[index].marker) {       // first marker on map
       add_location_marker($scope, $http, $timeout, index, $scope.locations[index].map);
+      update_global_map($scope);
+    }
     else
       update_location_marker($scope, index, lat, lon);
   }, 0);        // timeout used just to notify input field about change
