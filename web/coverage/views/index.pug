@@ -166,7 +166,7 @@ block content
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_coordinates.$error.required }")
                       label.col-sm-2.control-label Geograficé umísťění:
                       .col-xs-3
-                        input.form-control(type='text', placeholder='Vyberte bod na mapě', ng-model='location.coordinates', disabled, name="location_{{$index}}_coordinates", required, ng-blur='validate_locations(main_form)')
+                        input.form-control(type='text', placeholder='Vyplňte město a ulici', ng-model='location.coordinates', disabled, name="location_{{$index}}_coordinates", required, ng-blur='validate_locations(main_form)')
                     div.map(id="map_{{$index}}")
                     // ========================================================================================================
                     .form-group
