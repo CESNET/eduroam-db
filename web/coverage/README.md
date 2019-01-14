@@ -9,25 +9,21 @@
   - https://github.com/CESNET/eduroam-db/blob/master/web/coverage/views/index.pug#L184
 
 - mapy:
-  - momentalne je pridani bodu na mape pouze dopredne - tj po zadani mesta a ulice je vyhledan prislusny bod na mape
-    Pokud by bylo vyhledavani i zpetne (z bodu na mape ulice a mesto), nemohl by to byt pro nektere instituce problem?
-    Co kdyz nebudou mit mapy presna data? V takovem pripade by bylo nemozne (?) mit zaroven presne souradnice a ulici/mesto, pokud
-    budou mit mapy chybna data.
-  - pridat do mapy vyhledani ulice/mesta podle vybraneho bodu na mape?
-    - jo tohle je rozumne reseni predchoziho bodu
+  - po najiti bodu udelat zoom, maximalni
+  - pri zmene bodu na globalni mape updatovat zoom
+  - prerusena editace a nasledny vyber noveho realmu -> vede na nejakou chybu
+  - pridat sede signalizacni boxy, ze mapa se nacita?
 
-- predelat dropdowny v lokalitach na checkboxy?
-  - pridano, vyhovuje?
+- KML pro eduroam.cz
+  - mapy:
+    - zachovat strukturu aktualniho KML
+    - z institution.json brat koordinaty vsech bodu
 
-- vizualni signalizace super admin modu?
-  - pridano, vyhovuje?
-  
-- chybove podbarveni pro konkrentni lokalitu? tohle by asi nebylo uplne jednoduche implementovat
-  - nakonec to bylo celkem jednoduche, vyhovuje?
+  - prehled pripojenych instituci:
+    - prozatim nepredavat generator seznamu pripojenych lokalit, zavisi ale na XML datech
 
-- vratit puvodni modrou barvu odkazu pro nazvy jednotlivych sekci? Po uprave knihovny se tohle rozbilo
 
-- tlacitko pro zobrazeni JSONu je zpet, ale pouze v admin modu
-
-- pridat mail do requestu na openstreetmap api?
-  - detaily viz https://wiki.openstreetmap.org/wiki/Nominatim
+- nasazeni pokryti.eduroam.cz
+  - souvislost s mapou pokryti na eduroam.cz, prehledem pripojenych insitituci
+  - pripojovani.eduroam.cz - bude potreba uprava evidence xml
+  - ermon - revize testu
