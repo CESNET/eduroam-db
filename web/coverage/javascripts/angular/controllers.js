@@ -519,6 +519,10 @@ function init_coverage_map($scope)
     $scope.coverage_map.markers[i] = marker;
   }
 
+  if($scope.json_data.location.length == 0) {    // no locations available
+    coords = [[ 50.1017839, 14.3885668 ]];      // CESNET
+  }
+
   map.fitBounds(coords);
   $scope.coverage_map.map = map;
 }
