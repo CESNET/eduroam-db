@@ -584,15 +584,12 @@ function add_location_marker($scope, $http, $timeout, index, map)
         if($scope.locations[index].heading)     // set popup if defined
           marker.bindPopup($scope.locations[index].heading);
       }
-
-      query_osm_api_by_location($scope, $timeout, $http, index, e.latlng.lat, e.latlng.lng);
     });
   }
 
   // move marker on click - existing or new location
   map.on('click', function(e) {
     update_location_coords($scope, $http, $timeout, index, e.latlng.lat, e.latlng.lng);
-    query_osm_api_by_location($scope, $timeout, $http, index, e.latlng.lat, e.latlng.lng);
   });
 }
 /* --------------------------------------------------------------------------------- */
@@ -703,40 +700,5 @@ function query_osm_api_by_input($scope, $timeout, $http, index)
     // TODO ?
   });
 }
-/* --------------------------------------------------------------------------------- */
-// update city and street input by location clicked on map
-/* --------------------------------------------------------------------------------- */
-function update_city_street_by_location($scope, index, street, city)
-{
-  $scope.json_data.location[index].address[0].street.data = street;
-  $scope.json_data.location[index].address[0].city.data = city;
-}
-/* --------------------------------------------------------------------------------- */
-// query openstreetmap API by location selected on map
-/* --------------------------------------------------------------------------------- */
-function query_osm_api_by_location($scope, $timeout, $http, index, lat, lon)
-{
-  var params = "format=json&lat=" + lat + "&lon=" + lon + "&zoom=18";
-
-  $http({
-    method  : 'GET',
-    url     : 'https://nominatim.openstreetmap.org/reverse?' + params
-  })
-  .then(function(response) {
-    console.log(response.data.address);
-    $scope.osm_data = response.data;        // get osm API data
-
-    // returned data are really variable, so its not easy to determine street name
-
-    if(response.data.address.pedestrian)
-      update_city_street_by_location($scope, index, response.data.address.pedestrian, response.data.address.city);
-    else if(response.data.address.road && response.data.address.house_number)
-      update_city_street_by_location($scope, index, response.data.address.road + " " + response.data.address.house_number, response.data.address.city);
-    else if(response.data.address.road)
-      update_city_street_by_location($scope, index, response.data.address.road, response.data.address.city);
-    else
-      update_city_street_by_location($scope, index, "", response.data.address.city);
-  }, function(err) {
-    // TODO ?
   });
 }
