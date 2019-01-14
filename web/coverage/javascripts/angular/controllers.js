@@ -676,7 +676,7 @@ function update_location_coords($scope, $http, $timeout, index, lat, lon)
 /* --------------------------------------------------------------------------------- */
 function query_osm_api_by_input($scope, $timeout, $http, index)
 {
-  var params = "format=json";
+  var params = "format=json&email=info@eduroam.cz";
 
   if($scope.json_data.location[index].address[0] && $scope.json_data.location[index].address[0].street && $scope.json_data.location[index].address[0].street.data)
     params += "&street=" + encodeURI($scope.json_data.location[index].address[0].street.data);
