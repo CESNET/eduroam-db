@@ -202,6 +202,8 @@ function validate_admins($scope, form)
 /* --------------------------------------------------------------------------------- */
 function validate_locations($scope, form)
 {
+  $scope.location_error = false;
+
   for(var i = 0; i < $scope.json_data.location.length; i++) {
     $scope.locations[i].error = true;
 
