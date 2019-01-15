@@ -155,7 +155,8 @@ block content
                     uib-accordion-heading
                       | {{locations[$index].heading}}
                       .pull-right
-                        button.btn.btn-default(ng-click='$event.stopPropagation(); remove_location($index);') Odebrat lokalitu
+                        button.btn.btn-default(type='button', ng-click='$event.stopPropagation(); remove_location($index);') Odebrat lokalitu
+                        //- type button prevents "clicking" the button when pressing enter on atribtrary of form's input
                       br
                       br
                     // ========================================================================================================
@@ -250,7 +251,7 @@ block content
             // ========================================================================================================
             .form-group
               .col-xs-2
-                button.btn.btn-default(type='button', ng-click='save_data()', ng-disabled="main_form.$invalid || json_data.location.length == 0 || json_data.contact.length == 0") Uložit data
+                input.btn.btn-default(type='submit', ng-click='save_data()', value="Uložit data", ng-disabled="main_form.$invalid || json_data.location.length == 0 || json_data.contact.length == 0")
 
             // ========================================================================================================
             .form-group
