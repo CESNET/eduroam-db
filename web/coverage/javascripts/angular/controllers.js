@@ -35,6 +35,14 @@ function init_functions($scope, $http, $timeout)
       $scope.json_data.location.splice(index, 1);
       $scope.locations.splice(index, 1);
     }
+
+    if($scope.json_data.location.length == 0)
+      $scope.location_error = true;
+
+    // callind validate_locations does not work great here
+    // when removing location with error
+    // location without error with index + 1 gets error set
+    //validate_locations($scope, $scope.main_form);
   }
  
   $scope.save_data = function() {
