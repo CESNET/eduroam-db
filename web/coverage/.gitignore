@@ -6,3 +6,4 @@ config/tokens.js
 config/admins.js
 config/realms.js
 public/.well-known
+last_edit
