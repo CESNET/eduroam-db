@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const ldap = require('./ldap.js')
-const ini = require('ini')
 const fs = require('fs')
 const admin_mapping = require('../config/realm_to_admin.js')
 const inst_mapping = require('../config/realm_to_inst.js')
