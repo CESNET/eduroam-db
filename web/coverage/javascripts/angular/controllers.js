@@ -570,6 +570,7 @@ function add_location_marker($scope, $http, $timeout, index, map)
     coords.push($scope.json_data.location[index].coordinates.split(",")[0]);
     var marker = new L.marker(coords, { icon : $scope.marker_icon }).addTo(map);       // add marker
     $scope.locations[index].marker = marker;    // store marker in location
+    map.flyTo(coords, 20, { duration : 1.5 });      // fly to set point with max zoom
 
     if(!$scope.coverage_map.markers[index]) {    // init with coords for new location not present on global map
       var marker = new L.marker(coords, { icon : $scope.marker_icon }).addTo($scope.coverage_map.map);       // add marker to global map
