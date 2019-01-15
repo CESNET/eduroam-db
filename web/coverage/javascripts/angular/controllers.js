@@ -653,9 +653,12 @@ function get_json_from_api($scope, $http, $timeout)
   .then(function(response) {
     $scope.api_read_error = false;
     if(response.status == 200) {
-      parse_location_data($scope, response.data.location);
-      $scope.json_data = response.data;
+
+      $scope.json_data = response.data.data;
+      parse_location_data($scope, $scope.json_data.location);
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
+      $scope.last_changed = new Date($scope.json_data.ts).toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' });
+      $scope.last_changed_author = response.data.author;
       validate_form($scope, $timeout);
     }
   }, function(err) {
@@ -715,3 +718,4 @@ function query_osm_api_by_input($scope, $timeout, $http, index)
   }, function(err) {
   });
 }
+/* --------------------------------------------------------------------------------- */
