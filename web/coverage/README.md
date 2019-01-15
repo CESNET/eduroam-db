@@ -9,8 +9,6 @@
   - https://github.com/CESNET/eduroam-db/blob/master/web/coverage/views/index.pug#L184
 
 - mapy:
-  - po najiti bodu udelat zoom, maximalni
-  - pri zmene bodu na globalni mape updatovat zoom
   - prerusena editace a nasledny vyber noveho realmu -> vede na nejakou chybu
   - pridat sede signalizacni boxy, ze mapa se nacita?
 
