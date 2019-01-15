@@ -3,6 +3,7 @@ const config = require('../config/config.js');
 const secrets = require('../config/secrets.js');
 const assert = require('assert');
 const async = require('async');
+const authors = require('./authors');
 // --------------------------------------------------------------------------------------
 var exp = {}
 // --------------------------------------------------------------------------------------
@@ -55,7 +56,7 @@ function get_user_realms(client, user, response, callback)
 // --------------------------------------------------------------------------------------
 // get institution's data by ldap dn
 // --------------------------------------------------------------------------------------
-function get_inst_data(client, data, response)
+function get_inst_data(client, data, realm, response)
 {
   var items = [ 'street', 'l', 'o', 'dc' ];      // 'o;lang-cs' and 'o;lang-en' are subtypes of 'o', no need to declare explicitly
   var opts = {
@@ -80,13 +81,13 @@ function get_inst_data(client, data, response)
           assert.ifError(err);
         });
 
-        response.send(create_institituon_json(data));
+        response.send({ data : create_institituon_json(data), author : authors.get_last_edit_author(realm) });
       });
     });
 
   else {    // no org pointer available
     data.inst_details = {};
-    response.send(create_institituon_json(data));
+    response.send({ data : create_institituon_json(data), author : authors.get_last_edit_author(realm) });
   }
 }
 // --------------------------------------------------------------------------------------
@@ -282,7 +283,7 @@ function get_inst(client, realm, response)
 
     res.on('end', function(result) {
       get_managers(client, ret, function() {
-        get_inst_data(client, ret, response);
+        get_inst_data(client, ret, realm, response);
       });
     });
   });

@@ -10,6 +10,7 @@ const jsonschema = require('jsonschema')
 const schema = require('../config/schema.json')
 const admins = require('../config/admins.js')
 const realms = require('../config/realms.js')
+const authors = require('./authors')
 // --------------------------------------------------------------------------------------
 // get the name of the user logged in the application
 // --------------------------------------------------------------------------------------
@@ -70,7 +71,7 @@ router.get('/api/:inst_id', function(req, res, next)
       // check that requested realm exists in inst_mapping and correspoding JSON file exists
       if(req.params.inst_id in inst_mapping && fs.existsSync('./coverage_files/' + inst_mapping[req.params.inst_id] + '.json')) {
         var file = JSON.parse(fs.readFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + '.json'), 'utf8');
-        res.send(file);
+        res.send({ data : file, author : authors.get_last_edit_author(req.params.inst_id) });
       }
       else  // no data available, query ldap
         ldap.get_inst(req.params.inst_id, res)
@@ -140,6 +141,7 @@ function save_data(req, res)
     }
     else {
       fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);
+      authors.set_last_editor_author(req.params.inst_id, get_user(req));
       res.send("");
     }
   }

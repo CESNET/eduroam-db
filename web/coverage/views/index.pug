@@ -89,6 +89,15 @@ block content
                       option(value='SP') SP (pasivní)
                       option(value='IdP') IdP
                 // ========================================================================================================
+                .form-group
+                  label.col-sm-3.control-label Datum poslední změny:
+                    p.inline-block
+                    |   {{last_changed}}
+
+                  label.col-sm-3.control-label Autor:
+                    p.pull-right.col-sm-push-1.inline-block
+                    |   {{last_changed_author}}
+                // ========================================================================================================
 
 
 
