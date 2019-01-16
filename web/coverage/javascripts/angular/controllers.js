@@ -635,7 +635,7 @@ function init_leaflet_map_by_id($scope, $http, $timeout, index)
   if($scope.json_data.location[index].coordinates) {        // extract coords from data
     coords.push($scope.json_data.location[index].coordinates.split(",")[1]);
     coords.push($scope.json_data.location[index].coordinates.split(",")[0]);
-    zoom = 20;      // set zoom to close, if coords are available
+    zoom = 18;      // set zoom to close, if coords are available
   }
   else {
     coords = [50.1017839, 14.3885668];      // CESNET
