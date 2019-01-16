@@ -75,6 +75,7 @@ function init_functions($scope, $http, $timeout)
     if($scope.coverage_map && $scope.coverage_map.map) {
       $scope.coverage_map.map.remove();       // destroy global coverage map
       $scope.coverage_map.markers = [];       // clear all global markers
+      $scope.coverage_map.map = undefined;    // unset the map
     }
 
     if(!$scope.basic_info.open)                    // only if closed
