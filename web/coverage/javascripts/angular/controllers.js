@@ -564,6 +564,13 @@ function update_global_map($scope)
 function update_location_marker($scope, index, lat, lon)
 {
   if($scope.locations[index].marker) {      // marker exists
+    var tmp = $scope.locations[index].marker.getLatLng();
+
+    // do no fly to the same point - this causes the map to wobble
+    // TODO - if the coords differ very slightly, the map wobbles
+    if(tmp.lat != lat || tmp.lng != lon)
+      $scope.locations[index].map.flyTo([lat, lon], 18, { duration : 1.5 });      // fly to set point with max zoom
+
     $scope.locations[index].marker.setLatLng([lat, lon]);
     $scope.locations[index].marker.update();
   }
@@ -588,7 +595,12 @@ function add_location_marker($scope, $http, $timeout, index, map)
     coords.push($scope.json_data.location[index].coordinates.split(",")[0]);
     var marker = new L.marker(coords, { icon : $scope.marker_icon }).addTo(map);       // add marker
     $scope.locations[index].marker = marker;    // store marker in location
-    map.flyTo(coords, 20, { duration : 1.5 });      // fly to set point with max zoom
+
+    // determine if the map is initialized to set coords or
+    // if adding new marker by form inputs
+    var tmp = map.getCenter();
+    if(tmp.lat != coords[0] || tmp.lng != coords[1])      // different map center and coords
+      map.flyTo(coords, 18, { duration : 1.5 });      // fly to set point with max zoom
 
     if(!$scope.coverage_map.markers[index]) {    // init with coords for new location not present on global map
       var marker = new L.marker(coords, { icon : $scope.marker_icon }).addTo($scope.coverage_map.map);       // add marker to global map
