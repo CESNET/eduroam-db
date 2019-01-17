@@ -35,6 +35,5 @@ gulp.task('js', function() {
 });
 // -----------------------------------------------------------
 // Default Task
-//gulp.task('default', gulp.series(['js', 'css']));
-//gulp.task('default', 'js');
+gulp.task('default', gulp.series(['js', 'css']));
 // -----------------------------------------------------------
