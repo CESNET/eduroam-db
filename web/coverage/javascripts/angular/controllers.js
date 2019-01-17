@@ -683,7 +683,6 @@ function get_json_from_api($scope, $http, $timeout)
   .then(function(response) {
     $scope.api_read_error = false;
     if(response.status == 200) {
-
       $scope.json_data = response.data.data;
       parse_location_data($scope, $scope.json_data.location);
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
