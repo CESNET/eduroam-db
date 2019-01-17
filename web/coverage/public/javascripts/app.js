@@ -316,7 +316,6 @@ C.console&&console.log("WARNING: Tried to load angular more than once."):(je(),l
 SHORTDAY:"Sun Mon Tue Wed Thu Fri Sat".split(" "),SHORTMONTH:"Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" "),STANDALONEMONTH:"January February March April May June July August September October November December".split(" "),WEEKENDRANGE:[5,6],fullDate:"EEEE, MMMM d, y",longDate:"MMMM d, y",medium:"MMM d, y h:mm:ss a",mediumDate:"MMM d, y",mediumTime:"h:mm:ss a","short":"M/d/yy h:mm a",shortDate:"M/d/yy",shortTime:"h:mm a"},NUMBER_FORMATS:{CURRENCY_SYM:"$",DECIMAL_SEP:".",GROUP_SEP:",",
 PATTERNS:[{gSize:3,lgSize:3,maxFrac:3,minFrac:0,minInt:1,negPre:"-",negSuf:"",posPre:"",posSuf:""},{gSize:3,lgSize:3,maxFrac:2,minFrac:2,minInt:1,negPre:"-\u00a4",negSuf:"",posPre:"\u00a4",posSuf:""}]},id:"en-us",localeID:"en_US",pluralCat:function(a,c){var e=a|0,f=c;void 0===f&&(f=Math.min(b(a),3));Math.pow(10,f);return 1==e&&0==f?"one":"other"}})}]),F(C.document).ready(function(){fe(C.document,Bc)}))})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 /*
-//# sourceMappingURL=angular.min.js.map
 */
 
 /*
@@ -375,8 +374,8 @@ d,e,"addClass"));h&&(g=g.concat(h));k&&(g=g.concat(k))}if(0!==g.length)return fu
 b.substr(1),K=b);"enter"!==b&&"move"!==b&&(r=t(a,b,u,x,J));p=t(a,b,u,x,K)}if(r||p){var k;return{$$willAnimate:!0,end:function(){k?k.end():(H=!0,C(),ha(a,u),k=new c,k.complete(!0));return k},start:function(){function b(c){H=!0;C();ha(a,u);k.complete(c)}if(k)return k;k=new c;var d,e=[];r&&e.push(function(a){d=r(a)});e.length?e.push(function(a){C();a(!0)}):C();p&&e.push(function(a){d=p(a)});k.setHost({end:function(){H||((d||P)(void 0),b(void 0))},cancel:function(){H||((d||P)(!0),b(!0))}});c.chain(e,
 b);return k}}}}}]}]).provider("$$animateJsDriver",["$$animationProvider",function(a){a.drivers.push("$$animateJsDriver");this.$get=["$$animateJs","$$AnimateRunner",function(a,c){function d(c){return a(c.element,c.event,c.classes,c.options)}return function(a){if(a.from&&a.to){var b=d(a.from),n=d(a.to);if(b||n)return{start:function(){function a(){return function(){s(d,function(a){a.end()})}}var d=[];b&&d.push(b.start());n&&d.push(n.start());c.all(d,function(a){e.complete(a)});var e=new c({end:a(),cancel:a()});
 return e}}}else return d(a)}}]}])})(window,window.angular);
-//# sourceMappingURL=angular-animate.min.js.map
 
+"use strict";
 /* --------------------------------------------------------------------------------- */
 angular.module('coverage', [ 'ui.bootstrap', 'ngAnimate' ]);
 /* --------------------------------------------------------------------------------- */
@@ -418,6 +417,21 @@ function init_functions($scope, $http, $timeout)
       $scope.json_data.location.splice(index, 1);
       $scope.locations.splice(index, 1);
     }
+
+    if($scope.json_data.location.length == 0)
+      $scope.location_error = true;
+
+
+    // update global map markers
+    if($scope.coverage_map.markers[index]) {
+      $scope.coverage_map.map.removeLayer($scope.coverage_map.markers[index]);
+      $scope.coverage_map.markers.splice(index, 1);
+    }
+
+    // callind validate_locations does not work great here
+    // when removing location with error
+    // location without error with index + 1 gets error set
+    //validate_locations($scope, $scope.main_form);
   }
  
   $scope.save_data = function() {
@@ -439,12 +453,11 @@ function init_functions($scope, $http, $timeout)
   $scope.get_json = function() {
     $scope.loading = true;
     $scope.api_write_error = false;                 // no write error for newly selected realm
-    //$scope.main_form = undefined;           // TODO
-    //$scope.main_form.$setPristine();
 
     if($scope.coverage_map && $scope.coverage_map.map) {
       $scope.coverage_map.map.remove();       // destroy global coverage map
       $scope.coverage_map.markers = [];       // clear all global markers
+      $scope.coverage_map.map = undefined;    // unset the map
     }
 
     if(!$scope.basic_info.open)                    // only if closed
@@ -471,43 +484,6 @@ function init_functions($scope, $http, $timeout)
     init_coverage_map($scope);
   }
 
-  $scope.inspect_form = function() {
-    console.log($scope.main_form);
-    //console.log($scope.main_form.admin_0_name);
-    //console.log($scope.main_form.admin_1_name);
-    console.log($scope.main_form.admin_0_phone);
-    console.log($scope.main_form.admin_1_phone);
-    //console.log(JSON.stringify($scope.main_form, undefined, 4));
-  }
-
-  $scope.validate = function() {
-    //ngModel.$validate();
-    //$scope.main_form.admin_0_phone.$validate();
-    //$scope.main_form.$setDirty();
-    //$scope.main_form.admin_0_phone.$setDirty();
-    //console.log("validujeme");
-    //console.log($scope.main_form.admin_0_phone.$validate());
-    //$scope.main_form.$setSubmitted();
-
-    //$scope.main_form.realm.$viewChangeListeners.push(function() { 
-    //  //$scope.main_form.inputA.$validate(); 
-    //  $scope.main_form.admin_0_phone.$validate(); 
-    //  //$scope.main_form.admin_1_phone.$validate(); 
-    //});
-
-    //angular.forEach($scope.form.$error.required, function(field) {
-    //    field.$setDirty();
-    //});
-
-    angular.forEach($scope.main_form.$error.required, function(field) {
-        field.$setDirty();
-    });
-  }
-
-  $scope.debug_coords = function() {
-    console.log($scope.json_data.location[0].coordinates);
-  }
-
   $scope.set_location_heading = function(index) {
     // set heading if city and street are set
     if($scope.json_data.location[index].address[0] && $scope.json_data.location[index].address[0].city && $scope.json_data.location[index].address[0].city.data &&
@@ -518,10 +494,10 @@ function init_functions($scope, $http, $timeout)
   }
 
   $scope.$watch('api_write_error', function(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        if(newValue == true)
-          scroll_to_error();
-      }
+    if (newValue !== oldValue) {
+      if(newValue == true)
+        scroll_to_error();
+    }
   });
 }
 /* --------------------------------------------------------------------------------- */
@@ -616,63 +592,50 @@ function validate_admins($scope, form)
 /* --------------------------------------------------------------------------------- */
 function validate_locations($scope, form)
 {
+  $scope.location_error = false;
+
   for(var i = 0; i < $scope.json_data.location.length; i++) {
-    if(form["location_" + i + "_street"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    $scope.locations[i].error = true;
 
-    else if(form["location_" + i + "_city"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    if(form["location_" + i + "_street"].$error.required)
+      ;
 
-    else if(form["location_" + i + "_info_url_cz"].$error.required || form["location_" + i + "_info_url_cz"].$error.pattern) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if(form["location_" + i + "_city"].$error.required)
+      ;
 
-    else if(form["location_" + i + "_info_url_en"].$error.required || form["location_" + i + "_info_url_en"].$error.pattern) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if(form["location_" + i + "_info_url_cz"].$error.required || form["location_" + i + "_info_url_cz"].$error.pattern)
+      ;
 
-    else if(form["location_" + i + "_coordinates"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if(form["location_" + i + "_info_url_en"].$error.required || form["location_" + i + "_info_url_en"].$error.pattern)
+      ;
 
-    else if(form["location_" + i + "_enc_level"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if(form["location_" + i + "_coordinates"].$error.required)
+      ;
+
+    else if(form["location_" + i + "_enc_level"].$error.required)
+      ;
 
     // wired is set - check wired_count
-    else if($scope.locations[i].wired && form["location_" + i + "_wired_count"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if($scope.locations[i].wired && form["location_" + i + "_wired_count"].$error.required)
+      ;
 
-    else if(form["location_" + i + "_ap_no"].$error.required) {
-      $scope.location_error = true;
-      $scope.locations[i].error = true;
-      break;
-    }
+    else if(form["location_" + i + "_ap_no"].$error.required)
+      ;
 
-    else {      // no other error occured
+    else      // no other error occured
       $scope.locations[i].error = false;        // location specific error
+  }
 
-      if(i == $scope.json_data.contact.length -1)     // last item
-        $scope.location_error = false;
+  for(var i = 0; i < $scope.json_data.location.length; i++) {
+    if($scope.locations[i].error) {
+      $scope.location_error = true;
+      break;
     }
   }
+
+  // no locations present
+  if($scope.json_data.location.length == 0)
+    $scope.location_error = true;
 }
 /* --------------------------------------------------------------------------------- */
 // initialize auxiliary variables
@@ -708,6 +671,13 @@ function init_vars($scope)
     "privátní",
     "veřejný"
   ];
+
+  $scope.marker_icon = L.icon({
+    iconUrl: '/images/map_icon8.png',
+    iconSize:     [32, 32], // size of the icon
+    iconAnchor:   [16, 32], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-2, -32] // point from which the popup should open relative to the iconAnchor
+});
 }
 /* --------------------------------------------------------------------------------- */
 // add lang for info url
@@ -937,20 +907,38 @@ function init_coverage_map($scope)
   $scope.coverage_map.markers = [];
   var coords = [];
   var map = L.map('coverage_map', { gestureHandling: true });
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { errorTileUrl: '/images/empty_tile.png' }).addTo(map);
 
   for(var i = 0; i < $scope.json_data.location.length; i++) {
     var tmp = [];
     tmp.push($scope.json_data.location[i].coordinates.split(",")[1]);
     tmp.push($scope.json_data.location[i].coordinates.split(",")[0]);
-    var marker = new L.marker(tmp).addTo(map);
+    var marker = new L.marker(tmp, { icon : $scope.marker_icon }).addTo(map);
     marker.bindPopup($scope.locations[i].heading).openPopup();      // popup with location street and city
     coords.push(tmp);
     $scope.coverage_map.markers[i] = marker;
   }
 
+  if($scope.json_data.location.length == 0) {    // no locations available
+    coords = [[ 50.1017839, 14.3885668 ]];      // CESNET
+  }
+
   map.fitBounds(coords);
   $scope.coverage_map.map = map;
+}
+/* --------------------------------------------------------------------------------- */
+// update global map bounds
+/* --------------------------------------------------------------------------------- */
+function update_global_map($scope)
+{
+  var coords = [];
+
+  for(var i = 0; i < $scope.coverage_map.markers.length; i++) {
+    var tmp = $scope.coverage_map.markers[i].getLatLng()
+    coords.push([tmp.lat, tmp.lng]);
+  }
+
+  $scope.coverage_map.map.fitBounds(coords);
 }
 /* --------------------------------------------------------------------------------- */
 // update local and global map markers
@@ -958,6 +946,13 @@ function init_coverage_map($scope)
 function update_location_marker($scope, index, lat, lon)
 {
   if($scope.locations[index].marker) {      // marker exists
+    var tmp = $scope.locations[index].marker.getLatLng();
+
+    // do no fly to the same point - this causes the map to wobble
+    // TODO - if the coords differ very slightly, the map wobbles
+    if(tmp.lat != lat || tmp.lng != lon)
+      $scope.locations[index].map.flyTo([lat, lon], 18, { duration : 1.5 });      // fly to set point with max zoom
+
     $scope.locations[index].marker.setLatLng([lat, lon]);
     $scope.locations[index].marker.update();
   }
@@ -967,6 +962,8 @@ function update_location_marker($scope, index, lat, lon)
     $scope.coverage_map.markers[index].setLatLng([lat, lon]);
     $scope.coverage_map.markers[index].update();
   }
+
+  update_global_map($scope);
 }
 /* --------------------------------------------------------------------------------- */
 // add markers to specific location map
@@ -978,11 +975,17 @@ function add_location_marker($scope, $http, $timeout, index, map)
     var coords = [];
     coords.push($scope.json_data.location[index].coordinates.split(",")[1]);
     coords.push($scope.json_data.location[index].coordinates.split(",")[0]);
-    var marker = new L.marker(coords).addTo(map);       // add marker
+    var marker = new L.marker(coords, { icon : $scope.marker_icon }).addTo(map);       // add marker
     $scope.locations[index].marker = marker;    // store marker in location
 
+    // determine if the map is initialized to set coords or
+    // if adding new marker by form inputs
+    var tmp = map.getCenter();
+    if(tmp.lat != coords[0] || tmp.lng != coords[1])      // different map center and coords
+      map.flyTo(coords, 18, { duration : 1.5 });      // fly to set point with max zoom
+
     if(!$scope.coverage_map.markers[index]) {    // init with coords for new location not present on global map
-      var marker = new L.marker(coords).addTo($scope.coverage_map.map);       // add marker to global map
+      var marker = new L.marker(coords, { icon : $scope.marker_icon }).addTo($scope.coverage_map.map);       // add marker to global map
       $scope.coverage_map.markers[index] = marker;    // store marker in global map
 
       if($scope.locations[index].heading)     // set popup if defined
@@ -996,25 +999,23 @@ function add_location_marker($scope, $http, $timeout, index, map)
     // add marker on click
     map.on('click', function(e) {
       if(!$scope.locations[index].marker) {      // only one marker per map
-        var marker = new L.marker(e.latlng).addTo(map);
+        var marker = new L.marker(e.latlng, { icon : $scope.marker_icon }).addTo(map);
         $scope.locations[index].marker = marker;        // store marker in location
       }
       if(!$scope.coverage_map.markers[index]) {      // no marker in global map for this location yet
-        var marker = new L.marker(e.latlng).addTo($scope.coverage_map.map); // add to global map
+        var marker = new L.marker(e.latlng, { icon : $scope.marker_icon }).addTo($scope.coverage_map.map); // add to global map
         $scope.coverage_map.markers[index] = marker;     // save global map marker
+        update_global_map($scope);
 
         if($scope.locations[index].heading)     // set popup if defined
           marker.bindPopup($scope.locations[index].heading);
       }
-
-      query_osm_api_by_location($scope, $timeout, $http, index, e.latlng.lat, e.latlng.lng);
     });
   }
 
   // move marker on click - existing or new location
   map.on('click', function(e) {
     update_location_coords($scope, $http, $timeout, index, e.latlng.lat, e.latlng.lng);
-    query_osm_api_by_location($scope, $timeout, $http, index, e.latlng.lat, e.latlng.lng);
   });
 }
 /* --------------------------------------------------------------------------------- */
@@ -1028,7 +1029,7 @@ function init_leaflet_map_by_id($scope, $http, $timeout, index)
   if($scope.json_data.location[index].coordinates) {        // extract coords from data
     coords.push($scope.json_data.location[index].coordinates.split(",")[1]);
     coords.push($scope.json_data.location[index].coordinates.split(",")[0]);
-    zoom = 20;      // set zoom to close, if coords are available
+    zoom = 18;      // set zoom to close, if coords are available
   }
   else {
     coords = [50.1017839, 14.3885668];      // CESNET
@@ -1064,9 +1065,11 @@ function get_json_from_api($scope, $http, $timeout)
   .then(function(response) {
     $scope.api_read_error = false;
     if(response.status == 200) {
-      parse_location_data($scope, response.data.location);
-      $scope.json_data = response.data;
+      $scope.json_data = response.data.data;
+      parse_location_data($scope, $scope.json_data.location);
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
+      $scope.last_changed = new Date($scope.json_data.ts).toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' });
+      $scope.last_changed_author = response.data.author;
       validate_form($scope, $timeout);
     }
   }, function(err) {
@@ -1090,8 +1093,10 @@ function update_location_coords($scope, $http, $timeout, index, lat, lon)
   $timeout(function () {
     $scope.json_data.location[index].coordinates = lon + "," + lat;       // set form coordinates
 
-    if(!$scope.locations[index].marker)       // first marker on map
+    if(!$scope.locations[index].marker) {       // first marker on map
       add_location_marker($scope, $http, $timeout, index, $scope.locations[index].map);
+      update_global_map($scope);
+    }
     else
       update_location_marker($scope, index, lat, lon);
   }, 0);        // timeout used just to notify input field about change
@@ -1101,7 +1106,7 @@ function update_location_coords($scope, $http, $timeout, index, lat, lon)
 /* --------------------------------------------------------------------------------- */
 function query_osm_api_by_input($scope, $timeout, $http, index)
 {
-  var params = "format=json";
+  var params = "format=json&email=info@eduroam.cz";
 
   if($scope.json_data.location[index].address[0] && $scope.json_data.location[index].address[0].street && $scope.json_data.location[index].address[0].street.data)
     params += "&street=" + encodeURI($scope.json_data.location[index].address[0].street.data);
@@ -1122,46 +1127,9 @@ function query_osm_api_by_input($scope, $timeout, $http, index)
       update_location_coords($scope, $http, $timeout, index, $scope.osm_data.lat, $scope.osm_data.lon);
     }
   }, function(err) {
-    // TODO ?
   });
 }
 /* --------------------------------------------------------------------------------- */
-// update city and street input by location clicked on map
-/* --------------------------------------------------------------------------------- */
-function update_city_street_by_location($scope, index, street, city)
-{
-  $scope.json_data.location[index].address[0].street.data = street;
-  $scope.json_data.location[index].address[0].city.data = city;
-}
-/* --------------------------------------------------------------------------------- */
-// query openstreetmap API by location selected on map
-/* --------------------------------------------------------------------------------- */
-function query_osm_api_by_location($scope, $timeout, $http, index, lat, lon)
-{
-  var params = "format=json&lat=" + lat + "&lon=" + lon + "&zoom=18";
-
-  $http({
-    method  : 'GET',
-    url     : 'https://nominatim.openstreetmap.org/reverse?' + params
-  })
-  .then(function(response) {
-    console.log(response.data.address);
-    $scope.osm_data = response.data;        // get osm API data
-
-    // returned data are really variable, so its not easy to determine street name
-
-    if(response.data.address.pedestrian)
-      update_city_street_by_location($scope, index, response.data.address.pedestrian, response.data.address.city);
-    else if(response.data.address.road && response.data.address.house_number)
-      update_city_street_by_location($scope, index, response.data.address.road + " " + response.data.address.house_number, response.data.address.city);
-    else if(response.data.address.road)
-      update_city_street_by_location($scope, index, response.data.address.road, response.data.address.city);
-    else
-      update_city_street_by_location($scope, index, "", response.data.address.city);
-  }, function(err) {
-    // TODO ?
-  });
-}
 
 /*
  * angular-ui-bootstrap
@@ -22890,7 +22858,6 @@ exports.noConflict = function() {
 window.L = exports;
 
 })));
-//# sourceMappingURL=leaflet-src.js.map
 
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
