@@ -112,10 +112,10 @@ function init_functions($scope, $http, $timeout)
   }
 
   $scope.$watch('api_write_error', function(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        if(newValue == true)
-          scroll_to_error();
-      }
+    if (newValue !== oldValue) {
+      if(newValue == true)
+        scroll_to_error();
+    }
   });
 }
 /* --------------------------------------------------------------------------------- */
