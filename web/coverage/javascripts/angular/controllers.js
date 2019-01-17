@@ -525,7 +525,7 @@ function init_coverage_map($scope)
   $scope.coverage_map.markers = [];
   var coords = [];
   var map = L.map('coverage_map', { gestureHandling: true });
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { errorTileUrl: '/images/empty_tile.png' }).addTo(map);
 
   for(var i = 0; i < $scope.json_data.location.length; i++) {
     var tmp = [];
