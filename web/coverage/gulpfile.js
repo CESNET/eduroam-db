@@ -30,7 +30,7 @@ gulp.task('js', function() {
     gulp.src('javascripts/leaflet-gesture-handling.js'),
   )
     .pipe(concat('app.js'))
-    //.pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('public/javascripts'));
 });
 // -----------------------------------------------------------
