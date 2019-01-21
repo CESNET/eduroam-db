@@ -672,6 +672,14 @@ function validate_form($scope, $timeout)
   }, 200);
 }
 /* --------------------------------------------------------------------------------- */
+// check correct value of type
+/* --------------------------------------------------------------------------------- */
+function check_type($scope)
+{
+  if($scope.json_data.type == "IdPSP")
+    $scope.json_data.type = "IdP+SP";       // correct value
+}
+/* --------------------------------------------------------------------------------- */
 // retrieve json structure from backend api
 /* --------------------------------------------------------------------------------- */
 function get_json_from_api($scope, $http, $timeout)
@@ -685,6 +693,7 @@ function get_json_from_api($scope, $http, $timeout)
     if(response.status == 200) {
       $scope.json_data = response.data.data;
       parse_location_data($scope, $scope.json_data.location);
+      check_type($scope);
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
       $scope.last_changed = new Date($scope.json_data.ts).toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' });
       $scope.last_changed_author = response.data.author;
