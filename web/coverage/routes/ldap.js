@@ -7,53 +7,6 @@ const authors = require('./authors');
 // --------------------------------------------------------------------------------------
 var exp = {}
 // --------------------------------------------------------------------------------------
-exp.get_user_realms = function(user, response, callback) {
-
-  var client = ldap.createClient({
-    url: 'ldaps://' + config.ldap_host
-  });
-
-  client.bind(config.bind_dn, secrets.ldap_pass, function(err) {
-    assert.ifError(err)
-  })
-
-  get_user_realms(client, user, response, callback);
-}
-// --------------------------------------------------------------------------------------
-function get_user_realms(client, user, response, callback)
-{
-  var items = [ 'cn' ];
-  var ret = [];
-
-  var opts = {
-    filter: 'manager=uid=' + user + "," + config.search_base_people,
-    scope: 'sub',
-    attributes: items
-  };
-
-  client.search(config.search_base_realms, opts, function(err, res) {
-    assert.ifError(err);
-
-    res.on('searchEntry', function(entry) {
-      ret.push(entry.object.cn);
-    });
-
-    res.on('error', function(err) {
-      console.error('error: ' + err.message);
-      callback();
-    });
-
-    res.on('end', function(result) {
-      client.unbind(function(err) {   // unbind after all search operations are done
-        assert.ifError(err);
-      });
-
-      if(callback)
-        callback(response, user, ret);
-    });
-  });
-}
-// --------------------------------------------------------------------------------------
 // get institution's data by ldap dn
 // --------------------------------------------------------------------------------------
 function get_inst_data(client, data, realm, response)
