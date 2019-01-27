@@ -19,3 +19,6 @@
   - souvislost s mapou pokryti na eduroam.cz, prehledem pripojenych insitituci
   - pripojovani.eduroam.cz - bude potreba uprava evidence xml
   - ermon - revize testu
+    - zlikvidovat test INST-XML
+    - upravit test INST-JSON (vlastni kontroly proti schematu + dodatecne kontroly?)
+    - revize dokumentace na eduroam.cz
