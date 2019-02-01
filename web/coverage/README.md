@@ -22,3 +22,4 @@
     - zlikvidovat test INST-XML
     - upravit test INST-JSON (vlastni kontroly proti schematu + dodatecne kontroly?)
     - revize dokumentace na eduroam.cz
+  - pridat odkaz a popis na monitor.eduroam.cz
