@@ -128,10 +128,8 @@ function generate_config(data)
 {
   fs.writeFileSync("./config/realm_to_admin.js", "module.exports = \n");
   fs.appendFileSync("./config/realm_to_admin.js", JSON.stringify(data.admin_to_realm, null, 4));
-  if(data.realm_to_inst.length > 0) {       // do not create file if no data are available
-    fs.writeFileSync("./config/realm_to_inst.js", "module.exports = \n");
-    fs.appendFileSync("./config/realm_to_inst.js", JSON.stringify(data.realm_to_inst, null, 4));
-  }
+  fs.writeFileSync("./config/realm_to_inst.js", "module.exports = \n");
+  fs.appendFileSync("./config/realm_to_inst.js", JSON.stringify(data.realm_to_inst, null, 4));
   fs.writeFileSync("./config/realms.js", "module.exports = \n");
   fs.appendFileSync("./config/realms.js", JSON.stringify(data.realms, null, 4));
 }
