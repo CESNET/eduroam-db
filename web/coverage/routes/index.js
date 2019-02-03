@@ -39,6 +39,8 @@ function is_super_admin(user)
 function get_administered_realms(user)
 {
   var ret;
+  delete require.cache[require.resolve('../config/realm_to_admin.js')]
+  const admin_mapping = require('../config/realm_to_admin.js')
 
   if(is_super_admin(user))                     // super admin - can choose any realm
     ret = realms;
@@ -61,6 +63,9 @@ function respond(res, user) {
 // --------------------------------------------------------------------------------------
 router.get('/api/:inst_id', function(req, res, next)
 {
+  delete require.cache[require.resolve('../config/realm_to_inst.js')]
+  const inst_mapping = require('../config/realm_to_inst.js')
+
   // check that inst_id has correct form - dns domain
   if(/^([a-zA-z0-9-]+\.){1,}[a-zA-z0-9-]+$/.test(req.params.inst_id)) {
 
@@ -154,6 +159,9 @@ function save_data(req, res)
 // --------------------------------------------------------------------------------------
 router.post('/api/:inst_id', function(req, res, next)
 {
+  delete require.cache[require.resolve('../config/realm_to_inst.js')]
+  const inst_mapping = require('../config/realm_to_inst.js')
+
   // check that inst_id has correct form - dns domain
   if(/^([a-zA-z0-9-]+\.){1,}[a-zA-z0-9-]+$/.test(req.params.inst_id)) {
 
