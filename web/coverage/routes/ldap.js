@@ -149,9 +149,9 @@ function create_institituon_json(data)
     ret.inst_name.push({ "data": data.inst_details['o;lang-en'], "lang": "en" });
   else {                                    // generic name
     if(data.inst_details.o)
-      ret.inst_name.push({ "data": data.inst_details.o, "lang": "cs" });
+      ret.inst_name.push({ "data": data.inst_details.o, "lang": "en" });
     else
-      ret.inst_name.push({ "data": "", "lang": "cs" });         // no name available
+      ret.inst_name.push({ "data": "", "lang": "en" });         // no name available
   }
 
   // --------------------------------------------------------------------------------------
