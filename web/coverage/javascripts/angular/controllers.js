@@ -695,7 +695,8 @@ function get_json_from_api($scope, $http, $timeout)
       parse_location_data($scope, $scope.json_data.location);
       check_type($scope);
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
-      $scope.last_changed = new Date($scope.json_data.ts).toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' });
+      if($scope.json_data.ts)       // only set this if defined in data from backend
+        $scope.last_changed = new Date($scope.json_data.ts).toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' });
       $scope.last_changed_author = response.data.author;
       validate_form($scope, $timeout);
     }
