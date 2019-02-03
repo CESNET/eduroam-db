@@ -1,4 +1,9 @@
 # TODO list
+- je potreba vymyslet, jak resit pripad, kdy jeste nema realm definovanou svou organizaci
+  - cteni dat by v takovem pripade melo byt bez problemu
+  - ukladani dat je ale problem, protoze realm nema mapovani, a tak neni jasne, kam data ulozit
+
+
 - doplnit (a vytvorit) konkretni odkaz jak ma vypadat informacni URL pro navstevniky
   - https://github.com/CESNET/eduroam-db/blob/master/web/coverage/views/index.pug#L66
   - https://github.com/CESNET/eduroam-db/blob/master/web/coverage/views/index.pug#L168
