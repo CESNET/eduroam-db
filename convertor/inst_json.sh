@@ -23,6 +23,12 @@ function main
     usage
   fi
 
+  if [[ -e $2 ]]
+  then
+    cp $2 "$2-$(date "+%Y-%m-%d")"      # backup previous version with current date
+  fi
+
+  # read all json files and create institituon.json from them, write result to temp
   cat $1/*json | jq -s '{ "schema_version": 2, "institutions": { "institution": . } }' > $2
 }
 # ===================================================================================
