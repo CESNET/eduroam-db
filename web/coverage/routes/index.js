@@ -144,9 +144,16 @@ function save_data(req, res)
       res.send(errors);          // send errors to user
     }
     else {
-      fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);
-      authors.set_last_editor_author(req.params.inst_id, get_user(req));
-      res.send("");
+      // check if req.params.inst_id exists in inst_mapping
+      if(inst_mapping[req.params.inst_id] === undefined) {
+        res.status(401);    // unathorized
+        res.send("");
+      }
+      else {
+        fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);
+        authors.set_last_editor_author(req.params.inst_id, get_user(req));
+        res.send("");
+      }
     }
   }
   else {        // is it even possible to get here? malfored data dies with code 400 at body-parser
