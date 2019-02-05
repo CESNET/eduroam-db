@@ -262,6 +262,7 @@ function init_vars($scope)
 {
   $scope.loading = false;
   $scope.api_read_error = false;
+  $scope.no_org_defined = false;
   $scope.api_write_error = false;
   $scope.api_write_success = false;
   $scope.basic_info = {};           // accordion only works correctly with object
@@ -694,6 +695,17 @@ function get_json_from_api($scope, $http, $timeout)
       $scope.json_data = response.data.data;
       parse_location_data($scope, $scope.json_data.location);
       check_type($scope);
+
+      // both Czech and English org names are not set, probably no org name set in data
+      // or no org mapping set in ldap, which is unacceptable
+      // do not allow any data editing when this happends
+      if(!$scope.json_data.inst_name[0].data && !$scope.json_data.inst_name[1].data) {
+        $scope.no_org_defined = true;
+        $scope.error = "Pro vybraný realm není definována organizace v číselníku CESNETu. Zkuste to prosím později.";
+      }
+      else
+       $scope.no_org_defined = false;
+
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
       if($scope.json_data.ts)       // only set this if defined in data from backend
         $scope.last_changed = new Date($scope.json_data.ts).toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' });
