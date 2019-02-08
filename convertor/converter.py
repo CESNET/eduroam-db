@@ -372,7 +372,7 @@ def get_locations(root, options, inst_name):
       loc['tag'] = tag
 
     # wired eduroam
-    if hasattr(i, "wired") and i.wired == "true":
+    if hasattr(i, "wired") and i.wired == True:
       loc['wired_no'] = 1
 
     get_info_url(i, loc)
