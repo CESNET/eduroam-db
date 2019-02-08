@@ -27,6 +27,7 @@
      - navrh mapy je na https://ermon.cesnet.cz/pokryti/nove_mapy/map_small.html
        - zdrojova data ve formatu geojson
        - je potreba doresit generovani dat
+       - git repo?
      - souvislost s prehledem pripojenych instituci
        - zavislost na XML datech
 
