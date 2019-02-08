@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # ==============================================================================
-# configuration file for eduroam-db convertor 
+# configuration file for eduroam-db converter
 # ==============================================================================
 ROid = "CZ01"                      # ROid provided by database operator
 default_lang = "cs"                # default lang used in country where the NRO is managing eduroam
