@@ -24,7 +24,7 @@ Before you begin with the conversion, make sure all the needed dependencies are 
 
 ### preparations for conversion
 
-Before running the conversion take a look at [config](https://github.com/CESNET/eduroam-db/blob/master/convertor/config.py).
+Before running the conversion take a look at [config](https://github.com/CESNET/eduroam-db/blob/master/converter/config.py).
 Edit all the necessary values to suit your needs. You should edit at least `ROid`, `default_lang` and `local_timezone`.
 Also there is hardcoded default value for number of wired socket for eduroam set to 1!
 
@@ -54,8 +54,8 @@ To see all the options run:
 
 ### bulding the institution.json
 
-To build the whole institution.json file, use [inst_json.sh](https://github.com/CESNET/eduroam-db/blob/master/convertor/inst_json.sh).
-This script uses the output of [converter.py](https://github.com/CESNET/eduroam-db/blob/master/convertor/converter.py).
+To build the whole institution.json file, use [inst_json.sh](https://github.com/CESNET/eduroam-db/blob/master/converter/inst_json.sh).
+This script uses the output of [converter.py](https://github.com/CESNET/eduroam-db/blob/master/converter/converter.py).
 It takes the directory with all the created JSON files and concatenates them into desired structure.
 
 Use the script as:
