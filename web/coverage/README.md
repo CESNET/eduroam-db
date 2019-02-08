@@ -32,18 +32,18 @@
        - zavislost na XML datech
 
   4. uprava dokumentace na eduroam.cz
-    - pridat odkaz a popis na monitor.eduroam.cz
+     - pridat odkaz a popis na monitor.eduroam.cz
 
   5. uprava pripojovani.eduroam.cz
      - prebirani informaci o stavu pokryti z monitoringu je hotove
      - pridani atributu do ldapu - reference na realm, ktery obsahuje testovaci ucet
 
   6. uprava testu v ermonu
-    - zlikvidovat test INST-XML
-    - upravit test INST-JSON (vlastni kontroly proti schematu + dodatecne kontroly?)
-      - jiny nazev? (pokud ano, je potreba reflektovat v pripojovani.eduroam.cz)
-      - pridat kontroly proti schematu
-      - dodatecne kontroly (viz aktualni test)
+     - zlikvidovat test INST-XML
+     - upravit test INST-JSON (vlastni kontroly proti schematu + dodatecne kontroly?)
+       - jiny nazev? (pokud ano, je potreba reflektovat v pripojovani.eduroam.cz)
+       - pridat kontroly proti schematu
+       - dodatecne kontroly (viz aktualni test)
 
   7. import cistych dat z XML do aplikace pokryti.eduroam.cz
      - smazat data posledni upravy
