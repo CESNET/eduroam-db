@@ -369,7 +369,7 @@ def get_locations(root, options, inst_name):
       tag = tag +  "NAT,"
 
     if tag != "":
-      loc['tag'] = tag
+      loc['tag'] = tag[:-1]     # trim the last comma
 
     # wired eduroam
     if hasattr(i, "wired") and i.wired == True:
