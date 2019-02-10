@@ -16,9 +16,12 @@
   3. uprava map pro eduroam.cz
      - navrh mapy je na https://ermon.cesnet.cz/pokryti/nove_mapy/map_small.html
        - zdrojova data ve formatu geojson
-       - je potreba doresit generovani dat
-       - z institution.json brat koordinaty vsech bodu
+       - generovani dat je hotove, generovani z institution.json resi `jq`
        - samostatne git repo?
+       - tool pro tvorbu geojson dat by se mozna mohl hodit i ostatnim, lokalizace?
+       - TODO - pevne poradi pro jazykove varianty nazvu lokalit? tohle by bylo potreba upravit v konvertoru (v kontextu mapy to znamena, ze neni mozne zarucit, jaky [cesky/anglicky] nazev bude na mape zobrazen)
+       - pridat do cronu spolecne s exportem do celosvetove db
+
      - souvislost zdrojovych dat s prehledem pripojenych insitituci
        - zavislost na XML datech
 
@@ -35,6 +38,7 @@
        - jiny nazev? (pokud ano, je potreba reflektovat v pripojovani.eduroam.cz)
        - pridat kontroly proti schematu
        - dodatecne kontroly (viz aktualni test)
+       - lokalizace vystupu do cestiny?
 
   7. import cistych dat z XML do aplikace pokryti.eduroam.cz
      - smazat data posledni upravy
