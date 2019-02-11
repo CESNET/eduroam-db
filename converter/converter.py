@@ -341,6 +341,8 @@ def get_locations(root, options, inst_name):
         for j in i.loc_name:
           loc['loc_name'].append({"lang" : j.get("lang") , "data" : j })        # iterate all languages available
 
+      loc['loc_name'].sort(key=lambda x:x["lang"])               # order array by lang value
+
     # address
     loc['address'] = get_address(i.address, "en")
 
