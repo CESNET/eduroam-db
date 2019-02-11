@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="no-js">
+<head>
+    <meta charset="utf-8" />
+    <title>eduroam.cz [eduroam.cz]</title>
+    <link rel="stylesheet" href="leaflet.css" type="text/css"/>
+    <link rel="stylesheet" href="leaflet-gesture-handling.min.css" type="text/css"/>
+    <link rel="stylesheet" href="markers.css" type="text/css"/>
+    <script src="leaflet.js"></script>
+    <script src="leaflet-gesture-handling.min.js"></script>
+    <script>
+    function init()
+    {
+      var map = L.map('map', { gestureHandling: true }).setView([49.788357, 15.490723], 7);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+      //var src = "https://ermon.cesnet.cz/pokryti/eduroam-cs_CZ.kml?dummy=" + (new Date()).getTime();
+      //var src = "CESNET_nadrazi.geojson";
+      var src = "eduroam_cz.geojson";
+
+      // custom icon
+      var eduroam_icon = L.icon({
+        iconUrl: 'https://monitor.eduroam.cz/images/map_icon8.png',
+        iconSize:     [32, 32], // size of the icon
+        iconAnchor:   [16, 32], // point of the icon which will correspond to marker's location
+        popupAnchor:  [-2, -32] // point from which the popup should open relative to the iconAnchor
+      });
+
+      // fetch data
+      var geo_layer = fetch(src)
+        .then(resp => resp.json())
+        .then(data => {
+          L.geoJSON(data, { pointToLayer: function (feature, latlng) { return L.marker(latlng, { icon: eduroam_icon }); }, 
+                            onEachFeature: onEachFeature })
+                   .addTo(map);
+        })
+
+      // add text to each popup
+      function onEachFeature(feature, layer) {
+        var popup_content = "";
+
+        if (feature.properties && feature.properties.name && feature.properties.description)
+          popup_content += "<div class='popup_header'>" + feature.properties.name + "</div>" + feature.properties.description;
+
+        layer.bindPopup(popup_content);
+      }
+    }
+    </script>
+</head>
+<body onLoad="javascript:init();">
+    <div id="map" style="width: 630px; height: 370px;"></div>
+</body>
+</html>
+
+
