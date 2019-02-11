@@ -14,9 +14,7 @@
       var map = L.map('map', { gestureHandling: true }).setView([49.788357, 15.490723], 7);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-      //var src = "https://ermon.cesnet.cz/pokryti/eduroam-cs_CZ.kml?dummy=" + (new Date()).getTime();
-      //var src = "CESNET_nadrazi.geojson";
-      var src = "eduroam_cz.geojson";
+      var src = "https://ermon.cesnet.cz/pokryti/eduroam-cs_CZ.geojson?dummy=" + (new Date()).getTime();        // use dummy param to avoid caching
 
       // custom icon
       var eduroam_icon = L.icon({
