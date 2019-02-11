@@ -20,7 +20,7 @@ function main()
           # get all the necesarry keys
           { 
             inst_name : $inst_name,
-            loc_name : .loc_name[1].data,       # TODO - fix order from converter? can be cs/en
+            loc_name : .loc_name[1].data,       # local lang location name
             ssid : .SSID,
             info_url : .info_URL[0].data,       # local lang url info
             address : .address[0],              # local lang address
