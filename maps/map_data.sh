@@ -3,8 +3,6 @@
 # generate geojson data from institution.json v2
 # ==================================================================
 
-
-
 # TODO - possible locatilazation for others?
 
 # ==================================================================
