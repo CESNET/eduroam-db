@@ -12,7 +12,7 @@
 # ==================================================================
 function main()
 {
-  jq '[
+  jq -c '[
         .institutions.institution[] |         # iterate all institutions
         .inst_name[0].data as $inst_name |    # save inst name as $inst_name
 
