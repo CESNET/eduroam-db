@@ -14,13 +14,8 @@
      - soucasti cronu je zaloha
 
   3. uprava map pro eduroam.cz
-     - navrh mapy je na https://ermon.cesnet.cz/pokryti/nove_mapy/map_small.html
-       - zdrojova data ve formatu geojson
-       - generovani dat je hotove, generovani z institution.json resi `jq`
-       - samostatne git repo?
-       - tool pro tvorbu geojson dat by se mozna mohl hodit i ostatnim, lokalizace?
-       - TODO - pevne poradi pro jazykove varianty nazvu lokalit? tohle by bylo potreba upravit v konvertoru (v kontextu mapy to znamena, ze neni mozne zarucit, jaky [cesky/anglicky] nazev bude na mape zobrazen)
-       - pridat do cronu spolecne s exportem do celosvetove db
+     - mapy jsou na https://ermon.cesnet.cz/pokryti/nove_mapy/map_small.html a https://ermon.cesnet.cz/pokryti/nove_mapy/map_full.html
+     - generovani dat pridano do cronu spolecne s exportem do celosvetove db pomoci [export.sh](https://github.com/CESNET/eduroam-db/blob/master/tools/export.sh)
 
      - souvislost zdrojovych dat s prehledem pripojenych insitituci
        - zavislost na XML datech
