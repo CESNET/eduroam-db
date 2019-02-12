@@ -2,9 +2,11 @@
 - doplnit (a vytvorit) konkretni odkaz jak ma vypadat informacni URL pro navstevniky
   - https://github.com/CESNET/eduroam-db/blob/master/web/coverage/views/index.pug#L66
   - https://github.com/CESNET/eduroam-db/blob/master/web/coverage/views/index.pug#L168
+  - vytvořen https://www.eduroam.cz/cs/spravce/edudb2/info_url
 
 - dalsi moznosti do listu nabizenych sifrovani?
   - https://github.com/CESNET/eduroam-db/blob/master/web/coverage/views/index.pug#L184
+  - "WPA2 + AES" a "WPA2 + AES, WPA + TKIP" (cerpam z https://www.eduroam.org/wp-content/uploads/2016/05/GN3-12-192_eduroam-policy-service-definition_ver28_26072012.pdf)
 
 # postup nasazeni pokryti.eduroam.cz:
   1. otestovani aplikace pokryti.eduroam.cz
