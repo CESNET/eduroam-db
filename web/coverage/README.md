@@ -22,6 +22,7 @@
 
   4. uprava dokumentace na eduroam.cz
      - pridat odkaz a popis na monitor.eduroam.cz
+     - upravit popis testu ermonu
 
   5. uprava pripojovani.eduroam.cz
      - prebirani informaci o stavu pokryti z monitoringu je hotove
@@ -37,6 +38,7 @@
 
   7. import cistych dat z XML do aplikace pokryti.eduroam.cz
      - smazat data posledni upravy
+     - pri importu dat jeste vse protahnout pres jq a zbavit se tak utf-8 escape sekvenci
 
   8. informovani adminu
 
