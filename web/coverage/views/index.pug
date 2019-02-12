@@ -200,9 +200,9 @@ block content
                       label.col-sm-2.control-label Použité šifrování:
                       .col-xs-3
                         input.form-control(type='text', ng-model='location.enc_level', list='enc_types', name="location_{{$index}}_enc_level", required, ng-blur='validate_locations(main_form)')
-                        //TODO - dalsi moznosti do listu?
                         datalist#enc_types
                           option(value='WPA2 + AES') WPA2 + AES
+                          option(value='WPA2 + AES, WPA + TKIP') WPA2 + AES, WPA + TKIP
                     // ========================================================================================================
                     .form-group
                       label.col-sm-2.control-label
