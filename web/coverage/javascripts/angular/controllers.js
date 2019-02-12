@@ -81,6 +81,11 @@ function init_functions($scope, $http, $timeout)
     if(!$scope.basic_info.open)                    // only if closed
       $scope.accordion_shared_scope.toggleOpen();     // open the basic info tab on realm change
 
+    // set all location tabs to closed
+    // this will prevent map display issues
+    for(var i = 0; i < $scope.locations.length; i++)
+      $scope.locations[i].open = false;
+
     // wait 500 ms before displaying the form
     // when switching realms, this seems usefull in the way the user knows that the form really changed
     $timeout(function () {
