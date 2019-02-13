@@ -17,10 +17,7 @@ block content
         // ========================================================================================================
 
 
-        // ========================================================================================================
-        //- novalidate used as workaround to prevent console errors when removing locations
-        form.form-horizontal(name="main_form", novalidate)
-          // ========================================================================================================
+        form.form-horizontal
           h4 Výběr realmu
           // ========================================================================================================
           p(ng-show='admin_realms.length == 0')
@@ -30,10 +27,13 @@ block content
           .form-group(ng-show='admin_realms.length > 0')
             label.col-sm-2.control-label Realm
             .col-xs-2
-              select.form-control(ng-model='selected_realm', ng-change='get_json()')
+              select.form-control(ng-model='selected_realm', ng-change="check_unsaved_data('{{selected_realm}}')")
                 option(value="" selected disabled hidden) Vyberte realm
                 option(ng-repeat='option in admin_realms', value='{{option}}') {{option}}
 
+        // ========================================================================================================
+        //- novalidate used as workaround to prevent console errors when removing locations
+        form.form-horizontal(name="main_form", novalidate)
           // ========================================================================================================
           div.lds-dual-ring(ng-show='loading')
 

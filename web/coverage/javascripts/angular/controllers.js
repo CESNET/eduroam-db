@@ -39,7 +39,6 @@ function init_functions($scope, $http, $timeout)
     if($scope.json_data.location.length == 0)
       $scope.location_error = true;
 
-
     // update global map markers
     if($scope.coverage_map.markers[index]) {
       $scope.coverage_map.map.removeLayer($scope.coverage_map.markers[index]);
@@ -69,6 +68,8 @@ function init_functions($scope, $http, $timeout)
   }
 
   $scope.get_json = function() {
+    $scope.main_form.$setPristine();    // just in case user canceled editing of some unsaved data
+
     $scope.loading = true;
     $scope.api_write_error = false;                 // no write error for newly selected realm
 
@@ -93,6 +94,16 @@ function init_functions($scope, $http, $timeout)
     }, 500);
 
     get_json_from_api($scope, $http, $timeout);
+  }
+
+  $scope.check_unsaved_data = function(previous_value) {
+    if($scope.main_form.$dirty)     // unsaved data exists
+      if(!confirm("Máte neuložené změny! Opustit editaci?")) {
+        $scope.selected_realm = previous_value;     // set selected realm to value before user clicked the dropdown
+        return;       // user wants to continue editing
+      }
+
+    $scope.get_json();
   }
 
   $scope.find_map_location = function(index) {
@@ -121,6 +132,12 @@ function init_functions($scope, $http, $timeout)
       if(newValue == true)
         scroll_to_error();
     }
+  });
+
+  window.addEventListener("beforeunload", function (e) {
+    if($scope.main_form.$dirty)
+      (e || window.event).returnValue = null;
+      return null;
   });
 }
 /* --------------------------------------------------------------------------------- */
@@ -447,6 +464,8 @@ function save_json_to_api($scope, $http, $timeout)
       $timeout(function () {
         $scope.api_write_success = false;
       }, 3000);
+
+      $scope.main_form.$setPristine();       // form data are saved, so make the form clean
     }
   }, function(err) {
     $scope.api_write_error = true;
