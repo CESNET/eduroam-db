@@ -233,7 +233,7 @@ block content
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_ap_no.$error.required }")
                       label.col-sm-2.control-label Počet použitých AP:
                       .col-xs-1
-                        input.form-control(type='number', placeholder='5', ng-model='location.AP_no', name="location_{{$index}}_ap_no", required, ng-blur='validate_locations(main_form)')
+                        input.form-control(type='number', min="1", placeholder='5', ng-model='location.AP_no', name="location_{{$index}}_ap_no", required, ng-blur='validate_locations(main_form)')
 
                 // ========================================================================================================
                 .form-group
