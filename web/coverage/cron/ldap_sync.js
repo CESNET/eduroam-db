@@ -115,7 +115,7 @@ function prepare_data(data)
     }
 
     if(data[i].org_ptr)
-      ret.realm_to_inst[data[i].realm] = data[i].org_ptr.replace("dc=", "").replace(",ou=Organizations,dc=cesnet,dc=cz", "").replace(" ", "_");
+      ret.realm_to_inst[data[i].realm] = data[i].org_ptr.replace("dc=", "").replace(",ou=Organizations,dc=cesnet,dc=cz", "").replace(/ /g, "_");
   }
 
   ret.realms = tmp_realms.sort(sort_by_domain);
