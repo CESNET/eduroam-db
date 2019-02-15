@@ -27,11 +27,8 @@
 
   6. uprava testu v ermonu
      - zlikvidovat test INST-XML
-     - upravit test INST-JSON (vlastni kontroly proti schematu + dodatecne kontroly?)
-       - jiny nazev? (pokud ano, je potreba reflektovat v pripojovani.eduroam.cz)
-       - pridat kontroly proti schematu
-       - dodatecne kontroly (viz aktualni test)
-       - lokalizace vystupu do cestiny?
+     - zlikvidovat test INST-JSON
+     - pridat notifikace k testu COVERAGE-INFO
 
   7. import cistych dat z XML do aplikace pokryti.eduroam.cz
      - smazat data posledni upravy
