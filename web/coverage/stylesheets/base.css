@@ -85,27 +85,13 @@ body {
 }
 
 /* additional styles to make nested accordion look nice */
-/*
-a{text-decoration:none;}                                                                           
-*{box-sizing:border-box;}                                                                          
-a:active,a:hover{outline:0;}                                                                       
-button,input{margin:0;font-size:100%;vertical-align:middle;}                                       
-button,input{line-height:normal;}                                                                  
-button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0;}                              
-button{-webkit-appearance:button;cursor:pointer;}                                                  
-button,input[type=checkbox],label{cursor:pointer;}                                                 
-input[type=number]::-ms-clear,input[type=text]::-ms-clear{display:none;}                           
-*{border-collapse:collapse;}                                                                       
-@media print{                                                                                      
-a,a:visited{text-decoration:underline;}                                                            
-a[href]:after{content:" (" attr(href)")";}                                                         
-}                                                                                                  
-h4{font:500 1.125rem/1.1 "Segoe UI","Open Sans",sans-serif,serif;}                                 
-a,a:visited{color:#2086bf;}                                                                        
-*/
 .panel{display:block;position:relative;background-color:#fff;}                                     
 
 /* inline-block */
 .inline-block {
   display: inline-block !important;
+}
+
+span.glyphicon.glyphicon-menu-down {
+  padding-right: 5px;
 }
