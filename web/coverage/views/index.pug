@@ -254,6 +254,7 @@ block content
             .form-group
               .col-xs-2
                 input.btn.btn-default(type='submit', ng-click='save_data()', value="Uložit data", ng-disabled="main_form.$invalid || json_data.location.length == 0 || json_data.contact.length == 0")
+                div.alert.alert-danger(ng-show="main_form.$invalid || json_data.location.length == 0 || json_data.contact.length == 0") Pro uložení dat doplňte chybějící informace v sekcích označených červenou barvou.
 
             // ========================================================================================================
             .form-group
