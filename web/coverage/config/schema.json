@@ -137,7 +137,7 @@
                 "examples": [
                   "IdP+SP"
                 ],
-                "enum": ["Idp", "SP", "IdP+SP"] 
+                "enum": ["IdP", "SP", "IdP+SP"]
               }, 
               "stage": {
                 "type": "integer", 
