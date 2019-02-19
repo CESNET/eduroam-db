@@ -4,7 +4,7 @@
   - "WPA2 + AES" a "WPA2 + AES, WPA + TKIP" (cerpam z https://www.eduroam.org/wp-content/uploads/2016/05/GN3-12-192_eduroam-policy-service-definition_ver28_26072012.pdf)
 
 # postup nasazeni pokryti.eduroam.cz:
-  1. otestovani aplikace pokryti.eduroam.cz
+  1. otestovani aplikace pokryti.eduroam.cz [SOLVED]
 
   2. priprava skriptu pro export do celosvetove db, diffovani [SOLVED]
      - cron 1x denne pomoci [inst_json.sh](https://github.com/CESNET/eduroam-db/blob/master/convertor/inst_json.sh)
@@ -20,6 +20,7 @@
   4. uprava dokumentace na eduroam.cz
      - pridat odkaz a popis na monitor.eduroam.cz
      - upravit popis testu ermonu
+       - smazat info o starych testech
 
   5. uprava pripojovani.eduroam.cz
      - prebirani informaci o stavu pokryti z monitoringu je hotove
