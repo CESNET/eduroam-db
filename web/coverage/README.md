@@ -31,11 +31,16 @@
      - zlikvidovat test INST-JSON
      - pridat notifikace k testu COVERAGE-INFO
 
-  7. import cistych dat z XML do aplikace pokryti.eduroam.cz
+  7. dočištění dat
+     - informovat adminy že přepínáme ať XML už nedělají
+     - zablokovat editaci v CAAS
+     - fixnout všechny chybné instituce (i za cenu stažení XML k nám)
+     - domluvit s Mirem přepnutí z XML na JSON
+
+  8. import cistych dat z XML do aplikace pokryti.eduroam.cz
      - smazat data posledni upravy
      - pri importu dat jeste vse protahnout pres jq a zbavit se tak utf-8 escape sekvenci
-
-  8. informovani adminu
+     - oznámit novou aplikaci
 
   9. zadost o zmenu formatu exportu v celosvetove db
 
