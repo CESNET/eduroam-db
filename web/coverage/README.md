@@ -7,7 +7,7 @@
   1. otestovani aplikace pokryti.eduroam.cz [SOLVED]
 
   2. priprava skriptu pro export do celosvetove db, diffovani [SOLVED]
-     - cron 1x denne pomoci [inst_json.sh](https://github.com/CESNET/eduroam-db/blob/master/convertor/inst_json.sh)
+     - cron 1x denne pomoci [inst_json.sh](https://github.com/CESNET/eduroam-db/blob/master/converter/inst_json.sh)
      - soucasti cronu je zaloha
 
   3. uprava map pro eduroam.cz
