@@ -52,7 +52,7 @@ To see all the options run:
 ./converter.py --help
 ```
 
-### bulding the institution.json
+### building the institution.json
 
 To build the whole institution.json file, use [inst_json.sh](https://github.com/CESNET/eduroam-db/blob/master/converter/inst_json.sh).
 This script uses the output of [converter.py](https://github.com/CESNET/eduroam-db/blob/master/converter/converter.py).
