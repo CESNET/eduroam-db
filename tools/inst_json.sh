@@ -25,10 +25,17 @@ function main
 
   if [[ -e $2 ]]
   then
-    cp $2 "$2-$(date "+%Y-%m-%d")"      # backup previous version with current date
+    # diff current version and new version
+    diff -q <(jq '.' $1/*json | jq -S -s '{ "schema_version": 2, "institutions": { "institution": . } }') $2 >/dev/null
+
+    # backup is done only when there are some changes between current and new version
+    if [[ $? -ne 0 ]]
+    then
+      cp $2 "$2-$(date "+%Y-%m-%d")"      # backup previous version with current date
+    fi
   fi
 
-  # read all json files and create institituon.json from them, write result to temp
+  # read all json files and create institituon.json from them, write result to destination file
   jq '.' $1/*json | jq -S -s '{ "schema_version": 2, "institutions": { "institution": . } }' > $2
 }
 # ===================================================================================
