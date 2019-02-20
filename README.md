@@ -77,7 +77,7 @@ the problematic document can be printed with `jq '.institutions.institution[2].i
 
 ## web interface
 
-The web application in built in node.js.
+The web application is built in node.js.
 
 ### frontend
 
