@@ -510,6 +510,10 @@ function parse_location_data($scope, locations)
   for(var i in locations) {
     var loc = {};
 
+    // check if info_URL is present and has correct data type
+    if(!locations[i].info_URL || !Array.isArray(locations[i].info_URL))
+      locations[i].info_URL = [];
+
     if(locations[i].tag && locations[i].tag.indexOf("port_restrict") != -1)
       loc.port_restrict = true;
     else
