@@ -224,15 +224,15 @@ block content
                         input.checkbox-inline.pull-right.col-sm-push-1(type='checkbox', ng-model='locations[$index].wired')
                         | Poskytujete eduroam na metalických zásuvkách?
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_wired_count.$error.required }", ng-show='locations[$index].wired')
+                    .form-group(ng-show='locations[$index].wired')
                       label.col-sm-2.control-label Počet metalických zásuvek
                       .col-xs-1
-                        input.form-control(type='number', placeholder='5', ng-model='locations[$index].wired_count', name="location_{{$index}}_wired_count", ng-required='locations[$index].wired', ng-blur='validate_locations(main_form)')
+                        input.form-control(type='number', placeholder='5', min="1", ng-model='locations[$index].wired_count', name="location_{{$index}}_wired_count", ng-blur='validate_locations(main_form)')
                     // ========================================================================================================
-                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_ap_no.$error.required }")
+                    .form-group
                       label.col-sm-2.control-label Počet použitých AP:
                       .col-xs-1
-                        input.form-control(type='number', min="1", placeholder='5', ng-model='location.AP_no', name="location_{{$index}}_ap_no", required, ng-blur='validate_locations(main_form)')
+                        input.form-control(type='number', min="1", placeholder='5', ng-model='location.AP_no', name="location_{{$index}}_ap_no", ng-blur='validate_locations(main_form)')
 
                 // ========================================================================================================
                 .form-group
