@@ -75,7 +75,7 @@ router.get('/api/:inst_id', function(req, res, next)
       // check that requested realm exists in inst_mapping and correspoding JSON file exists
       if(req.params.inst_id in inst_mapping && fs.existsSync('./coverage_files/' + inst_mapping[req.params.inst_id] + '.json')) {
         var file = JSON.parse(fs.readFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + '.json'), 'utf8');
-        res.send({ data : file, author : authors.get_last_edit_author(req.params.inst_id) });
+        res.send({ data : fix_structure(file), author : authors.get_last_edit_author(req.params.inst_id) });
       }
       else  // no data available, query ldap
         ldap.get_inst(req.params.inst_id, res)
@@ -90,6 +90,220 @@ router.get('/api/:inst_id', function(req, res, next)
     res.send("");
   }
 });
+// --------------------------------------------------------------------------------------
+// fix JSON structure read from file to match eduroamdb v2 definition
+// --------------------------------------------------------------------------------------
+function fix_structure(obj)
+{
+  var skel = {
+    "inst_name": [
+      {
+        "data": "",
+        "lang": "cs"
+      },
+      {
+        "data": "",
+        "lang": "en"
+      }
+    ],
+    "policy_URL": [
+      {
+        "data": "http://www.eduroam.cz/doku.php?id=cs:roamingova_politika",
+        "lang": "cs"
+      }
+    ],
+    "location": [
+      {
+        "stage": 1,
+        "type": 0,
+        "coordinates": "",
+        "info_URL": [
+          {
+            "data": "",
+            "lang": "cs"
+          },
+          {
+            "data": "",
+            "lang": "en"
+          }
+        ],
+        "address": [
+          {
+            "street": {
+              "data": "",
+              "lang": "cs"
+            },
+            "city": {
+              "data": "",
+              "lang": "cs"
+            }
+          },
+          {
+            "street": {
+              "data": "",
+              "lang": "en"
+            },
+            "city": {
+              "data": "",
+              "lang": "en"
+            }
+          }
+        ],
+      }
+    ],
+    "info_URL": [
+      {
+        "data": "",
+        "lang": "cs"
+      },
+      {
+        "data": "",
+        "lang": "en"
+      }
+    ],
+    "address": [
+      {
+        "street": {
+          "data": "",
+          "lang": "cs"
+        },
+        "city": {
+          "data": "",
+          "lang": "cs"
+        }
+      },
+      {
+        "street": {
+          "data": "",
+          "lang": "en"
+        },
+        "city": {
+          "data": "",
+          "lang": "en"
+        }
+      }
+    ],
+    "inst_realm": [
+    ],
+    "contact": [
+    ]
+  };
+
+
+  // base
+  // inst_name
+  if(!obj.inst_name || !Array.isArray(obj.inst_name))
+    obj.inst_name = skel.inst_name;
+
+  if(obj.inst_name.length != 2) {
+    var tmp = skel.inst_name;
+
+    for(var i = 0; i < obj.inst_name.length; i++)
+      if(obj.inst_name[i].lang == "cs")
+        tmp[0].data = obj.inst_name[i].data;
+
+      else if(obj.inst_name[i].lang == "en")
+        tmp[1].data = obj.inst_name[i].data;
+
+    obj.inst_name = tmp;        // assign the final corrected object
+  }
+
+  // policy_URL
+  obj.policy_URL = skel.policy_URL;
+
+  // info_URL
+  if(!obj.info_URL || !Array.isArray(obj.info_URL))
+    obj.info_URL = skel.info_URL;
+
+  if(obj.info_URL.length != 2) {
+    var tmp = skel.info_URL;
+
+    for(var i = 0; i < obj.info_URL.length; i++)
+      if(obj.info_URL[i].lang == "cs")
+        tmp[0].data = obj.info_URL[i].data;
+
+      else if(obj.info_URL[i].lang == "en")
+        tmp[1].data = obj.info_URL[i].data;
+
+    obj.info_URL = tmp;        // assign the final corrected object
+  }
+
+  // address
+  if(!obj.address || !Array.isArray(obj.address))
+    obj.address = skel.address;
+
+  if(obj.address.length != 2) {
+    var tmp = skel.address;
+
+    for(var i = 0; i < obj.address.length; i++)
+      if(obj.address[i].street.lang == "cs" && obj.address[i].city.lang == "cs") {
+        tmp[0].street.data = obj.address[i].street.data;
+        tmp[0].city.data = obj.address[i].city.data;
+      }
+
+      else if(obj.address[i].street.lang == "en" && obj.address[i].city.lang == "en") {
+        tmp[1].street.data = obj.address[i].street.data;
+        tmp[1].city.data = obj.address[i].city.data;
+      }
+
+    obj.address = tmp;        // assign the final corrected object
+  }
+
+  // inst_realm
+  if(!obj.inst_realm || !Array.isArray(obj.inst_realm))
+    obj.inst_realm = skel.inst_realm;
+
+  // contact
+  if(!obj.contact || !Array.isArray(obj.contact))
+    obj.contact = skel.contact;
+
+  // ================================================================
+  // locations
+  if(!obj.location || !Array.isArray(obj.location))
+    obj.location = skel.location;
+
+  for(var i = 0; i < obj.location.length; i++) {
+    // info_URL
+    if(!obj.location[i].info_URL || !Array.isArray(obj.location[i].info_URL))
+      obj.location[i].info_URL = skel.info_URL;
+
+    if(obj.location[i].info_URL.length != 2) {
+      var tmp = skel.info_URL;
+
+      for(var j = 0; j < obj.location[i].info_URL.length; j++)
+        if(obj.location[i].info_URL[j].lang == "cs")
+          tmp[0].data = obj.info_URL[j].data;
+
+        else if(obj.location[i].info_URL[j].lang == "en")
+          tmp[1].data = obj.info_URL[j].data;
+
+      obj.location[i].info_URL = tmp;        // assign the final corrected object
+    }
+
+    // address
+    if(!obj.location[i].address || !Array.isArray(obj.location[i].address))
+      obj.location[i].address = skel.address;
+
+    if(obj.location[i].address.length != 2) {
+      var tmp = skel.address;
+
+      for(var j = 0; j < obj.location[i].address.length; j++)
+        if(obj.location[i].address[j].street.lang == "cs" && obj.location[i].address[j].city.lang == "cs") {
+          tmp[0].street.data = obj.location[i].address[j].street.data;
+          tmp[0].city.data = obj.location[i].address[j].city.data;
+        }
+
+        else if(obj.location[i].address[j].street.lang == "en" && obj.location[i].address[j].city.lang == "en") {
+          tmp[1].street.data = obj.location[i].address[j].street.data;
+          tmp[1].city.data = obj.location[i].address[j].city.data;
+        }
+
+      obj.location[i].address = tmp;        // assign the final corrected object
+    }
+  }
+
+  return obj;
+}
 // --------------------------------------------------------------------------------------
 // validate input against schema
 // --------------------------------------------------------------------------------------
