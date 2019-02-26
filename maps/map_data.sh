@@ -119,7 +119,12 @@ function main()
                ,   # process further data
 
                (
-                 [ "<a href=", .info_url , ">Infrormace pro návštěvníky<\/a>" ] | add
+                 if .info_url == null or .info_url == ""
+                 then
+                   "<div>Infrormace pro návštěvníky nejsou k dispozici</div>"
+                 else
+                   [ "<a href=", .info_url , ">Infrormace pro návštěvníky<\/a>" ] | add
+                 end
                )
 
                ,   # process further data
