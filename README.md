@@ -190,3 +190,16 @@ Example:
 ```
 curl -H "Authorization:my_secret_token" -H 'Content-Type: application/json;charset=UTF-8' -H 'Accept: application/json, text/plain, */*' --data-binary $'{"my":"data"}'
 ```
+
+
+# eduroam.cz setup
+
+This seection briefly describes how the export and related stuff is done in eduroam.cz.
+
+The export is done once a day by cronjob. The main script is [export.sh](https://github.com/CESNET/eduroam-db/blob/master/tools/export.sh).
+This script uses [inst_json.sh](https://github.com/CESNET/eduroam-db/blob/master/tools/inst_json.sh) to create the institution.json file from
+all the connected institution's stored coverage data.
+
+Map creation for eduroam.cz website is also part of the export process. Source data for maps are created by [map_data.sh](https://github.com/CESNET/eduroam-db/blob/master/maps/map_data.sh).
+
+
