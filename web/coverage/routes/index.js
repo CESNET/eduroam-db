@@ -3,7 +3,6 @@ const router = express.Router();
 const ldap = require('./ldap.js')
 const fs = require('fs')
 const admin_mapping = require('../config/realm_to_admin.js')
-const inst_mapping = require('../config/realm_to_inst.js')
 const token_mapping = require('../config/tokens.js')
 const jsonschema = require('jsonschema')
 const schema = require('../config/schema.json')
@@ -343,6 +342,9 @@ function is_json(data)
 // --------------------------------------------------------------------------------------
 function save_data(req, res)
 {
+  delete require.cache[require.resolve('../config/realm_to_inst.js')]
+  const inst_mapping = require('../config/realm_to_inst.js')
+
   // check that data in JSON format
   if(is_json(req.body)) {
     json = JSON.stringify(req.body, 'utf8');
