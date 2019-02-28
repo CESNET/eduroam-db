@@ -195,6 +195,13 @@ block content
                       .col-xs-6
                         input.form-control(type='text', placeholder='https://skola.example/eduroam/informace_en.html', ng-model='location.info_URL[1].data', name="location_{{$index}}_info_url_en", required, ng-pattern='url_regex', ng-blur='validate_locations(main_form)')
                     // ========================================================================================================
+                    .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_SSID.$error.required }")
+                      label.col-sm-2.control-label Vysílané SSID:
+                      .col-xs-3
+                        input.form-control(type='text', ng-model='location.SSID', list='ssid_list', name="location_{{$index}}_SSID", required, ng-blur='validate_locations(main_form)')
+                        datalist#ssid_list
+                          option(value='eduroam') eduroam
+                    // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_enc_level.$error.required }")
                       label.col-sm-2.control-label Použité šifrování:
                       .col-xs-3

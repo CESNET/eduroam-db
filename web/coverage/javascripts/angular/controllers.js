@@ -255,6 +255,9 @@ function validate_locations($scope, form)
     else if(form["location_" + i + "_enc_level"].$error.required)
       ;
 
+    else if(form["location_" + i + "_SSID"].$error.required)
+      ;
+
     else      // no other error occured
       $scope.locations[i].error = false;        // location specific error
   }
