@@ -255,13 +255,6 @@ function validate_locations($scope, form)
     else if(form["location_" + i + "_enc_level"].$error.required)
       ;
 
-    // wired is set - check wired_count
-    else if($scope.locations[i].wired && form["location_" + i + "_wired_count"].$error.required)
-      ;
-
-    else if(form["location_" + i + "_ap_no"].$error.required)
-      ;
-
     else      // no other error occured
       $scope.locations[i].error = false;        // location specific error
   }
