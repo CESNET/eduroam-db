@@ -1,7 +1,7 @@
 /* --------------------------------------------------------------------------------- */
 angular.module('coverage').controller('coverage_controller', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
-  init_vars($scope);
   init_functions($scope, $http, $timeout);
+  init_vars($scope);
 }]);
 /* --------------------------------------------------------------------------------- */
 // bind auxiliary functions to $scope
@@ -68,7 +68,8 @@ function init_functions($scope, $http, $timeout)
   }
 
   $scope.get_json = function() {
-    $scope.main_form.$setPristine();    // just in case user canceled editing of some unsaved data
+    if($scope.main_form)
+      $scope.main_form.$setPristine();    // just in case user canceled editing of some unsaved data
 
     $scope.loading = true;
     $scope.api_write_error = false;                 // no write error for newly selected realm
@@ -80,7 +81,7 @@ function init_functions($scope, $http, $timeout)
     }
 
     if(!$scope.basic_info.open)                    // only if closed
-      $scope.accordion_shared_scope.toggleOpen();     // open the basic info tab on realm change
+      $scope.basic_info.open = true;
 
     // set all location tabs to closed
     // this will prevent map display issues
@@ -314,7 +315,12 @@ function init_vars($scope)
     iconSize:     [32, 32], // size of the icon
     iconAnchor:   [16, 32], // point of the icon which will correspond to marker's location
     popupAnchor:  [-2, -32] // point from which the popup should open relative to the iconAnchor
-});
+  });
+
+  if(realm) {     // realm was specified as page parameter
+    $scope.selected_realm = realm;      // select specific realm
+    $scope.get_json();
+  }
 }
 /* --------------------------------------------------------------------------------- */
 // add lang for info url

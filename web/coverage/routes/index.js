@@ -17,6 +17,12 @@ function get_user(req)
   return req.headers["remote_user"];
 }
 // --------------------------------------------------------------------------------------
+// get specific realm
+// --------------------------------------------------------------------------------------
+router.get('/:realm', function(req, res, next) {
+  respond(res, get_user(req), req.params.realm);
+});
+// --------------------------------------------------------------------------------------
 // get title page
 // --------------------------------------------------------------------------------------
 router.get('/', function(req, res, next) {
@@ -54,8 +60,11 @@ function get_administered_realms(user)
 // --------------------------------------------------------------------------------------
 // respond to user
 // --------------------------------------------------------------------------------------
-function respond(res, user) {
-  res.render('index', { title: 'Správa informací o pokrytí', realms : get_administered_realms(user), admin : is_super_admin(user) });
+function respond(res, user, realm) {
+  if(realm)
+    res.render('index', { title: 'Správa informací o pokrytí', realms : get_administered_realms(user), admin : is_super_admin(user), realm : realm });
+  else
+    res.render('index', { title: 'Správa informací o pokrytí', realms : get_administered_realms(user), admin : is_super_admin(user), realm : "" });
 }
 // --------------------------------------------------------------------------------------
 // get institution by realm
