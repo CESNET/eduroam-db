@@ -235,7 +235,7 @@ block content
                     .form-group(ng-show='locations[$index].wired')
                       label.col-sm-2.control-label Počet metalických zásuvek
                       .col-xs-1
-                        input.form-control(type='number', placeholder='5', min="1", ng-model='locations[$index].wired_count', name="location_{{$index}}_wired_count", ng-blur='validate_locations(main_form)')
+                        input.form-control(type='number', placeholder='5', min="1", ng-model='location.wired_no', name="location_{{$index}}_wired_no", ng-blur='validate_locations(main_form)')
                     // ========================================================================================================
                     .form-group
                       label.col-sm-2.control-label Počet použitých AP:

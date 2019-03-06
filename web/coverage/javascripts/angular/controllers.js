@@ -384,8 +384,9 @@ function set_location_tags($scope)
     if(tag != "")
       $scope.json_data.location[i].tag = tag;
 
-    if($scope.locations[i].wired)
-      $scope.json_data.location[i].wired_no = $scope.locations[i].wired_count;
+    // wired is set to false but wired count is set
+    if(!$scope.locations[i].wired && $scope.json_data.location[i].wired_no)
+      delete $scope.json_data.location[i].wired_no;     // delete wired count
   }
 }
 /* --------------------------------------------------------------------------------- */
