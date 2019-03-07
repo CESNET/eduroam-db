@@ -195,6 +195,19 @@ block content
                       label.col-sm-2.control-label Informační URL v Anglickém jazyce:
                       .col-xs-6
                         input.form-control(type='text', placeholder='https://skola.example/eduroam/informace_en.html', ng-model='location.info_URL[1].data', name="location_{{$index}}_info_url_en", required, ng-pattern='url_regex', ng-blur='validate_locations(main_form)')
+
+                    // ========================================================================================================
+                    .form-group
+                      label.col-sm-2.control-label Název lokality v Českém jazyce (nepovinné):
+                      .col-xs-3
+                        input.form-control(type='text', placeholder='Název ukázkové lokality', ng-model='location.loc_name[0].data')
+
+                    // ========================================================================================================
+                    .form-group
+                      label.col-sm-2.control-label Název lokality v Anglickém jazyce (nepovinné):
+                      .col-xs-3
+                        input.form-control(type='text', placeholder='Example locality name', ng-model='location.loc_name[1].data')
+
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_SSID.$error.required }")
                       label.col-sm-2.control-label Vysílané SSID:

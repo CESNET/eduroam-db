@@ -20,7 +20,7 @@ function init_functions($scope, $http, $timeout)
  
   $scope.add_location = function() {
     if($scope.json_data) {
-      $scope.json_data.location.push({ info_URL : [], address : [] });
+      $scope.json_data.location.push({ info_URL : [], address : [], loc_name : [ { data : "", lang : "cs" }, { data: "", lang : "en" } ] });
       add_empty_loc($scope);
     }
     // map init is done automatically by acoordion expanding
@@ -436,6 +436,40 @@ function add_addresses($scope)
   }
 }
 /* --------------------------------------------------------------------------------- */
+// check loc_name structure
+/* --------------------------------------------------------------------------------- */
+function check_loc_names($scope)
+{
+  for(var i in $scope.json_data.location) {
+
+    if($scope.json_data.location[i].loc_name) {     // one or both language variants exists
+
+      if($scope.json_data.location[i].loc_name.length == 1) {       // only one lang variant exists
+        if(!$scope.json_data.location[i].loc_name[0].data)             // no data available
+          delete $scope.json_data.location[i].loc_name;
+      }
+
+      else if($scope.json_data.location[i].loc_name.length == 2) { // both lang variants exists
+        if(!$scope.json_data.location[i].loc_name[0].data)             // no data available
+          $scope.json_data.location[i].loc_name.splice(0, 1);       // delete first element
+
+        if(!$scope.json_data.location[i].loc_name[1].data)             // no data available
+          $scope.json_data.location[i].loc_name.splice(1, 1);       // delete second element
+
+        if($scope.json_data.location[i].loc_name.length == 0)      // no data left
+          delete $scope.json_data.location[i].loc_name;
+
+        // TODO - 1 lang variant left, how to determine lang?
+
+        if($scope.json_data.location[i].loc_name.length == 2) {     // both lang variants have data
+          $scope.json_data.location[i].loc_name[0].lang = "cs";
+          $scope.json_data.location[i].loc_name[1].lang = "en";
+        }
+      }
+    }
+  }
+}
+/* --------------------------------------------------------------------------------- */
 // fill additional properties to json structure
 /* --------------------------------------------------------------------------------- */
 function fill_form($scope)
@@ -443,6 +477,7 @@ function fill_form($scope)
   add_addresses($scope);
   set_location_tags($scope);
   add_info_url_lang($scope);
+  check_loc_names($scope);
   $scope.json_data.ts = new Date().toISOString();
   // replace seconds and milliseconds with "00Z"
   $scope.json_data.ts = $scope.json_data.ts.substring(0, 17) + "00Z";

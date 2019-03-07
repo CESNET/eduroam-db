@@ -135,6 +135,16 @@ function fix_structure(obj)
             "lang": "en"
           }
         ],
+        "loc_name": [
+          {
+            "data": "",
+            "lang": "cs"
+          },
+          {
+            "data": "",
+            "lang": "en"
+          }
+        ],
         "address": [
           {
             "street": {
@@ -307,6 +317,24 @@ function fix_structure(obj)
         }
 
       obj.location[i].address = tmp;        // assign the final corrected object
+    }
+
+    // loc_name
+    // loc_name is optional, do not force its existence
+    if(obj.location[i].loc_name && !Array.isArray(obj.location[i].loc_name))
+      obj.location[i].loc_name = skel.location[0].loc_name;
+
+    if(obj.location[i].loc_name && obj.location[i].loc_name.length != 2) {
+      var tmp = skel.location[0].loc_name;
+
+      for(var j = 0; j < obj.location[i].loc_name.length; j++)
+        if(obj.location[i].loc_name[j].lang == "cs")
+          tmp[0].data = obj.location[i].loc_name[j].data;
+
+        else if(obj.location[i].loc_name[j].lang == "en")
+          tmp[1].data = obj.location[i].loc_name[j].data;
+
+      obj.location[i].loc_name = tmp;        // assign the final corrected object
     }
   }
 
