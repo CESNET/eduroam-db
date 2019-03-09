@@ -83,7 +83,12 @@ router.get('/api/:inst_id', function(req, res, next)
       // check that requested realm exists in inst_mapping and correspoding JSON file exists
       if(req.params.inst_id in inst_mapping && fs.existsSync('./coverage_files/' + inst_mapping[req.params.inst_id] + '.json')) {
         var file = JSON.parse(fs.readFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + '.json'), 'utf8');
-        res.send({ data : fix_structure(file), author : authors.get_last_edit_author(req.params.inst_id) });
+
+        // query ldap - all realms and type
+        ldap.check_inst_data(req.params.inst_id, function(ldap_data) {
+          res.send({ data : check_data(fix_structure(file), ldap_data), author : authors.get_last_edit_author(req.params.inst_id) });
+        });
+
       }
       else  // no data available, query ldap
         ldap.get_inst(req.params.inst_id, res)
@@ -98,6 +103,27 @@ router.get('/api/:inst_id', function(req, res, next)
     res.send("");
   }
 });
+// --------------------------------------------------------------------------------------
+// check that type and realms in file match data in ldap
+// forcibly assign data from ldap to data from file
+// if there is no difference, then is does not matter
+// --------------------------------------------------------------------------------------
+function check_data(data, ldap_data)
+{
+  // single realm only
+  if(!Array.isArray(ldap_data[0].realms))
+    data.inst_realm = [ ldap_data[0].realms ];
+  else
+    data.inst_realm = ldap_data[0].realms;
+
+  // slight difference for IdPSP
+  if(ldap_data[0].type == "IdPSP")
+    data.type = "IdP+SP";
+  else
+    data.type = ldap_data[0].type;
+
+  return data;
+}
 // --------------------------------------------------------------------------------------
 // fix JSON structure read from file to match eduroamdb v2 definition
 // --------------------------------------------------------------------------------------

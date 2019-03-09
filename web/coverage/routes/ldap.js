@@ -242,6 +242,57 @@ function get_inst(client, realm, response)
   });
 }
 // --------------------------------------------------------------------------------------
+// get basic institution data
+// --------------------------------------------------------------------------------------
+function get_inst_basic(client, realm, callback)
+{
+  var items = [ 'eduroamMemberType', 'cn' ];
+  var ret = [];
+
+  var opts = {
+    filter: 'cn=' + realm,
+    scope: 'sub',
+    attributes: items
+  };
+
+  if(!realm)        // remove filter if no specific realm was defined
+    delete opts.filter;
+
+  client.search(config.search_base_realms, opts, function(err, res) {
+    assert.ifError(err);
+
+    res.on('searchEntry', function(entry) {
+      ret.push({ realms : entry.object.cn , type : entry.object.eduroamMemberType })
+    });
+
+    res.on('error', function(err) {
+      console.error('error: ' + err.message);
+    });
+
+    res.on('end', function(result) {
+      client.unbind(function(err) {   // unbind after all search operations are done
+        assert.ifError(err);
+      });
+
+      callback(ret);
+    });
+  });
+}
+// --------------------------------------------------------------------------------------
+// check institution data
+// --------------------------------------------------------------------------------------
+exp.check_inst_data = function(realm, callback) {
+  var client = ldap.createClient({
+    url: 'ldaps://' + config.ldap_host
+  });
+
+  client.bind(config.bind_dn, secrets.ldap_pass, function(err) {
+    assert.ifError(err)
+  })
+
+  get_inst_basic(client, realm, callback);
+}
+// --------------------------------------------------------------------------------------
 // get institution
 // --------------------------------------------------------------------------------------
 exp.get_inst = function(realm, response) {
