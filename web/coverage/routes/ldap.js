@@ -262,7 +262,8 @@ function get_inst_basic(client, realm, callback)
     assert.ifError(err);
 
     res.on('searchEntry', function(entry) {
-      ret.push({ realms : entry.object.cn , type : entry.object.eduroamMemberType })
+      if(entry.object.cn && entry.object.eduroamMemberType)
+        ret.push({ realms : entry.object.cn , type : entry.object.eduroamMemberType })
     });
 
     res.on('error', function(err) {
