@@ -4,6 +4,7 @@
 # ======================================================================
 function main()
 {
+  /home/eduroamdb/eduroam-db/web/coverage/ldap_check.js # check JSON data with ldap - type and realms must match
   /home/eduroamdb/eduroam-db/tools/inst_json.sh $coverage_files_path $institution_json_output    # create institution.json
   /home/eduroamdb/eduroam-db/maps/map_data.sh $institution_json_output > $geojson   # create geojson data from institution.json for eduroam.cz maps
 }
