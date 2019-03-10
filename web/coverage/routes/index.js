@@ -410,7 +410,7 @@ function save_data(req, res)
 
   // check that data in JSON format
   if(is_json(req.body)) {
-    json = JSON.stringify(req.body, 'utf8');
+    var json = JSON.stringify(req.body, undefined, 4);      // pretty-print JSON output to file
     var result = validate_json_input(req.body);     // validate input against schema
 
     if(result.errors.length != 0) {     // check for validation errors
