@@ -86,8 +86,14 @@ function compare_data(filepath, content, data)
   }
 
   // ovewrite file is there are changes
-  if(write)
+  if(write) {
+    var ts = new Date().toISOString();
+    // replace seconds and milliseconds with "00Z"
+    ts = ts.substring(0, 17) + "00Z";
+    content.ts = ts;
+
     fs.writeFileSync(filepath, JSON.stringify(content, undefined, 4));
+  }
 }
 // --------------------------------------------------------------------------------------
 main();
