@@ -31,7 +31,7 @@ function main
     # backup is done only when there are some changes between current and new version
     if [[ $? -ne 0 ]]
     then
-      cp $2 "$2-$(date "+%Y-%m-%d")"      # backup previous version with current date
+      cp $2 "$2-$(date "+%Y-%m-%d-%H-%M")"      # backup previous version with current date
     fi
   fi
 
