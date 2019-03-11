@@ -81,7 +81,12 @@ function compare_data(filepath, content, data)
     ;
 
   else if(content.type != data[primary_realm].type) {
-    content.type = data[primary_realm].type;
+
+    if(data[primary_realm].type == "IdPSP")
+      content.type = "IdP+SP";
+    else
+      content.type = data[primary_realm].type;
+
     write = true;
   }
 
