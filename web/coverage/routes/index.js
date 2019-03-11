@@ -9,6 +9,7 @@ const schema = require('../config/schema.json')
 const admins = require('../config/admins.js')
 const realms = require('../config/realms.js')
 const authors = require('./authors')
+const exec = require('child_process').exec;
 // --------------------------------------------------------------------------------------
 // get the name of the user logged in the application
 // --------------------------------------------------------------------------------------
@@ -432,6 +433,15 @@ function save_data(req, res)
         fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);
         authors.set_last_editor_author(req.params.inst_id, get_user(req));
         res.send("");
+
+        // export new data, generate map data and list of connected institutions
+        exec("/home/eduroamdb/eduroam-db/tools/export.sh /home/eduroamdb/www/general/institution.json /home/eduroamdb/www/pokryti/eduroam-cs_CZ.geojson", function (error, stdout, stderr) {
+          if(error)
+            console.error(error);
+
+          if(stderr);
+            console.error(stderr);
+        });
       }
     }
   }
