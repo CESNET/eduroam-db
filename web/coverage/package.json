@@ -19,8 +19,9 @@
     "jsonschema": "^1.2.4",
     "ldapjs": "^1.0.2",
     "morgan": "~1.9.0",
-    "pug": "2.0.0-beta11",
+    "pug": "^2.0.3",
     "serve-favicon": "~2.4.5",
+    "simple-git": "^1.107.0",
     "streamqueue": "^1.1.2"
   }
 }
