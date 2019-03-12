@@ -2,45 +2,9 @@
 - dalsi moznosti do listu nabizenych sifrovani?
   - https://github.com/CESNET/eduroam-db/blob/master/web/coverage/views/index.pug#L184
   - "WPA2 + AES" a "WPA2 + AES, WPA + TKIP" (cerpam z https://www.eduroam.org/wp-content/uploads/2016/05/GN3-12-192_eduroam-policy-service-definition_ver28_26072012.pdf)
+  - podle https://en.wikipedia.org/wiki/Temporal_Key_Integrity_Protocol a https://cs.wikipedia.org/wiki/Temporal_Key_Integrity_Protocol je TKIP zastarale
 
-# postup nasazeni pokryti.eduroam.cz:
-  1. otestovani aplikace pokryti.eduroam.cz [SOLVED]
+- doplnit informacni URL v lokalitach z obecnych informaci, tam kde chybi?
 
-  2. priprava skriptu pro export do celosvetove db, diffovani [SOLVED]
-     - cron 1x denne pomoci [inst_json.sh](https://github.com/CESNET/eduroam-db/blob/master/tools/inst_json.sh)
-     - soucasti cronu je zaloha
-
-  3. uprava map pro eduroam.cz
-     - mapy jsou na https://ermon.cesnet.cz/pokryti/nove_mapy/map_small.html a https://ermon.cesnet.cz/pokryti/nove_mapy/map_full.html
-     - generovani dat pridano do cronu spolecne s exportem do celosvetove db pomoci [export.sh](https://github.com/CESNET/eduroam-db/blob/master/tools/export.sh)
-
-     - souvislost zdrojovych dat s prehledem pripojenych insitituci
-       - zavislost na XML datech
-
-  4. uprava dokumentace na eduroam.cz
-     - pridat odkaz a popis na monitor.eduroam.cz
-     - upravit popis testu ermonu
-       - smazat info o starych testech
-
-  5. uprava pripojovani.eduroam.cz
-     - prebirani informaci o stavu pokryti z monitoringu je hotove
-     - pridani atributu do ldapu - reference na realm, ktery obsahuje testovaci ucet
-
-  6. uprava testu v ermonu
-     - zlikvidovat test INST-XML
-     - zlikvidovat test INST-JSON
-     - pridat notifikace k testu COVERAGE-INFO
-
-  7. dočištění dat
-     - informovat adminy že přepínáme ať XML už nedělají
-     - zablokovat editaci v CAAS
-     - fixnout všechny chybné instituce (i za cenu stažení XML k nám)
-     - domluvit s Mirem přepnutí z XML na JSON
-
-  8. import cistych dat z XML do aplikace pokryti.eduroam.cz
-     - smazat data posledni upravy
-     - pri importu dat jeste vse protahnout pres jq a zbavit se tak utf-8 escape sekvenci
-     - oznámit novou aplikaci
-
-  9. zadost o zmenu formatu exportu v celosvetove db
-
+- pridat razeni lokalit?
+  - ruzne zpusoby razeni? (abecedne, podle mesta, ... )
