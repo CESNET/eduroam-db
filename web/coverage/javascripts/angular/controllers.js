@@ -453,15 +453,16 @@ function check_loc_names($scope)
         if(!$scope.json_data.location[i].loc_name[0].data)             // no data available
           $scope.json_data.location[i].loc_name.splice(0, 1);       // delete first element
 
-        if(!$scope.json_data.location[i].loc_name[1].data)             // no data available
-          $scope.json_data.location[i].loc_name.splice(1, 1);       // delete second element
+        // determine index dynamically, previous location may me already deleted
+        if(!$scope.json_data.location[i].loc_name[$scope.json_data.location[i].loc_name.length - 1].data)             // no data available
+          $scope.json_data.location[i].loc_name.splice($scope.json_data.location[i].loc_name.length - 1, 1);       // delete second element
 
         if($scope.json_data.location[i].loc_name.length == 0)      // no data left
           delete $scope.json_data.location[i].loc_name;
 
         // TODO - 1 lang variant left, how to determine lang?
 
-        if($scope.json_data.location[i].loc_name.length == 2) {     // both lang variants have data
+        if($scope.json_data.location[i].loc_name && $scope.json_data.location[i].loc_name.length == 2) {     // both lang variants have data
           $scope.json_data.location[i].loc_name[0].lang = "cs";
           $scope.json_data.location[i].loc_name[1].lang = "en";
         }
