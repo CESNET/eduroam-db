@@ -39,14 +39,15 @@ function read_json_files(ldap_data)
     }
 
     filenames.forEach(function(filename) {
-      fs.readFile(dirname + filename, 'utf-8', function(err, content) {
-        if (err) {
-          console.error(err);
-          return;
-        }
+      if(fs.lstatSync(dirname + filename).isFile())
+        fs.readFile(dirname + filename, 'utf-8', function(err, content) {
+          if (err) {
+            console.error(err);
+            return;
+          }
 
-        compare_data(dirname + filename, content, ldap_data);
-      });
+          compare_data(dirname + filename, content, ldap_data);
+        });
     });
   });
 }
