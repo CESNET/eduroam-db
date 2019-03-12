@@ -483,6 +483,8 @@ router.post('/api/automation/:inst_id', function(req, res, next)
   // check that inst_id has correct form - dns domain
   if(/^([a-zA-z0-9-]+\.){1,}[a-zA-z0-9-]+$/.test(req.params.inst_id)) {
 
+    // TODO - update ts !!
+
     // token is present in request, is present in config and requested realm is accessible
     if(req.headers["authorization"] && req.headers["authorization"] in token_mapping && token_mapping[req.headers['authorization']].indexOf(req.params.inst_id) != -1) {
       save_data(req, res);
