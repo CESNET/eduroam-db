@@ -11,8 +11,8 @@ function main()
 }
 # ======================================================================
 coverage_files_path="/home/eduroamdb/eduroam-db/web/coverage/coverage_files"
-institution_json_output="$1"
-geojson="$2"
+institution_json_output="/home/eduroamdb/www/general/institution.json"
+geojson="/home/eduroamdb/www/pokryti/eduroam-cs_CZ.geojson"
 main $@
 # ======================================================================
 
