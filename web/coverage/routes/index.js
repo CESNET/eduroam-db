@@ -10,6 +10,7 @@ const admins = require('../config/admins.js')
 const realms = require('../config/realms.js')
 const authors = require('./authors')
 const exec = require('child_process').exec;
+const simpleGit = require('simple-git')('./coverage_files');
 // --------------------------------------------------------------------------------------
 // get the name of the user logged in the application
 // --------------------------------------------------------------------------------------
@@ -68,6 +69,29 @@ function respond(res, user, realm) {
     res.render('index', { title: 'Správa informací o pokrytí', realms : get_administered_realms(user), admin : is_super_admin(user), realm : "" });
 }
 // --------------------------------------------------------------------------------------
+// get JSON file history from git repo
+// --------------------------------------------------------------------------------------
+function get_history(filename, callback)
+{
+  //simpleGit.log({ file : filename }, function(err, data) {
+  simpleGit.log([ filename ], function(err, data) {
+    if(err) {
+      console.error(err);
+      callback();
+    }
+
+    var filter_data = data.all.map(function(elem) {
+      return {
+        date : elem.date,
+        message : elem.message,
+        author_email : elem.author_email
+      }
+    });
+
+    callback(filter_data);
+  });
+}
+// --------------------------------------------------------------------------------------
 // get institution by realm
 // --------------------------------------------------------------------------------------
 router.get('/api/:inst_id', function(req, res, next)
@@ -87,7 +111,9 @@ router.get('/api/:inst_id', function(req, res, next)
 
         // query ldap - all realms and type
         ldap.check_inst_data(req.params.inst_id, function(ldap_data) {
-          res.send({ data : check_data(fix_structure(file), ldap_data), author : authors.get_last_edit_author(req.params.inst_id) });
+          get_history(inst_mapping[req.params.inst_id] + '.json', function(history) {
+            res.send({ data : check_data(fix_structure(file), ldap_data), author : authors.get_last_edit_author(req.params.inst_id), history : history });
+          });
         });
 
       }
@@ -402,6 +428,43 @@ function is_json(data)
   return false;
 }
 // --------------------------------------------------------------------------------------
+// add file in repo and commit it
+// --------------------------------------------------------------------------------------
+function commit(file, user, message)
+{
+  if(!message)      // set the message if not set by the user
+    message = "Úpravy v aplikaci pokryti.eduroam.cz"
+
+  simpleGit.add([ file ]).commit(message, [ file ], { '--author': '"' + user + ' <' + user + '>"' });
+}
+// --------------------------------------------------------------------------------------
+// check for changes and commit them if there are any
+// --------------------------------------------------------------------------------------
+function commit_changes(file, user, message)
+{
+  // try to diff file in repo
+  simpleGit.diff([ file ], function(err, data) {
+    if(err) {
+      console.error(err)
+      return;
+    }
+
+    if(data)      // diff is not empty
+      commit(file, user, message);
+  });
+
+  // check for new files not added in repo
+  simpleGit.status(function(err, data) {
+    if(err) {
+      console.error(err)
+      return;
+    }
+
+    if(data.not_added.length != 0) // some files have not beed added yet
+      commit(file, user, message);
+  });
+}
+// --------------------------------------------------------------------------------------
 // save data if have correct structure and validate against schema
 // --------------------------------------------------------------------------------------
 function save_data(req, res)
@@ -410,9 +473,9 @@ function save_data(req, res)
   const inst_mapping = require('../config/realm_to_inst.js')
 
   // check that data in JSON format
-  if(is_json(req.body)) {
-    var json = JSON.stringify(req.body, undefined, 4);      // pretty-print JSON output to file
-    var result = validate_json_input(req.body);     // validate input against schema
+  if(is_json(req.body.data)) {
+    var json = JSON.stringify(req.body.data, undefined, 4);      // pretty-print JSON output to file
+    var result = validate_json_input(req.body.data);     // validate input against schema
 
     if(result.errors.length != 0) {     // check for validation errors
       res.status(400);
@@ -431,7 +494,8 @@ function save_data(req, res)
       }
       else {
         fs.writeFileSync('./coverage_files/' + inst_mapping[req.params.inst_id] + ".json", json);
-        authors.set_last_editor_author(req.params.inst_id, get_user(req));
+        var user = get_user(req);
+        authors.set_last_editor_author(req.params.inst_id, user);
         res.send("");
 
         // export new data, generate map data and list of connected institutions
@@ -442,12 +506,15 @@ function save_data(req, res)
           if(stderr);
             console.error(stderr);
         });
+
+        // check if there are changes in git repo, commit them
+        commit_changes(inst_mapping[req.params.inst_id] + ".json", user, req.body.commit_message)
       }
     }
   }
   else {        // is it even possible to get here? malfored data dies with code 400 at body-parser
     res.status(400);
-    res.send("received malformed data: " + req.body);
+    res.send("received malformed data: " + req.body.data);
   }
 }
 // --------------------------------------------------------------------------------------

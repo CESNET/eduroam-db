@@ -493,7 +493,7 @@ function save_json_to_api($scope, $http, $timeout)
   $http({
     method  : 'POST',
     url     : 'https://pokryti.eduroam.cz/api/' + $scope.selected_realm,
-    data    : $scope.json_data
+    data    : { data : $scope.json_data, commit_message : $scope.commit_message }
   })
   .then(function(response) {
     if(response.status == 200) {
@@ -748,6 +748,19 @@ function check_type($scope)
     $scope.json_data.type = "IdP+SP";       // correct value
 }
 /* --------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------- */
+function nice_history($scope, history)
+{
+  $scope.history = "";
+  for(var i in history) {
+    $scope.history += "Datum: " + history[i].date + "\n";
+    $scope.history += "Provedené úpravy: " + history[i].message.replace(/ \(HEAD -> master\)$/, '') + "\n";     // replace (HEAD -> master), not totally sure why simple-git log puts it there
+    $scope.history += "Autor: " + history[i].author_email;
+    if(i != history.length -1)
+      $scope.history += "\n\n";
+  }
+}
+/* --------------------------------------------------------------------------------- */
 // retrieve json structure from backend api
 /* --------------------------------------------------------------------------------- */
 function get_json_from_api($scope, $http, $timeout)
@@ -774,6 +787,7 @@ function get_json_from_api($scope, $http, $timeout)
        $scope.no_org_defined = false;
 
       $scope.debug = JSON.stringify($scope.json_data, undefined, 4);
+      nice_history($scope, response.data.history);
       if($scope.json_data.ts)       // only set this if defined in data from backend
         $scope.last_changed = new Date($scope.json_data.ts).toLocaleString('cs-CZ', { timeZone: 'Europe/Prague' });
       $scope.last_changed_author = response.data.author;

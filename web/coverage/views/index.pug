@@ -273,6 +273,11 @@ block content
 
             // ========================================================================================================
             .form-group
+              .col-xs-3
+                label.control-label Provedené úpravy:
+                input.form-control(type='text', ng-model='commit_message')
+            // ========================================================================================================
+            .form-group
               .col-xs-2
                 input.btn.btn-default(type='submit', ng-click='save_data()', value="Uložit data", ng-disabled="main_form.$invalid || json_data.location.length == 0 || json_data.contact.length == 0")
                 div.alert.alert-danger(ng-show="main_form.$invalid || json_data.location.length == 0 || json_data.contact.length == 0") Pro uložení dat doplňte chybějící informace v sekcích označených červenou barvou.
@@ -282,6 +287,11 @@ block content
               .col-xs-3
                 h4.alert.alert-success.fade-in-out(ng-show='api_write_success') Data úspěšně uložena.
 
+            // ========================================================================================================
+            uib-accordion(close-others='true')
+              .panel-default(uib-accordion-group='', heading='Historie změn')
+                pre.
+                  {{history}}
 
             // ========================================================================================================
             uib-accordion(close-others='true', ng-show='admin')
