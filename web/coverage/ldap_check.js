@@ -30,7 +30,7 @@ function main()
 // --------------------------------------------------------------------------------------
 function read_json_files(ldap_data)
 {
-  var dirname = './coverage_files/';
+  var dirname = '/home/eduroamdb/eduroam-db/web/coverage/coverage_files/';
 
   fs.readdir(dirname, function(err, filenames) {
     if (err) {
