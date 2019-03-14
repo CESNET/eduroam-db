@@ -499,7 +499,7 @@ function save_data(req, res)
         res.send("");
 
         // export new data, generate map data and list of connected institutions
-        exec("/home/eduroamdb/eduroam-db/tools/export.sh /home/eduroamdb/www/general/institution.json /home/eduroamdb/www/pokryti/eduroam-cs_CZ.geojson", function (error, stdout, stderr) {
+        exec("/home/eduroamdb/eduroam-db/tools/export.sh false", function (error, stdout, stderr) {
           if(error)
             console.error(error);
 
