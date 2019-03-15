@@ -44,10 +44,10 @@ function remove_nonexisting()
 # ======================================================================
 function commit_changes()
 {
-  pushd $coverage_files_path
+  pushd $coverage_files_path &>/dev/null
   git add *
-  git commit -m "$1" --author "info@eduroam.cz <info@eduroam.cz>"
-  popd
+  git commit -m "$1" --author "info@eduroam.cz <info@eduroam.cz>" &>/dev/null
+  popd &>/dev/null
 }
 # ======================================================================
 coverage_files_path="/home/eduroamdb/eduroam-db/web/coverage/coverage_files"
