@@ -7,7 +7,6 @@ const token_mapping = require('../config/tokens.js')
 const jsonschema = require('jsonschema')
 const schema = require('../config/schema.json')
 const admins = require('../config/admins.js')
-const realms = require('../config/realms.js')
 const authors = require('./authors')
 const exec = require('child_process').exec;
 const simpleGit = require('simple-git')('./coverage_files');
@@ -49,8 +48,11 @@ function get_administered_realms(user)
   delete require.cache[require.resolve('../config/realm_to_admin.js')]
   const admin_mapping = require('../config/realm_to_admin.js')
 
-  if(is_super_admin(user))                     // super admin - can choose any realm
+  if(is_super_admin(user)) {                     // super admin - can choose any realm
+    delete require.cache[require.resolve('../config/realms.js')]
+    const realms = require('../config/realms.js')
     ret = realms;
+  }
 
   else if(user in admin_mapping)               // regular user, can choose only own realm
     ret = admin_mapping[user];
