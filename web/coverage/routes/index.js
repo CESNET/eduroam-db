@@ -73,7 +73,6 @@ function respond(res, user, realm) {
 // --------------------------------------------------------------------------------------
 function get_history(filename, callback)
 {
-  //simpleGit.log({ file : filename }, function(err, data) {
   simpleGit.log([ filename ], function(err, data) {
     if(err) {
       console.error(err);
