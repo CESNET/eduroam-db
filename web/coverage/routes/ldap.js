@@ -69,7 +69,7 @@ function create_institituon_json(data)
     ],
     "info_URL": [
     ],
-    "instid": data.inst_details.dc,
+    "instid": data.inst_details.dc.replace(/ /g, "_"),
     "ROid": "CZ01"
   };
 
