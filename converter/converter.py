@@ -411,6 +411,20 @@ def get_info_url(elem, ret):
     ret['info_URL'].sort(key=lambda x:x["lang"])               # order array by lang value
 
 # ==============================================================================
+# get inst_realm
+# ==============================================================================
+def get_inst_realm(root, inst_type, data):
+  if inst_type == "SP":       # SP
+    if hasattr(root.institution, 'inst_realm'):               # this part does not strictly follow the spec: "for type SP no realms should be specified"
+      data["inst_realm"] = []
+      for i in root.institution.inst_realm:                   # iterate realm and add to data
+        data["inst_realm"].append(i)                           # add the data if any, to not lose it when transforming from v1 to v2
+
+  else:       # IdP or Idp+SP, inst_realm is required here
+    data["inst_realm"] = []
+    for i in root.institution.inst_realm:                   # iterate realm and add to data
+      data["inst_realm"].append(i)
+# ==============================================================================
 # get contents of objectified xml
 # ==============================================================================
 def get_data(root, filename, options):
@@ -424,9 +438,7 @@ def get_data(root, filename, options):
 
   ret["stage"] = config.default_stage                     # stage, default value set to 1
 
-  ret["inst_realm"] = []                                  # inst_realm
-  for i in root.institution.inst_realm:                   # iterate realm and add to ret
-    ret["inst_realm"].append(i)
+  get_inst_realm(root, ret["type"], ret)                 # inst_realm
 
   ret["inst_name"] = get_inst_name(root, required_lang)   # inst_name
 
