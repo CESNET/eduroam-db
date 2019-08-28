@@ -72,7 +72,7 @@ block content
                     input.form-control(type='text', placeholder='Praha 1', ng-model='json_data.address[0].city.data', name="city_cz", required ng-blur='validate_basic_info(main_form)')
                 // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.info_url_cz.$error.required || main_form.info_url_cz.$error.pattern }")
-                  label.col-sm-2.control-label Informační URL v Českém jazyce:
+                  label.col-sm-2.control-label Informační pro návštěvníky URL v Českém jazyce:
                   .col-xs-6
                     input.form-control(type='text', placeholder='https://skola.example/eduroam/informace_cs.html', ng-model='json_data.info_URL[0].data', name="info_url_cz", required, ng-pattern='url_regex', ng-blur='validate_basic_info(main_form)')
                   .row.pull-right
@@ -183,7 +183,7 @@ block content
                     div.map(id="map_{{$index}}")
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_cz.$error.required || main_form.location_{{$index}}_info_url_cz.$error.pattern }")
-                      label.col-sm-2.control-label Informační URL v Českém jazyce:
+                      label.col-sm-2.control-label Informační pro návštěvníky URL v Českém jazyce:
                       .col-xs-6
                         input.form-control(type='text', placeholder='https://skola.example/eduroam/informace_cs.html', ng-model='location.info_URL[0].data', name="location_{{$index}}_info_url_cz", required, ng-pattern='url_regex', ng-blur='validate_locations(main_form)')
 
