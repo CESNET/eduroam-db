@@ -80,7 +80,7 @@ block content
                       a.info_url_hint(href="https://www.eduroam.cz/cs/spravce/edudb2/info_url") Příklad informačního URL
                 // ========================================================================================================
                 .form-group(ng-class="{ 'has-error' : main_form.info_url_en.$error.required || main_form.info_url_en.$error.pattern }")
-                  label.col-sm-2.control-label Informační URL v Anglickém jazyce:
+                  label.col-sm-2.control-label Informační URL pro návštěvníky v Anglickém jazyce:
                   .col-xs-6
                     input.form-control(type='text', placeholder='https://skola.example/eduroam/informace_en.html', ng-model='json_data.info_URL[1].data', name="info_url_en", required, ng-pattern='url_regex', ng-blur='validate_basic_info(main_form)')
                 // ========================================================================================================
@@ -192,7 +192,7 @@ block content
                           a.info_url_hint(href="https://www.eduroam.cz/cs/spravce/edudb2/info_url") Příklad informačního URL
                     // ========================================================================================================
                     .form-group(ng-class="{ 'has-error' : main_form.location_{{$index}}_info_url_en.$error.required || main_form.location_{{$index}}_info_url_en.$error.pattern }")
-                      label.col-sm-2.control-label Informační URL v Anglickém jazyce:
+                      label.col-sm-2.control-label Informační URL pro návštěvníky v Anglickém jazyce:
                       .col-xs-6
                         input.form-control(type='text', placeholder='https://skola.example/eduroam/informace_en.html', ng-model='location.info_URL[1].data', name="location_{{$index}}_info_url_en", required, ng-pattern='url_regex', ng-blur='validate_locations(main_form)')
 
