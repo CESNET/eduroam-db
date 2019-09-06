@@ -5,7 +5,7 @@ to [new version 2](https://monitor.eduroam.org/fact_eduroam_db.php) in JSON form
 
 It also containts web interface to edit converted JSON files.
 The web interface is very simple. There is just one simple page with form to edit all the available information.
-The backend is really simple. There are configiration files for backend that abstract from our
+The backend is really simple. There are configuration files for backend that abstract from our
 data storage, so its simpler if anyone else wants to use this project.
 
 
