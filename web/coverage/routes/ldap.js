@@ -69,9 +69,13 @@ function create_institituon_json(data)
     ],
     "info_URL": [
     ],
-    "instid": data.inst_details.dc.replace(/ /g, "_"),
     "ROid": "CZ01"
   };
+
+  if('inst_details' in data && 'dc' in data.inst_details)
+    ret["instid"] = data.inst_details.dc.replace(/ /g, "_");
+  else
+    ret["instid"] = undefined;      // no value available in inst_details
 
   // --------------------------------------------------------------------------------------
 
