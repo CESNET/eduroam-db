@@ -249,7 +249,7 @@ function get_inst(client, realm, response)
 // --------------------------------------------------------------------------------------
 function get_inst_basic(client, realm, callback)
 {
-  var items = [ 'eduroamMemberType', 'cn' ];
+  var items = [ 'eduroamMemberType', 'cn', 'oPointer' ];
   var ret = [];
 
   var opts = {
@@ -266,7 +266,7 @@ function get_inst_basic(client, realm, callback)
 
     res.on('searchEntry', function(entry) {
       if(entry.object.cn && entry.object.eduroamMemberType)
-        ret.push({ realms : entry.object.cn , type : entry.object.eduroamMemberType })
+        ret.push({ realms : entry.object.cn , type : entry.object.eduroamMemberType, org : entry.object.oPointer })
     });
 
     res.on('error', function(err) {

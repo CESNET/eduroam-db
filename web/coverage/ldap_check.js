@@ -12,14 +12,19 @@ function main()
 
   ldap.check_inst_data(null, function(ldap_data) {
 
-    // create dict indexed by first realm
+    // create dict indexed by org - that should be more stable than realm
     for(var i in ldap_data) {
-      if(!Array.isArray(ldap_data[i].realms)) {        // single realm
-        ldap_data[i].realms = [ ldap_data[i].realms ];      // convert to array
-        data[ldap_data[i].realms] = ldap_data[i];
+
+      if(ldap_data[i].org) {        // only if org is present
+        if(!Array.isArray(ldap_data[i].realms))               // single realm
+          ldap_data[i].realms = [ ldap_data[i].realms ];      // convert to array
+
+        else      // multiple realms
+          data[ldap_data[i].realms[0]] = ldap_data[i];
+
+        var org = ldap_data[i].org.replace(/^dc=/,'').replace(/,ou=Organizations,dc=cesnet,dc=cz$/, '').replace(/ /g, '_')      // get just org identifier, replace all ' ' with '_'
+        data[org] = ldap_data[i];
       }
-      else      // multiple realms
-        data[ldap_data[i].realms[0]] = ldap_data[i];
     }
 
     read_json_files(data);
@@ -58,35 +63,36 @@ function compare_data(filepath, content, data)
 {
   var write = false;
   content = JSON.parse(content);        // read content into object
-  var primary_realm = content.inst_realm[0];        // primary realm, may change during run of this function?
+  var org = content.instid.replace(/ /g, '_');        // org identifier - should not change at all (only in rare cases?)
+
 
   // check realms
   // check the length first
-  if(content.inst_realm.length != data[primary_realm].realms.length) {
-    content.inst_realm = data[primary_realm].realms;
+  if(content.inst_realm.length != data[org].realms.length) {
+    content.inst_realm = data[org].realms;
     write = true;
   }
   else {        // same number of elements
 
     // check all the array elements
     for(var i in content.inst_realm)
-      if(content.inst_realm[i] != data[primary_realm].realms[i]) {
-        content.inst_realm = data[primary_realm].realms;
+      if(content.inst_realm[i] != data[org].realms[i]) {
+        content.inst_realm = data[org].realms;
         write = true;
         break;
       }
   }
 
   // check type
-  if(content.type == "IdP+SP" && data[primary_realm].type == "IdPSP")
+  if(content.type == "IdP+SP" && data[org].type == "IdPSP")
     ;
 
-  else if(content.type != data[primary_realm].type) {
+  else if(content.type != data[org].type) {
 
-    if(data[primary_realm].type == "IdPSP")
+    if(data[org].type == "IdPSP")
       content.type = "IdP+SP";
     else
-      content.type = data[primary_realm].type;
+      content.type = data[org].type;
 
     write = true;
   }
