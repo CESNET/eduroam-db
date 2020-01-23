@@ -121,9 +121,9 @@ function main()
                (
                  if .info_url == null or .info_url == ""
                  then
-                   "<div>Infrormace pro návštěvníky nejsou k dispozici</div>"
+                   "<div>Informace pro návštěvníky nejsou k dispozici</div>"
                  else
-                   [ "<a href=", .info_url , ">Infrormace pro návštěvníky<\/a>" ] | add
+                   [ "<a href=", .info_url , ">Informace pro návštěvníky<\/a>" ] | add
                  end
                )
 
