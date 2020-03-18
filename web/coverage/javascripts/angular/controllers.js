@@ -20,7 +20,7 @@ function init_functions($scope, $http, $timeout)
  
   $scope.add_location = function() {
     if($scope.json_data) {
-      $scope.json_data.location.push({ info_URL : [], address : [], loc_name : [ { data : "", lang : "cs" }, { data: "", lang : "en" } ] });
+      $scope.json_data.location.push({ info_URL : [], address : [], locationid : $scope.json_data.instid + zero_pad($scope.json_data.location.length + 1, 3), loc_name : [ { data : "", lang : "cs" }, { data: "", lang : "en" } ] });
       add_empty_loc($scope);
     }
     // map init is done automatically by acoordion expanding
@@ -140,6 +140,17 @@ function init_functions($scope, $http, $timeout)
       (e || window.event).returnValue = null;
       return null;
   });
+}
+/* --------------------------------------------------------------------------------- */
+// pad leading zeroes
+/* -------------------------------------------------------------------------------- */
+function zero_pad(num, size) {
+  var s = String(num);
+
+  while (s.length < size)
+    s = "0" + s;
+
+  return s;
 }
 /* --------------------------------------------------------------------------------- */
 // scroll page to error msg
