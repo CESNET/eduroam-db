@@ -65,6 +65,8 @@ function compare_data(filepath, content, data)
   content = JSON.parse(content);        // read content into object
   var org = content.instid.replace(/ /g, '_');        // org identifier - should not change at all (only in rare cases?)
 
+  if(data[org] == undefined)       // no data for org defined, cannot compare data
+    return;
 
   // check realms
   // check the length first
