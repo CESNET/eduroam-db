@@ -115,7 +115,7 @@
                 "examples": [
                   "srce01"
                 ], 
-                "minLength": 3
+                "minLength": 1
               }, 
               "ROid": {
                 "type": "string", 
